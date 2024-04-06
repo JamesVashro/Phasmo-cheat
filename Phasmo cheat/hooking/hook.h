@@ -1,0 +1,105 @@
+#pragma once
+#include "pch.h"
+#include <string>
+#include "MinHook.h"
+#include "vars.h"
+
+#include <d3d11.h>
+#pragma comment(lib, "d3d11.lib")
+
+
+//uintptr_t GetMethodFromName{};
+//uintptr_t GetClassFromName{};
+typedef HRESULT(__stdcall* ID3DPresent)(IDXGISwapChain* this_, UINT sync, UINT flags);
+
+
+typedef void(__stdcall* Player_Update)(Player_o*, MethodInfo*);
+typedef void(__stdcall* GhostAI_Update)(GhostAI_o*, MethodInfo*);
+typedef void(__stdcall* Photon_Pun_PhotonView__RPC)(Photon_Pun_PhotonView_o* _this, System_String_o* methodName, int32_t target, System_Object_array* parameters, const MethodInfo* method);
+typedef void(__stdcall* GhostController__Update)(GhostController_o* _this, const MethodInfo* method);
+
+typedef void(__stdcall* GhostEventPlayer__Update)(GhostEventPlayer_o* _this, const MethodInfo* method);
+
+namespace HOOK
+{
+	inline bool Hook(void* target, void* hFunc, void** outOriginal)
+	{
+		MH_STATUS stat = MH_CreateHook(target, hFunc, outOriginal);
+
+		if (stat == MH_OK)
+		{
+			stat = MH_EnableHook(target);
+
+			if (stat == MH_OK)
+			{
+				printf("Hook Created: %p\n", target);
+				return true;
+			}
+			else
+				printf("Couldnt enable hook: %d\n", stat);
+		}
+		else
+			printf("couldnt create hook %d\n", stat);
+
+		return false;
+	}
+	inline bool getSwapChain(IDXGISwapChain** swapChain, ID3D11Device** device) {
+		DXGI_SWAP_CHAIN_DESC desc;
+		ZeroMemory(&desc, sizeof(desc));
+		desc.BufferCount = 1;
+		desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		desc.OutputWindow = GetForegroundWindow();
+		desc.SampleDesc.Count = 1;
+		desc.Windowed = TRUE;
+		desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+
+		bool succ = false;
+
+		HRESULT res = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_WARP, nullptr, 0, nullptr, 0, D3D11_SDK_VERSION,
+			&desc, swapChain, device, nullptr, nullptr);
+
+		if (!SUCCEEDED(res))
+			return false;
+
+		return true;
+	}
+	inline ID3DPresent getPresent() {
+		IDXGISwapChain* swapChain;
+		ID3D11Device* device;
+
+		if (getSwapChain(&swapChain, &device)) {
+
+			void** vTable = *(void***)swapChain;
+
+			if (swapChain) { swapChain->Release(); swapChain = nullptr; }
+			if (device) { device->Release(); device = nullptr; }
+
+			return (ID3DPresent)vTable[8];
+		}
+
+		return NULL;
+	}
+
+	//Hook declarations
+	HRESULT PresentHook(IDXGISwapChain* __this, UINT sync, UINT flags);
+	static LRESULT WINAPI WndProc_Hook(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+
+	void OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo);
+	void OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo);
+	void RPCFunc(Photon_Pun_PhotonView_o* _this, System_String_o* methodName, int32_t target, System_Object_array* parameters, const MethodInfo* method);
+	void OnGhostControllerUpdate(GhostController_o* _this, const MethodInfo* method);
+	void OnGhostEventPlayerUpdate(GhostEventPlayer_o* _this, const MethodInfo* method);
+
+	
+	inline WNDPROC oWndProc{};
+	inline ID3DPresent oPresent{};
+
+
+
+	inline Player_Update oUpdatePlayer{};
+	inline GhostAI_Update oUpdateGhost{};
+	inline Photon_Pun_PhotonView__RPC oRpc{};
+	inline GhostController__Update oUpdateGhostController{};
+	inline GhostEventPlayer__Update oUpdateGhostEventPlayer{};
+}
