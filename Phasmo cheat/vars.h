@@ -19,9 +19,13 @@ namespace smile
 		GhostEventPlayer_o* ghostEventPlayer = nullptr;
 
 
+		std::string interceptOuijaMessage;
+		bool bInterceptOuijaMessage = false;
+
 		int ghostState = -1;
 
 		bool ghostInfoOverlay = true;
+		bool showRPCs = true;
 		bool menuOpened = false;
 		bool showGhost = false;
 

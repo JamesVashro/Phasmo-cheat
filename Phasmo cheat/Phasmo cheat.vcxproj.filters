@@ -125,5 +125,8 @@
     <ClCompile Include="hooking\hooks\GhostEventPlayer_Update.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="hooking\hooks\CursedObjectsHooks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

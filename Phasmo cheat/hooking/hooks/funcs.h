@@ -20,13 +20,18 @@ struct GhostEventPlayer_o;
 struct System_Char_array;
 struct System_String_o;
 struct Il2CppClass;
+struct Il2CppType;
+struct Il2CppObject;
 
 struct MethodInfo1
 {
     void* methodPointer;
 };
 
-typedef __int64(__fastcall* il2cpp_value_box)(__int64 a1, __int64 a2);
+//possible PE type function
+//void __stdcall UnityEngine_MonoBehaviour__Invoke(UnityEngine_MonoBehaviour_o *this, System_String_o *methodName, float time, const MethodInfo *method)
+
+typedef __int64(__fastcall* il2cpp_value_box)(void* a1, void* a2);
 
 typedef void(__stdcall* UnityEngine_Cursor__set_visible)(bool value, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Cursor__set_lockState)(int32_t value, const MethodInfo* method);
@@ -48,6 +53,7 @@ typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_position)(
 typedef void(__stdcall* UnityEngine_Transform__set_position)(UnityEngine_Transform_o* _this, UnityEngine_Vector3_o* value, const MethodInfo* method);
 typedef UnityEngine_Transform_o* (__stdcall* UnityEngine_Component__get_transform)(UnityEngine_Component_o* _this, const MethodInfo* method);
 typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_forward)(UnityEngine_Vector3_o* retstr, UnityEngine_Transform_o* _this, const MethodInfo* method);
+typedef void(__stdcall* GhostAI__DelayTeleportToFavouriteRoom)(GhostAI_o* _this, float _, const MethodInfo* method);
 
 typedef void(__stdcall* GhostEventPlayer____________6465199120)(GhostEventPlayer_o* _this, Player_o* _, UnityEngine_Vector3_o* a3, const MethodInfo* method);
 typedef DWORD* (__fastcall* il2cpp_array_new_specific_0)(__int64 a1, unsigned __int64 a2);
@@ -56,6 +62,10 @@ typedef Il2CppClass*(__fastcall* il2cpp_class_from_name)(void* image, const char
 typedef void* (__fastcall* il2cpp_assembly_get_image)(void* assembly);
 typedef void*(__fastcall* il2cpp_domain_assembly_open)(void* domain, const char* name);
 typedef void* (__fastcall* il2cpp_domain_get)();
+typedef Il2CppType* (__fastcall* il2cpp_class_get_type)(Il2CppClass* klass);
+typedef Il2CppObject* (__fastcall* il2cpp_type_get_object)(Il2CppType* type);
+
+typedef System_String_o* (__stdcall* System_String__Ctor_6497373952)(const char* value, int32_t startIndex, int32_t length, const MethodInfo* method);
 
 inline UnityEngine_Cursor__set_visible SetCursorVisible{};
 inline UnityEngine_Cursor__set_lockState SetLockState{};
@@ -68,8 +78,10 @@ inline il2cpp_class_from_name il2cppClassFromName{};
 inline il2cpp_assembly_get_image il2cppAssemblyGetImage{};
 inline il2cpp_domain_assembly_open il2cppDomainAssemblyOpen{};
 inline il2cpp_domain_get il2cppDomainGet{};
+inline il2cpp_class_get_type il2cppClassGetType{};
+inline il2cpp_type_get_object il2cppTypeGetObject{};
 
-
+inline System_String__Ctor_6497373952 SystemStringCtor{};
 inline System_String__CopyTo CopyTo{};
 inline UnityEngine_Component__get_transform _GetTransform{};
 inline GhostAI_Appear Appear{};
@@ -85,7 +97,7 @@ inline UnityEngine_Transform__get_position _GetPosition{};
 inline UnityEngine_Transform__set_position _SetPosition{};
 inline UnityEngine_Transform__get_forward _GetForwardVector{};
 inline GhostActivity__InteractWithARandomProp InteractWithRandomProp{};
-inline GhostEventPlayer____________6465199120 dothing{};
+inline GhostAI__DelayTeleportToFavouriteRoom DelayTeleportToRoom{};
 
 namespace FUNCS
 {
@@ -121,8 +133,11 @@ namespace FUNCS
 	inline bool Init()
 	{
         bool work = true;
-
+        //
         HMODULE mod = GetModuleHandleA("GameAssembly.dll");
+
+        SystemStringCtor = (System_String__Ctor_6497373952)signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 20 80 3D ? ? ? ? ? 41 8B D8 48 63 FA 48 8B F1 75 13 48 8D 0D ? ? ? ? E8 ? ? ? ? C6 05 ? ? ? ? ?").GetPointer();
+        work &= (SystemStringCtor != 0);
 
         il2cppArrayNewSpecific = (il2cpp_array_new_specific_0)GetFuncPtr(0x2F1D80);
         work &= (il2cppArrayNewSpecific != 0);
@@ -144,6 +159,12 @@ namespace FUNCS
 
         il2cppDomainGet = (il2cpp_domain_get)GetProcAddress(mod, "il2cpp_domain_get");
         work &= (il2cppDomainGet != 0);
+
+        il2cppClassGetType = (il2cpp_class_get_type)GetProcAddress(mod, "il2cpp_class_get_type");
+        work &= (il2cppClassGetType != 0);
+
+        il2cppTypeGetObject = (il2cpp_type_get_object)GetProcAddress(mod, "il2cpp_type_get_object");
+        work &= (il2cppTypeGetObject != 0);
 
         SetCursorVisible = (UnityEngine_Cursor__set_visible)(FUNCS::GetMethodPtr("UnityEngine", "Cursor", "set_visible", 1, "UnityEngine.CoreModule"));
         work &= (SetCursorVisible != 0);
@@ -199,6 +220,8 @@ namespace FUNCS
         ChangeFavRoom = (GhostController__ChangeFavouriteRoomTo)GetMethodPtr("", "GhostController", "ChangeFavouriteRoomTo", 1);
         work &= (ChangeFavRoom != 0);
 
+        DelayTeleportToRoom = (GhostAI__DelayTeleportToFavouriteRoom)GetMethodPtr("", "GhostAI", "DelayTeleportToFavouriteRoom", 1);
+        work &= (DelayTeleportToRoom != 0);
 
         return work;
 	}

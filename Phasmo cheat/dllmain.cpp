@@ -35,13 +35,13 @@ bool InitializeHooks()
     smile::vars->bool_TypeInfo = (System_Boolean_c*)signature("48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 83 7B ? ? 75 08 48 8B CB E8 ? ? ? ?").resolveRelativeAddr(3, 7);
 
 
-    
-    
-
     if (!HOOK::Hook(HOOK::getPresent(), HOOK::PresentHook, (void**)&HOOK::oPresent))
         return false;
 
     if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("", "GhostController", "Update", 0)), HOOK::OnGhostControllerUpdate, (void**)&HOOK::oUpdateGhostController))
+        return false;
+
+    if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("", "OuijaBoard", "PlayMessageSequence", 2)), HOOK::OnPlayMessageSequence, (void**)&HOOK::oPlayMessageSequence))
         return false;
 
     if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("", "Player", "Update", 0)), HOOK::OnPlayerUpdate, (void**)&HOOK::oUpdatePlayer))
@@ -55,6 +55,10 @@ bool InitializeHooks()
 
     if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("Photon.Pun", "PhotonView", "RPC", 3, "PhotonUnityNetworking")), HOOK::RPCFunc, (void**)&HOOK::oRpc))
         return false;
+
+    //HMODULE mod = GetModuleHandleA("GameAssembly.dll");
+    /*if (!HOOK::Hook((void*)GetProcAddress(mod, "il2cpp_value_box"), HOOK::valueBox, (void**)&il2cppValueBox))
+        return false;*/
 
     return true;
 }
@@ -94,34 +98,8 @@ void MainThread(HMODULE mod)
         }
         std::cout.put('.');
         
-        if (GetAsyncKeyState(VK_F1) & 1)
-        {
-            try
-            {
-               /* if (smile::vars->currentGhost && smile::vars->currentGhost->fields._7__________)
-                {
-                    if (PhotonObjectInteract_o* obj = HOOK::GetPropToThrow(smile::vars->currentGhost->fields._7__________, 0); obj != nullptr)
-                    {
-                        HOOK::ChangeState(smile::vars->currentGhost, 6, obj, nullptr, false, 0);
-                    }
-                }*/
-
-                /*if (smile::vars->currentGhost && smile::vars->currentGhost->fields._7__________)
-                {
-                    if (Door_o* door = GetDoorToOpen(smile::vars->currentGhost->fields._7__________, 0); door != nullptr)
-                    {
-                        ChangeState(smile::vars->currentGhost, 5, door->fields._18__________, nullptr, false, 0);
-                    }
-                }*/
-            }
-            catch (...)
-            {
-                printf("caught exception\n");
-            }
-        }
-
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
 
     FreeConsole();
