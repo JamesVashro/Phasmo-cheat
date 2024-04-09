@@ -17,8 +17,10 @@ namespace smile
 		Player_o* localPlayer = nullptr;
 		GhostController_o* ghostController = nullptr;
 		GhostEventPlayer_o* ghostEventPlayer = nullptr;
+		Network_o* network = nullptr;
 
-
+		Player_o* spookPlayer = nullptr;
+		UnityEngine_Vector3_o spookPos{};
 		std::string interceptOuijaMessage;
 		bool bInterceptOuijaMessage = false;
 
@@ -28,6 +30,9 @@ namespace smile
 		bool showRPCs = true;
 		bool menuOpened = false;
 		bool showGhost = false;
+		bool spookingPlayer = false;
+		int spookSoundEffect = 0;
+		//float x, y, z, w = 0.f;
 
 		int32_t lastLockedState = -1;
 

@@ -10,6 +10,7 @@
 
 #pragma comment(lib, "libMinHook.x64.lib")
 
+FILE* f;
 
 uintptr_t base{};
 
@@ -70,20 +71,23 @@ void CleanupAndShutDown(HMODULE mod)
 
     vars.reset();
 
+    FreeConsole();
+    fclose(f);
+
     CloseHandle(mod);
     FreeLibraryAndExitThread(mod, 0);
 }
 
 void MainThread(HMODULE mod)
 {
-    FILE* f;
     AllocConsole();
     freopen_s(&f, "CONOUT$", "w", stdout);
 
     if (!InitializeHooks())
     {
         printf("couldnt init hooks\n");
-        system("pause");
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
 
         CleanupAndShutDown(mod);
         return;
@@ -102,8 +106,7 @@ void MainThread(HMODULE mod)
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
 
-    FreeConsole();
-    fclose(f);
+    
 
     CleanupAndShutDown(mod);
 }

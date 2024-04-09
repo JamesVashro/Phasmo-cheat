@@ -4,7 +4,29 @@ using namespace smile;
 
 void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
 {
-    vars->localPlayer = _this;
+    smile::vars->localPlayer = _this;
+    /*if (!smile::vars->network || !smile::vars->localPlayer)
+    {
+        smile::vars->network = NetworkGetInstance(0);
+
+        if (smile::vars->network)
+        {
+            auto playerList = smile::vars->network->fields._2__________;
+
+            for (int i = 0; i < playerList->fields._items->max_length; i++)
+            {
+                auto playerSpot = playerList->fields._items->m_Items[i];
+                if (!playerSpot)
+                    continue;
+
+                if (playerSpot->fields.photonPlayer->fields.IsLocal)
+                {
+                    smile::vars->localPlayer = playerSpot->fields.player;
+                    wprintf(L"set local Player: %ls\n", playerSpot->fields.accountName->fields.buffer);
+                }
+            }
+        }
+    }*/
 
     if (GetAsyncKeyState(0x58) & 1) // X
     {
@@ -24,7 +46,7 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
         System_String_o* SpawnDeadBodyNetworked = SystemStringCtor(mName, 0, strlen(mName), 0);
         DWORD* arr = il2cppArrayNewSpecific((__int64)smile::vars->object_TypeInfo, 0);
 
-        HOOK::oRpc(vars->localPlayer->fields._________, SpawnDeadBodyNetworked, 0, (System_Object_array*)arr, 0);
+        HOOK::oRpc(vars->localPlayer->fields._view, SpawnDeadBodyNetworked, 0, (System_Object_array*)arr, 0);
     }
 
     return oUpdatePlayer(_this, mInfo);

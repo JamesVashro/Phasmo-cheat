@@ -40,6 +40,17 @@ void Menu::Loop()
 				HOOK::oRpc(door->fields._16_view, HuntingCloseDoorNetworked, 0, (System_Object_array*)arr, 0);
 			}
 		}
+		if (ImGui::Button("Change Ghost Room", 5))
+		{
+			ChangeFavRoom(smile::vars->ghostController, smile::vars->localPlayer->GetCurrentRoom(), 0);
+			DelayTeleportToRoom(smile::vars->currentGhost, 0.f, 0);
+		}
+		ImGui::LineSliderInt("Sound", &smile::vars->spookSoundEffect, 0, 10, 1);
+		/*ImGui::LineSliderFloat("X", &smile::vars->x, -180.f, 180.f, 1);
+		ImGui::LineSliderFloat("Y", &smile::vars->y, -180.f, 180.f, 1);
+		ImGui::LineSliderFloat("Z", &smile::vars->z, -180.f, 180.f, 1);
+		ImGui::LineSliderFloat("W", &smile::vars->w, -180.f, 180.f, 1);*/
+
 
 		ImGui::End();
 	}
@@ -69,7 +80,10 @@ void Menu::RenderOverlay()
 
 			for (int i = smile::vars->rpcCalls.size() - 1; i > 0; i--)
 			{
-				ImGui::Text(smile::vars->rpcCalls[i].c_str());
+				if (smile::vars->rpcCalls[i].find("Ouija") != -1)
+					ImGui::TextColored(ImVec4(130, 130, 255, 255), smile::vars->rpcCalls[i].c_str());
+				else
+					ImGui::Text(smile::vars->rpcCalls[i].c_str());
 			}
 
 			ImGui::EndChild();

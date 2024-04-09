@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <cstdint>
 #include "hooking/memory.h"
 
@@ -22,6 +22,12 @@ struct System_String_o;
 struct Il2CppClass;
 struct Il2CppType;
 struct Il2CppObject;
+struct UnityEngine_MonoBehaviour_o;
+struct Network_o;
+struct UnityEngine_GameObject_o;
+struct UnityEngine_Quaternion_o;
+struct GhostAudio_o;
+struct UnityEngine_AudioClip_o;
 
 struct MethodInfo1
 {
@@ -31,11 +37,19 @@ struct MethodInfo1
 //possible PE type function
 //void __stdcall UnityEngine_MonoBehaviour__Invoke(UnityEngine_MonoBehaviour_o *this, System_String_o *methodName, float time, const MethodInfo *method)
 
+typedef Network_o* (__stdcall* Network__get_Instance)(const MethodInfo* method);
 typedef __int64(__fastcall* il2cpp_value_box)(void* a1, void* a2);
 
 typedef void(__stdcall* UnityEngine_Cursor__set_visible)(bool value, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Cursor__set_lockState)(int32_t value, const MethodInfo* method);
 typedef int32_t(__stdcall* UnityEngine_Cursor__get_lockState)(const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_GameObject__SetActive)(UnityEngine_GameObject_o* _this, bool value, const MethodInfo* method);
+typedef UnityEngine_GameObject_o* (__stdcall* UnityEngine_Component__get_gameObject)(UnityEngine_Component_o* _this, const MethodInfo* method);
+typedef UnityEngine_Quaternion_o* (__fastcall* UnityEngine_Transform__get_rotation)(UnityEngine_Quaternion_o* retstr, UnityEngine_Transform_o* _this, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Transform__set_rotation)(UnityEngine_Transform_o* _this, UnityEngine_Quaternion_o* value, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Transform__LookAt)(UnityEngine_Transform_o* _this, UnityEngine_Transform_o* target, UnityEngine_Vector3_o* worldUp, const MethodInfo* method);
+typedef UnityEngine_Transform_o* (__stdcall* UnityEngine_Transform__GetRoot)(UnityEngine_Transform_o* _this, const MethodInfo* method);
+typedef System_String_o* (__stdcall* UnityEngine_AudioClip__GetName)(UnityEngine_AudioClip_o* _this, const MethodInfo* method);
 
 typedef void(__stdcall* System_String__CopyTo)(System_String_o* _this, int32_t sourceIndex, System_Char_array* destination, int32_t destinationIndex, int32_t count, const MethodInfo* method);
 typedef void(__stdcall* GhostAI_Appear)(GhostAI_o*, int, MethodInfo*);
@@ -54,6 +68,8 @@ typedef void(__stdcall* UnityEngine_Transform__set_position)(UnityEngine_Transfo
 typedef UnityEngine_Transform_o* (__stdcall* UnityEngine_Component__get_transform)(UnityEngine_Component_o* _this, const MethodInfo* method);
 typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_forward)(UnityEngine_Vector3_o* retstr, UnityEngine_Transform_o* _this, const MethodInfo* method);
 typedef void(__stdcall* GhostAI__DelayTeleportToFavouriteRoom)(GhostAI_o* _this, float _, const MethodInfo* method);
+typedef void(__stdcall* GhostAI__LookAtPlayer)(GhostAI_o* _this, Player_o* _, const MethodInfo* method);
+typedef void(__stdcall* GhostAudio__PlaySound)(GhostAudio_o* _this, int32_t clipIndex, const MethodInfo* method);
 
 typedef void(__stdcall* GhostEventPlayer____________6465199120)(GhostEventPlayer_o* _this, Player_o* _, UnityEngine_Vector3_o* a3, const MethodInfo* method);
 typedef DWORD* (__fastcall* il2cpp_array_new_specific_0)(__int64 a1, unsigned __int64 a2);
@@ -70,6 +86,14 @@ typedef System_String_o* (__stdcall* System_String__Ctor_6497373952)(const char*
 inline UnityEngine_Cursor__set_visible SetCursorVisible{};
 inline UnityEngine_Cursor__set_lockState SetLockState{};
 inline UnityEngine_Cursor__get_lockState GetLockState{};
+
+inline UnityEngine_GameObject__SetActive _SetActive{};
+inline UnityEngine_Component__get_gameObject GetGameObject{};
+inline UnityEngine_Transform__get_rotation _GetRotation{};
+inline UnityEngine_Transform__set_rotation _SetRotation{};
+inline UnityEngine_Transform__LookAt _LookAt{};
+inline UnityEngine_Transform__GetRoot _GetRoot{};
+inline UnityEngine_AudioClip__GetName aGetName{};
 
 inline il2cpp_value_box il2cppValueBox{};
 inline il2cpp_array_new_specific_0 il2cppArrayNewSpecific{};
@@ -98,6 +122,10 @@ inline UnityEngine_Transform__set_position _SetPosition{};
 inline UnityEngine_Transform__get_forward _GetForwardVector{};
 inline GhostActivity__InteractWithARandomProp InteractWithRandomProp{};
 inline GhostAI__DelayTeleportToFavouriteRoom DelayTeleportToRoom{};
+inline GhostAI__LookAtPlayer LookAtPlayer{};
+inline GhostAudio__PlaySound _PlaySound{};
+
+inline Network__get_Instance NetworkGetInstance{};
 
 namespace FUNCS
 {
@@ -166,17 +194,38 @@ namespace FUNCS
         il2cppTypeGetObject = (il2cpp_type_get_object)GetProcAddress(mod, "il2cpp_type_get_object");
         work &= (il2cppTypeGetObject != 0);
 
-        SetCursorVisible = (UnityEngine_Cursor__set_visible)(FUNCS::GetMethodPtr("UnityEngine", "Cursor", "set_visible", 1, "UnityEngine.CoreModule"));
+        SetCursorVisible = (UnityEngine_Cursor__set_visible)(GetMethodPtr("UnityEngine", "Cursor", "set_visible", 1, "UnityEngine.CoreModule"));
         work &= (SetCursorVisible != 0);
 
-        SetLockState = (UnityEngine_Cursor__set_lockState)(FUNCS::GetMethodPtr("UnityEngine", "Cursor", "set_lockState", 1, "UnityEngine.CoreModule"));
+        SetLockState = (UnityEngine_Cursor__set_lockState)(GetMethodPtr("UnityEngine", "Cursor", "set_lockState", 1, "UnityEngine.CoreModule"));
         work &= (SetLockState != 0);
 
-        GetLockState = (UnityEngine_Cursor__get_lockState)(FUNCS::GetMethodPtr("UnityEngine", "Cursor", "get_lockState", 0, "UnityEngine.CoreModule"));
+        GetLockState = (UnityEngine_Cursor__get_lockState)(GetMethodPtr("UnityEngine", "Cursor", "get_lockState", 0, "UnityEngine.CoreModule"));
         work &= (GetLockState != 0);
 
         CopyTo = (System_String__CopyTo)GetFuncPtr(0x3460510);
         work &= (CopyTo != 0);
+
+        aGetName = (UnityEngine_AudioClip__GetName)(GetMethodPtr("UnityEngine", "AudioClip", "GetName", 0, "UnityEngine.AudioModule"));
+        work &= (aGetName != 0);
+
+        _GetRoot = (UnityEngine_Transform__GetRoot)(GetMethodPtr("UnityEngine", "Transform", "GetRoot", 0, "UnityEngine.CoreModule"));
+        work &= (_GetRoot != 0);
+
+        _LookAt = (UnityEngine_Transform__LookAt)(GetMethodPtr("UnityEngine", "Transform", "LookAt", 2, "UnityEngine.CoreModule"));
+        work &= (_LookAt != 0);
+
+        _GetRotation = (UnityEngine_Transform__get_rotation)(signature("E8 ? ? ? ? 48 85 FF 74 23 0F 10 00 45 33 C0 48 8D 54 24 ? 48 8B CF 0F 29 44 24 ? E8 ? ? ? ? 48 8B 7C 24 ? ").resolveRelativeAddr(1, 5));
+        work &= (_GetRotation != 0);
+
+        _SetRotation = (UnityEngine_Transform__set_rotation)(signature("E8 ? ? ? ? FF CB 83 FB FF 0F 8F ? ? ? ? 4C 8D 9C 24 ? ? ? ? 49 8B 5B 28").resolveRelativeAddr(1, 5));
+        work &= (_SetRotation != 0);
+
+        GetGameObject = (UnityEngine_Component__get_gameObject)(GetMethodPtr("UnityEngine", "GameObject", "get_gameObject", 0, "UnityEngine.CoreModule"));
+        work &= (GetGameObject != 0);
+
+        _SetActive = (UnityEngine_GameObject__SetActive)(GetMethodPtr("UnityEngine", "GameObject", "SetActive", 1, "UnityEngine.CoreModule"));
+        work &= (_SetActive != 0);
 
         _GetTransform = (UnityEngine_Component__get_transform)GetFuncPtr(0x436C770);
         work &= (_GetTransform != 0);
@@ -195,6 +244,9 @@ namespace FUNCS
 
         Appear = (GhostAI_Appear)GetMethodPtr("", "GhostAI", "Appear", 1);
         work &= (Appear != 0);
+
+        _PlaySound = (GhostAudio__PlaySound)GetMethodPtr("", "GhostAudio", "PlaySound", 1);
+        work &= (_PlaySound != 0);
 
         Interact = (GhostActivity__Interact)GetMethodPtr("", "GhostActivity", "Interact", 0);
         work &= (Interact != 0);
@@ -222,6 +274,12 @@ namespace FUNCS
 
         DelayTeleportToRoom = (GhostAI__DelayTeleportToFavouriteRoom)GetMethodPtr("", "GhostAI", "DelayTeleportToFavouriteRoom", 1);
         work &= (DelayTeleportToRoom != 0);
+
+        LookAtPlayer = (GhostAI__LookAtPlayer)GetMethodPtr("", "GhostAI", "LookAtPlayer", 1);
+        work &= (LookAtPlayer != 0);
+
+        NetworkGetInstance = (Network__get_Instance)signature("E8 ? ? ? ? 48 85 C0 74 66 48 8B 0D ? ? ? ? 48 8B 78 60 E8 ? ? ? ? ").resolveRelativeAddr(1, 5);
+        work &= (NetworkGetInstance != 0);
 
         return work;
 	}
