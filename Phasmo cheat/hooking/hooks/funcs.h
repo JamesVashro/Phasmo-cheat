@@ -28,6 +28,10 @@ struct UnityEngine_GameObject_o;
 struct UnityEngine_Quaternion_o;
 struct GhostAudio_o;
 struct UnityEngine_AudioClip_o;
+struct Noise_o;
+struct Photon_Realtime_Player_o;
+struct UnityEngine_RaycastHit_array;
+struct UnityEngine_Color_o;
 
 struct MethodInfo1
 {
@@ -50,6 +54,9 @@ typedef void(__stdcall* UnityEngine_Transform__set_rotation)(UnityEngine_Transfo
 typedef void(__stdcall* UnityEngine_Transform__LookAt)(UnityEngine_Transform_o* _this, UnityEngine_Transform_o* target, UnityEngine_Vector3_o* worldUp, const MethodInfo* method);
 typedef UnityEngine_Transform_o* (__stdcall* UnityEngine_Transform__GetRoot)(UnityEngine_Transform_o* _this, const MethodInfo* method);
 typedef System_String_o* (__stdcall* UnityEngine_AudioClip__GetName)(UnityEngine_AudioClip_o* _this, const MethodInfo* method);
+typedef UnityEngine_RaycastHit_array* (__stdcall* UnityEngine_Physics__RaycastAll)(UnityEngine_Vector3_o* origin, UnityEngine_Vector3_o* direction, float maxDistance, int32_t layerMask, int32_t queryTriggerInteraction, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Debug__DrawLine)(UnityEngine_Vector3_o* start, UnityEngine_Vector3_o* end, UnityEngine_Color_o* color, float duration, const MethodInfo* method);
+typedef int32_t(__stdcall* UnityEngine_LayerMask__NameToLayer)(System_String_o* layerName, const MethodInfo* method);
 
 typedef void(__stdcall* System_String__CopyTo)(System_String_o* _this, int32_t sourceIndex, System_Char_array* destination, int32_t destinationIndex, int32_t count, const MethodInfo* method);
 typedef void(__stdcall* GhostAI_Appear)(GhostAI_o*, int, MethodInfo*);
@@ -70,6 +77,8 @@ typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_forward)(U
 typedef void(__stdcall* GhostAI__DelayTeleportToFavouriteRoom)(GhostAI_o* _this, float _, const MethodInfo* method);
 typedef void(__stdcall* GhostAI__LookAtPlayer)(GhostAI_o* _this, Player_o* _, const MethodInfo* method);
 typedef void(__stdcall* GhostAudio__PlaySound)(GhostAudio_o* _this, int32_t clipIndex, const MethodInfo* method);
+typedef void(__stdcall* Noise__PlaySound)(Noise_o* _this, UnityEngine_AudioClip_o* _, float a3, bool a4, bool _a, const MethodInfo* method);
+typedef void(__stdcall* GhostEventPlayer__PlaySound)(GhostEventPlayer_o* _this, Photon_Realtime_Player_o* _, const MethodInfo* method);
 
 typedef void(__stdcall* GhostEventPlayer____________6465199120)(GhostEventPlayer_o* _this, Player_o* _, UnityEngine_Vector3_o* a3, const MethodInfo* method);
 typedef DWORD* (__fastcall* il2cpp_array_new_specific_0)(__int64 a1, unsigned __int64 a2);
@@ -86,6 +95,9 @@ typedef System_String_o* (__stdcall* System_String__Ctor_6497373952)(const char*
 inline UnityEngine_Cursor__set_visible SetCursorVisible{};
 inline UnityEngine_Cursor__set_lockState SetLockState{};
 inline UnityEngine_Cursor__get_lockState GetLockState{};
+inline UnityEngine_Physics__RaycastAll CastRay{};
+inline UnityEngine_Debug__DrawLine DebugDrawLine{};
+inline UnityEngine_LayerMask__NameToLayer NameToLayer{};
 
 inline UnityEngine_GameObject__SetActive _SetActive{};
 inline UnityEngine_Component__get_gameObject GetGameObject{};
@@ -94,6 +106,8 @@ inline UnityEngine_Transform__set_rotation _SetRotation{};
 inline UnityEngine_Transform__LookAt _LookAt{};
 inline UnityEngine_Transform__GetRoot _GetRoot{};
 inline UnityEngine_AudioClip__GetName aGetName{};
+inline Noise__PlaySound nPlaySound{};
+inline GhostEventPlayer__PlaySound gepPlaySound{};
 
 inline il2cpp_value_box il2cppValueBox{};
 inline il2cpp_array_new_specific_0 il2cppArrayNewSpecific{};
@@ -206,6 +220,15 @@ namespace FUNCS
         CopyTo = (System_String__CopyTo)GetFuncPtr(0x3460510);
         work &= (CopyTo != 0);
 
+        NameToLayer = (UnityEngine_LayerMask__NameToLayer)(FUNCS::GetMethodPtr("UnityEngine", "LayerMask", "NameToLayer", 1, "UnityEngine.CoreModule"));
+        work &= (NameToLayer != 0);
+
+        DebugDrawLine = (UnityEngine_Debug__DrawLine)(GetMethodPtr("UnityEngine", "Debug", "DrawLine", 4, "UnityEngine.CoreModule"));
+        work &= (DebugDrawLine != 0);
+
+        CastRay = (UnityEngine_Physics__RaycastAll)(GetMethodPtr("UnityEngine", "Physics", "RaycastAll", 5, "UnityEngine.PhysicsModule"));
+        work &= (CastRay != 0);
+
         aGetName = (UnityEngine_AudioClip__GetName)(GetMethodPtr("UnityEngine", "AudioClip", "GetName", 0, "UnityEngine.AudioModule"));
         work &= (aGetName != 0);
 
@@ -244,6 +267,12 @@ namespace FUNCS
 
         Appear = (GhostAI_Appear)GetMethodPtr("", "GhostAI", "Appear", 1);
         work &= (Appear != 0);
+
+        gepPlaySound = (GhostEventPlayer__PlaySound)GetMethodPtr("", "GhostEventPlayer", "PlaySound", 1);
+        work &= (gepPlaySound != 0);
+
+        nPlaySound = (Noise__PlaySound)GetMethodPtr("", "Noise", "PlaySound", 4);
+        work &= (nPlaySound != 0);
 
         _PlaySound = (GhostAudio__PlaySound)GetMethodPtr("", "GhostAudio", "PlaySound", 1);
         work &= (_PlaySound != 0);

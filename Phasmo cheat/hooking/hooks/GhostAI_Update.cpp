@@ -51,8 +51,9 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
 
         if (!playedSound)
         {
+            //gepPlaySound(smile::vars->ghostEventPlayer, smile::vars->localPlayer->fields._view->fields._Owner_k__BackingField, 0);
             _PlaySound(_this->fields._5_audio, smile::vars->spookSoundEffect, 0);
-
+            //nPlaySound(smile::vars->ghostEventPlayer->fields.noise, smile::vars->ghostEventPlayer->fields.audioClip, 1, 0, 0, 0);
             playedSound = true;
         }
     }
@@ -70,7 +71,39 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
         {
             UnityEngine_Vector3_o playerPos = smile::vars->spookPlayer->GetPosition();
             UnityEngine_Vector3_o forward = smile::vars->spookPlayer->GetForward();
-            smile::vars->spookPos = playerPos + (forward * 2);
+            UnityEngine_Vector3_o playerCamera = smile::vars->spookPlayer->GetCameraPosition();
+
+            
+            
+            bool hit = false;
+            auto results = CastRay(&playerCamera, &forward, FLT_MAX, 335644, 0, 0);
+            if (results->max_length > 0 && results->m_Items[0].fields.m_Distance < 8.f)
+            {
+                printf("hit! setting pos to hitpoint\n");
+                auto hitPoint = results->m_Items[0].fields.m_Point;
+                smile::vars->spookPos = hitPoint;
+                hit = true;
+            }
+            
+            if (!hit)
+            {
+                UnityEngine_Vector3_o ghostPos = playerPos + (forward * 2);
+                UnityEngine_Vector3_o down{};
+                down.fields.x = 0;
+                down.fields.y = -1;
+                down.fields.z = 0;
+
+                auto results = CastRay(&ghostPos, &down, FLT_MAX, 335644, 0, 0);
+                if (results->max_length > 0 && results->m_Items[0].fields.m_Distance < 8.f)
+                {
+                    printf("missed, getting closer floor point!\n");
+                    smile::vars->spookPos = results->m_Items[0].fields.m_Point;
+                }
+                else
+                {
+                    printf("%d\n", results->max_length);
+                }
+            }
 
             spookStartTime = std::clock();
             playedSound = false;

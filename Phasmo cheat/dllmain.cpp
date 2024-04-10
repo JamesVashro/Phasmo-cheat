@@ -57,6 +57,7 @@ bool InitializeHooks()
     if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("Photon.Pun", "PhotonView", "RPC", 3, "PhotonUnityNetworking")), HOOK::RPCFunc, (void**)&HOOK::oRpc))
         return false;
 
+
     //HMODULE mod = GetModuleHandleA("GameAssembly.dll");
     /*if (!HOOK::Hook((void*)GetProcAddress(mod, "il2cpp_value_box"), HOOK::valueBox, (void**)&il2cppValueBox))
         return false;*/
