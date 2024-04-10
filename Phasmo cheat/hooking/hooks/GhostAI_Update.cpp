@@ -2,6 +2,7 @@
 #include "../hook.h"
 #include <ctime>
 #include <iostream>
+#include <random>
 
 void HOOK::OnGhostControllerUpdate(GhostController_o* _this, const MethodInfo* method)
 {
@@ -16,6 +17,11 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
     static bool playedSound = false;
     static clock_t spookStartTime = std::clock();
 
+    std::mt19937 rng(time(NULL));
+    std::uniform_int_distribution<int> gen(0, 1000);
+    int rand = (smile::vars->randomSpook ? gen(rng) : 0);
+
+
     if (smile::vars->currentGhost != _this)
     {
         printf("Ghost: %p\n", _this);
@@ -28,10 +34,11 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
     {
         clock_t curTime = clock();
         auto diff = (clock() - spookStartTime) / CLOCKS_PER_SEC;
-        if (diff > 1)
+        if (diff > 0.5f)
         {
             smile::vars->spookingPlayer = false;
             playedSound = false;
+            UnAppear(_this, 0);
             return oUpdateGhost(_this, mInfo);
         }
 
@@ -46,13 +53,14 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
         auto rot = transform->GetRotation();
         transform->SetRotation(0, rot.fields.y, 0, rot.fields.w);
 
-        //TODO
-        //3. play certain audio?
 
         if (!playedSound)
         {
+            TurnOnOrOffAppearSource(_this->fields._5_audio, true, true, 0);
+            PlayOrStopAppearSource(_this->fields._5_audio, true, 0);
+
             //gepPlaySound(smile::vars->ghostEventPlayer, smile::vars->localPlayer->fields._view->fields._Owner_k__BackingField, 0);
-            _PlaySound(_this->fields._5_audio, smile::vars->spookSoundEffect, 0);
+            //_PlaySound(_this->fields._5_audio, smile::vars->spookSoundEffect, 0);
             //nPlaySound(smile::vars->ghostEventPlayer->fields.noise, smile::vars->ghostEventPlayer->fields.audioClip, 1, 0, 0, 0);
             playedSound = true;
         }
@@ -63,7 +71,7 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
         Appear(_this, 4, nullptr); //2 shadow, 4 full model, 3 translusent
     }
 
-    if (GetAsyncKeyState(VK_F5) & 1)
+    if ((smile::vars->randomSpook && (!smile::vars->spookingPlayer && rand <= smile::vars->spookFrequency)) || GetAsyncKeyState(VK_F5) & 1)
     {
         smile::vars->spookPlayer = smile::vars->localPlayer;
 
@@ -73,18 +81,17 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
             UnityEngine_Vector3_o forward = smile::vars->spookPlayer->GetForward();
             UnityEngine_Vector3_o playerCamera = smile::vars->spookPlayer->GetCameraPosition();
 
-            
-            
+
             bool hit = false;
             auto results = CastRay(&playerCamera, &forward, FLT_MAX, 335644, 0, 0);
             if (results->max_length > 0 && results->m_Items[0].fields.m_Distance < 8.f)
             {
-                printf("hit! setting pos to hitpoint\n");
+                //printf("hit! setting pos to hitpoint\n");
                 auto hitPoint = results->m_Items[0].fields.m_Point;
                 smile::vars->spookPos = hitPoint;
                 hit = true;
             }
-            
+
             if (!hit)
             {
                 UnityEngine_Vector3_o ghostPos = playerPos + (forward * 2);
@@ -96,25 +103,20 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
                 auto results = CastRay(&ghostPos, &down, FLT_MAX, 335644, 0, 0);
                 if (results->max_length > 0 && results->m_Items[0].fields.m_Distance < 8.f)
                 {
-                    printf("missed, getting closer floor point!\n");
+                    //printf("missed, getting closer floor point!\n");
                     smile::vars->spookPos = results->m_Items[0].fields.m_Point;
-                }
-                else
-                {
-                    printf("%d\n", results->max_length);
+                    hit = true;
                 }
             }
+
+            //if after 2 tries, the ray just cant hit the floor then just do nothing because itll be fucked up anyways
+            if (!hit)
+                return oUpdateGhost(_this, mInfo);
 
             spookStartTime = std::clock();
             playedSound = false;
             smile::vars->spookingPlayer = true;
         }
-
-        /*for (int i = 0; i < _this->fields._5_audio->fields.screamSoundClips->max_length; i++)
-        {
-           auto name = aGetName(_this->fields._5_audio->fields.screamSoundClips->m_Items[i], 0);
-           wprintf(L"%ls\n", name->fields.buffer);
-        }*/
     }
 
     if (GetAsyncKeyState(VK_F1) & 1)

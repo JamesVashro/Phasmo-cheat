@@ -30,8 +30,12 @@ namespace smile
 		bool showRPCs = true;
 		bool menuOpened = false;
 		bool showGhost = false;
+
+		bool randomSpook = true;
 		bool spookingPlayer = false;
 		int spookSoundEffect = 0;
+		int spookFrequency = 10;
+
 		//float x, y, z, w = 0.f;
 
 		int32_t lastLockedState = -1;

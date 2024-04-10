@@ -79,7 +79,10 @@ typedef void(__stdcall* GhostAI__LookAtPlayer)(GhostAI_o* _this, Player_o* _, co
 typedef void(__stdcall* GhostAudio__PlaySound)(GhostAudio_o* _this, int32_t clipIndex, const MethodInfo* method);
 typedef void(__stdcall* Noise__PlaySound)(Noise_o* _this, UnityEngine_AudioClip_o* _, float a3, bool a4, bool _a, const MethodInfo* method);
 typedef void(__stdcall* GhostEventPlayer__PlaySound)(GhostEventPlayer_o* _this, Photon_Realtime_Player_o* _, const MethodInfo* method);
+typedef void(__stdcall* GhostAudio__TurnOnOrOffAppearSource)(GhostAudio_o* _this, bool _, bool a3, const MethodInfo* method);
+typedef void(__stdcall* GhostAudio__PlayOrStopAppearSource)(GhostAudio_o* _this, bool _, const MethodInfo* method);
 
+typedef void(__stdcall* GhostAI__UnAppear)(GhostAI_o* _this, const MethodInfo* method);
 typedef void(__stdcall* GhostEventPlayer____________6465199120)(GhostEventPlayer_o* _this, Player_o* _, UnityEngine_Vector3_o* a3, const MethodInfo* method);
 typedef DWORD* (__fastcall* il2cpp_array_new_specific_0)(__int64 a1, unsigned __int64 a2);
 typedef __int64(__fastcall* il2cpp_class_get_method_from_name)(Il2CppClass* clasz, const char* a2, __int64 a3);
@@ -138,6 +141,9 @@ inline GhostActivity__InteractWithARandomProp InteractWithRandomProp{};
 inline GhostAI__DelayTeleportToFavouriteRoom DelayTeleportToRoom{};
 inline GhostAI__LookAtPlayer LookAtPlayer{};
 inline GhostAudio__PlaySound _PlaySound{};
+inline GhostAudio__TurnOnOrOffAppearSource TurnOnOrOffAppearSource{};
+inline GhostAudio__PlayOrStopAppearSource PlayOrStopAppearSource{};
+inline GhostAI__UnAppear UnAppear{};
 
 inline Network__get_Instance NetworkGetInstance{};
 
@@ -309,6 +315,15 @@ namespace FUNCS
 
         NetworkGetInstance = (Network__get_Instance)signature("E8 ? ? ? ? 48 85 C0 74 66 48 8B 0D ? ? ? ? 48 8B 78 60 E8 ? ? ? ? ").resolveRelativeAddr(1, 5);
         work &= (NetworkGetInstance != 0);
+
+        TurnOnOrOffAppearSource = (GhostAudio__TurnOnOrOffAppearSource)GetMethodPtr("", "GhostAudio", "TurnOnOrOffAppearSource", 2);
+        work &= (TurnOnOrOffAppearSource != 0);
+
+        PlayOrStopAppearSource = (GhostAudio__PlayOrStopAppearSource)GetMethodPtr("", "GhostAudio", "PlayOrStopAppearSource", 1);
+        work &= (PlayOrStopAppearSource != 0);
+
+        UnAppear = (GhostAI__UnAppear)GetMethodPtr("", "GhostAI", "UnAppear", 0);
+        work &= (UnAppear != 0);
 
         return work;
 	}

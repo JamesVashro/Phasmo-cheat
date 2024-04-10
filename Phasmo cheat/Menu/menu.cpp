@@ -45,7 +45,11 @@ void Menu::Loop()
 			ChangeFavRoom(smile::vars->ghostController, smile::vars->localPlayer->GetCurrentRoom(), 0);
 			DelayTeleportToRoom(smile::vars->currentGhost, 0.f, 0);
 		}
-		ImGui::LineSliderInt("Sound", &smile::vars->spookSoundEffect, 0, 10, 1);
+		//ImGui::LineSliderInt("Sound", &smile::vars->spookSoundEffect, 0, 10, 1);
+		ImGui::CheckboxSlider("Random Spook", &smile::vars->randomSpook);
+
+		if (smile::vars->randomSpook)
+			ImGui::LineSliderInt("Spook Frequency", &smile::vars->spookFrequency, 0, 1000, 1);
 		/*ImGui::LineSliderFloat("X", &smile::vars->x, -180.f, 180.f, 1);
 		ImGui::LineSliderFloat("Y", &smile::vars->y, -180.f, 180.f, 1);
 		ImGui::LineSliderFloat("Z", &smile::vars->z, -180.f, 180.f, 1);
