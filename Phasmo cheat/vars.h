@@ -21,6 +21,7 @@ namespace smile
 
 		Player_o* spookPlayer = nullptr;
 		UnityEngine_Vector3_o spookPos{};
+		UnityEngine_Vector3_o spookRayStartPos{};
 		std::string interceptOuijaMessage;
 		bool bInterceptOuijaMessage = false;
 
@@ -31,6 +32,7 @@ namespace smile
 		bool menuOpened = false;
 		bool showGhost = false;
 
+		float ghostSpeed = 1.7f;
 		bool randomSpook = true;
 		bool spookingPlayer = false;
 		int spookSoundEffect = 0;

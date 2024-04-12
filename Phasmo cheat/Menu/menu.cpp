@@ -47,7 +47,7 @@ void Menu::Loop()
 		}
 		//ImGui::LineSliderInt("Sound", &smile::vars->spookSoundEffect, 0, 10, 1);
 		ImGui::CheckboxSlider("Random Spook", &smile::vars->randomSpook);
-
+		ImGui::LineSliderFloat("Ghost Speed", &smile::vars->ghostSpeed, 0.5, 25.f, 1);
 		if (smile::vars->randomSpook)
 			ImGui::LineSliderInt("Spook Frequency", &smile::vars->spookFrequency, 0, 1000, 1);
 		/*ImGui::LineSliderFloat("X", &smile::vars->x, -180.f, 180.f, 1);

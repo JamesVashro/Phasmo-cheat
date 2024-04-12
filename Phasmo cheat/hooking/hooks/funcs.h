@@ -32,6 +32,11 @@ struct Noise_o;
 struct Photon_Realtime_Player_o;
 struct UnityEngine_RaycastHit_array;
 struct UnityEngine_Color_o;
+struct UnityEngine_Camera_o;
+struct UnityEngine_Resolution_o;
+struct UnityEngine_Collider_o;
+struct UnityEngine_RaycastHit_o;
+struct UnityEngine_Object_o;
 
 struct MethodInfo1
 {
@@ -44,6 +49,9 @@ struct MethodInfo1
 typedef Network_o* (__stdcall* Network__get_Instance)(const MethodInfo* method);
 typedef __int64(__fastcall* il2cpp_value_box)(void* a1, void* a2);
 
+typedef int32_t(__stdcall* UnityEngine_Screen__get_height)(const MethodInfo* method);
+typedef UnityEngine_Camera_o* (__stdcall* UnityEngine_Camera__get_main)(const MethodInfo* method);
+typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Camera__WorldToScreenPoint)(UnityEngine_Vector3_o* retstr, UnityEngine_Camera_o* _this, UnityEngine_Vector3_o* position, int32_t eye, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Cursor__set_visible)(bool value, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Cursor__set_lockState)(int32_t value, const MethodInfo* method);
 typedef int32_t(__stdcall* UnityEngine_Cursor__get_lockState)(const MethodInfo* method);
@@ -57,6 +65,12 @@ typedef System_String_o* (__stdcall* UnityEngine_AudioClip__GetName)(UnityEngine
 typedef UnityEngine_RaycastHit_array* (__stdcall* UnityEngine_Physics__RaycastAll)(UnityEngine_Vector3_o* origin, UnityEngine_Vector3_o* direction, float maxDistance, int32_t layerMask, int32_t queryTriggerInteraction, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Debug__DrawLine)(UnityEngine_Vector3_o* start, UnityEngine_Vector3_o* end, UnityEngine_Color_o* color, float duration, const MethodInfo* method);
 typedef int32_t(__stdcall* UnityEngine_LayerMask__NameToLayer)(System_String_o* layerName, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Gizmos__DrawLine)(UnityEngine_Vector3_o* from, UnityEngine_Vector3_o* to, const MethodInfo* method);
+typedef System_String_o* (__stdcall* UnityEngine_Component__get_tag)(UnityEngine_Component_o* _this, const MethodInfo* method);
+typedef UnityEngine_Collider_o* (__stdcall* UnityEngine_RaycastHit__get_collider)(UnityEngine_RaycastHit_o* _this, const MethodInfo* method);
+typedef System_String_o* (__stdcall* UnityEngine_Object__GetName)(UnityEngine_Object_o* obj, const MethodInfo* method);
+typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_right)(UnityEngine_Vector3_o* retstr, UnityEngine_Transform_o* _this, const MethodInfo* method);
+typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_forward)(UnityEngine_Vector3_o* retstr, UnityEngine_Transform_o* _this, const MethodInfo* method);
 
 typedef void(__stdcall* System_String__CopyTo)(System_String_o* _this, int32_t sourceIndex, System_Char_array* destination, int32_t destinationIndex, int32_t count, const MethodInfo* method);
 typedef void(__stdcall* GhostAI_Appear)(GhostAI_o*, int, MethodInfo*);
@@ -73,7 +87,6 @@ typedef void(__stdcall* Player__Teleport)(Player_o* _this, UnityEngine_Vector3_o
 typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_position)(UnityEngine_Vector3_o* retstr, UnityEngine_Transform_o* _this, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Transform__set_position)(UnityEngine_Transform_o* _this, UnityEngine_Vector3_o* value, const MethodInfo* method);
 typedef UnityEngine_Transform_o* (__stdcall* UnityEngine_Component__get_transform)(UnityEngine_Component_o* _this, const MethodInfo* method);
-typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_forward)(UnityEngine_Vector3_o* retstr, UnityEngine_Transform_o* _this, const MethodInfo* method);
 typedef void(__stdcall* GhostAI__DelayTeleportToFavouriteRoom)(GhostAI_o* _this, float _, const MethodInfo* method);
 typedef void(__stdcall* GhostAI__LookAtPlayer)(GhostAI_o* _this, Player_o* _, const MethodInfo* method);
 typedef void(__stdcall* GhostAudio__PlaySound)(GhostAudio_o* _this, int32_t clipIndex, const MethodInfo* method);
@@ -100,7 +113,14 @@ inline UnityEngine_Cursor__set_lockState SetLockState{};
 inline UnityEngine_Cursor__get_lockState GetLockState{};
 inline UnityEngine_Physics__RaycastAll CastRay{};
 inline UnityEngine_Debug__DrawLine DebugDrawLine{};
+inline UnityEngine_Gizmos__DrawLine GizmoDrawLine{};
 inline UnityEngine_LayerMask__NameToLayer NameToLayer{};
+inline UnityEngine_Camera__WorldToScreenPoint WorldToScreen{};
+inline UnityEngine_Camera__get_main GetMainCamera{};
+inline UnityEngine_Screen__get_height GetScreenHeight{};
+inline UnityEngine_Component__get_tag ComponentGetTag{};
+inline UnityEngine_RaycastHit__get_collider GetCollider{};
+inline UnityEngine_Object__GetName ObjectGetName{};
 
 inline UnityEngine_GameObject__SetActive _SetActive{};
 inline UnityEngine_Component__get_gameObject GetGameObject{};
@@ -137,6 +157,7 @@ inline Player__Teleport Teleport{};
 inline UnityEngine_Transform__get_position _GetPosition{};
 inline UnityEngine_Transform__set_position _SetPosition{};
 inline UnityEngine_Transform__get_forward _GetForwardVector{};
+inline UnityEngine_Transform__get_right _GetRightVector{};
 inline GhostActivity__InteractWithARandomProp InteractWithRandomProp{};
 inline GhostAI__DelayTeleportToFavouriteRoom DelayTeleportToRoom{};
 inline GhostAI__LookAtPlayer LookAtPlayer{};
@@ -223,20 +244,38 @@ namespace FUNCS
         GetLockState = (UnityEngine_Cursor__get_lockState)(GetMethodPtr("UnityEngine", "Cursor", "get_lockState", 0, "UnityEngine.CoreModule"));
         work &= (GetLockState != 0);
 
-        CopyTo = (System_String__CopyTo)GetFuncPtr(0x3460510);
-        work &= (CopyTo != 0);
-
         NameToLayer = (UnityEngine_LayerMask__NameToLayer)(FUNCS::GetMethodPtr("UnityEngine", "LayerMask", "NameToLayer", 1, "UnityEngine.CoreModule"));
         work &= (NameToLayer != 0);
 
         DebugDrawLine = (UnityEngine_Debug__DrawLine)(GetMethodPtr("UnityEngine", "Debug", "DrawLine", 4, "UnityEngine.CoreModule"));
         work &= (DebugDrawLine != 0);
 
+        GizmoDrawLine = (UnityEngine_Gizmos__DrawLine)(GetMethodPtr("UnityEngine", "Gizmos", "DrawLine", 2, "UnityEngine.CoreModule"));
+        work &= (GizmoDrawLine != 0);
+
+        GetScreenHeight = (UnityEngine_Screen__get_height)(GetMethodPtr("UnityEngine", "Screen", "get_height", 0, "UnityEngine.CoreModule"));
+        work &= (GetScreenHeight != 0);
+
+        WorldToScreen = (UnityEngine_Camera__WorldToScreenPoint)(GetMethodPtr("UnityEngine", "Camera", "WorldToScreenPoint", 2, "UnityEngine.CoreModule"));
+        work &= (WorldToScreen != 0);
+
+        ComponentGetTag = (UnityEngine_Component__get_tag)(GetMethodPtr("UnityEngine", "Component", "get_tag", 0, "UnityEngine.CoreModule"));
+        work &= (ComponentGetTag != 0);
+
         CastRay = (UnityEngine_Physics__RaycastAll)(GetMethodPtr("UnityEngine", "Physics", "RaycastAll", 5, "UnityEngine.PhysicsModule"));
         work &= (CastRay != 0);
 
+        GetCollider = (UnityEngine_RaycastHit__get_collider)(GetMethodPtr("UnityEngine", "RaycastHit", "get_collider", 0, "UnityEngine.PhysicsModule"));
+        work &= (CastRay != 0);
+
+        ObjectGetName = (UnityEngine_Object__GetName)(GetMethodPtr("UnityEngine", "Object", "get_name", 0, "UnityEngine.CoreModule"));
+        work &= (ObjectGetName != 0);
+
         aGetName = (UnityEngine_AudioClip__GetName)(GetMethodPtr("UnityEngine", "AudioClip", "GetName", 0, "UnityEngine.AudioModule"));
         work &= (aGetName != 0);
+
+        GetMainCamera = (UnityEngine_Camera__get_main)(GetMethodPtr("UnityEngine", "Camera", "get_main", 0, "UnityEngine.CoreModule"));
+        work &= (GetMainCamera != 0);
 
         _GetRoot = (UnityEngine_Transform__GetRoot)(GetMethodPtr("UnityEngine", "Transform", "GetRoot", 0, "UnityEngine.CoreModule"));
         work &= (_GetRoot != 0);
@@ -256,16 +295,19 @@ namespace FUNCS
         _SetActive = (UnityEngine_GameObject__SetActive)(GetMethodPtr("UnityEngine", "GameObject", "SetActive", 1, "UnityEngine.CoreModule"));
         work &= (_SetActive != 0);
 
-        _GetTransform = (UnityEngine_Component__get_transform)GetFuncPtr(0x436C770);
+        _GetTransform = (UnityEngine_Component__get_transform)(GetMethodPtr("UnityEngine", "Component", "get_transform", 0, "UnityEngine.CoreModule"));
         work &= (_GetTransform != 0);
 
-        _GetForwardVector = (UnityEngine_Transform__get_forward)GetFuncPtr(0x4380E70);
+        _GetForwardVector = (UnityEngine_Transform__get_forward)signature("E8 ? ? ? ? F3 0F 10 5F ? F2 0F 10 20").resolveRelativeAddr(1, 5);
         work &= (_GetForwardVector != 0);
 
-        _SetPosition = (UnityEngine_Transform__set_position)GetFuncPtr(0x4381C20);
+        _GetRightVector = (UnityEngine_Transform__get_right)(GetMethodPtr("UnityEngine", "Transform", "get_right", 0, "UnityEngine.CoreModule"));
+        work &= (_GetRightVector != 0);
+
+        _SetPosition = (UnityEngine_Transform__set_position)signature("E8 ? ? ? ? 44 0F 28 4C 24 ? 48 8B BC 24 ? ? ? ?").resolveRelativeAddr(1, 5);
         work &= (_SetPosition != 0);
 
-        _GetPosition = (UnityEngine_Transform__get_position)GetFuncPtr(0x43813D0);
+        _GetPosition = (UnityEngine_Transform__get_position)signature("E8 ? ? ? ? F2 0F 10 00 8B 48 08 EB 31").resolveRelativeAddr(1, 5);
         work &= (_GetPosition != 0);
 
         Teleport = (Player__Teleport)GetMethodPtr("", "Player", "Teleport", 1);
