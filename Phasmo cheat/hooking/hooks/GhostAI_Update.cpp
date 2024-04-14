@@ -74,6 +74,34 @@ void HOOK::SetDestination2(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vec
     if (!smile::vars->controllingGhost)
         return _SetDestination2(_this, target, method);
 }
+void HOOK::SetBoolHk(UnityEngine_Animator_o* _this, System_String_o* name, bool value, const MethodInfo* method)
+{
+    if (smile::vars->controllingGhost)
+    {
+        if (_this == smile::vars->currentGhost->fields._8_model->fields._3_animator)
+        {
+            System_String_o* nstr = SystemStringCtor("isIdle", 0, strlen("isIdle"), 0);
+
+            return _SetBool(_this, nstr, 0, method);
+        }
+    }
+
+    return _SetBool(_this, name, value, method);
+}
+void HOOK::SetIntHk(UnityEngine_Animator_o* _this, System_String_o* name, int value, const MethodInfo* method)
+{
+    if (smile::vars->controllingGhost)
+    {
+        if (_this == smile::vars->currentGhost->fields._8_model->fields._3_animator)
+        {
+            System_String_o* nstr = SystemStringCtor("WalkType", 0, strlen("WalkType"), 0);
+
+            return _SetInteger(_this, nstr, smile::vars->controlGhostWalkType, method);
+        }
+    }
+
+    return _SetInteger(_this, name, value, method);
+}
 
 void HOOK::OnGhostControllerUpdate(GhostController_o* _this, const MethodInfo* method)
 {
@@ -107,54 +135,84 @@ bool CheckDirection(UnityEngine_Vector3_o startPos, UnityEngine_Vector3_o direct
     return true;
 }
 
+void MoveTo(GhostAI_o* _this, UnityEngine_Vector3_o dir)
+{
+    auto curPos = _this->GetPosition();
+    auto newPos = curPos + dir;
+
+    HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
+
+    System_String_o* nstr = SystemStringCtor("isIdle", 0, strlen("isIdle"), 0);
+    HOOK::_SetBool(smile::vars->currentGhost->fields._8_model->fields._3_animator, nstr, false, 0);
+}
 
 void DoGhostControls(GhostAI_o* _this)
 {
+    bool wSprinting = false;
+    //bool crouching = false;
+    bool wForward = false;
+    bool wBack = false;
+    bool wRight = false;
+    bool wLeft = false;
+
     static clock_t lastForwardTime = std::clock();
     if (GetAsyncKeyState(VK_LSHIFT))
     {
-        _this->fields._4_NavMeshAgent->SetSpeed(_this->fields._22_ghostSpeed * 5);
+        _this->fields._4_NavMeshAgent->SetSpeed(_this->fields._22_ghostSpeed * 4);
+        _this->fields._8_model->fields._3_animator->SetSpeed(7.f);
+        wSprinting = true;
     }
     else
     {
         _this->fields._4_NavMeshAgent->SetSpeed(_this->fields._22_ghostSpeed);
+        _this->fields._8_model->fields._3_animator->SetSpeed(1.f);
     }
+
+    if (GetAsyncKeyState(VK_LCONTROL) & 1)
+    {
+        if (smile::vars->controlGhostWalkType == 1)
+            smile::vars->controlGhostWalkType++;
+        else
+            if (smile::vars->controlGhostWalkType == 2)
+                smile::vars->controlGhostWalkType--;
+
+        System_String_o* nstr = SystemStringCtor("WalkType", 0, strlen("WalkType"), 0);
+        HOOK::_SetInteger(smile::vars->currentGhost->fields._8_model->fields._3_animator, nstr, smile::vars->controlGhostWalkType, 0);
+    }
+
 
     if (GetAsyncKeyState(0x57)) //w
     {
+        wForward = true;
         auto forward = _this->GetTransform()->GetForwardVector();
-        auto curPos = _this->GetPosition();
-        auto newPos = curPos + forward;
-
-        HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
+        MoveTo(_this, forward);
     }
 
     if (GetAsyncKeyState(0x53)) //S
     {
+        wBack = true;
         auto back = (_this->GetTransform()->GetForwardVector() * -1);
-        auto curPos = _this->GetPosition();
-        auto newPos = curPos + back;
-
-        HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
-
+        MoveTo(_this, back);
     }
 
     if (GetAsyncKeyState(0x44)) //D
     {
+        wRight = true;
         auto right = _this->GetTransform()->GetRightVector();
-        auto curPos = _this->GetPosition();
-        auto newPos = curPos + right;
-
-        HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
+        MoveTo(_this, right);
     }
 
     if (GetAsyncKeyState(0x41)) //A
     {
+        wLeft = true;
         auto left = (_this->GetTransform()->GetRightVector() * -1);
-        auto curPos = _this->GetPosition();
-        auto newPos = curPos + left;
+        MoveTo(_this, left);
+    }
 
-        HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
+    if (!wForward && !wBack && !wRight && !wLeft && !wSprinting)
+    {
+        System_String_o* nstr = SystemStringCtor("isIdle", 0, strlen("isIdle"), 0);
+        HOOK::_SetBool(smile::vars->currentGhost->fields._8_model->fields._3_animator, nstr, true, 0);
     }
 }
 
@@ -162,6 +220,24 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
 {
     if (smile::vars->waitinForEject)
         return oUpdateGhost(_this, mInfo);
+
+    if (smile::vars->useCustom)
+    {
+        UnityEngine_Vector3_o pos{};
+        pos.fields.x = smile::vars->x;
+        pos.fields.y = smile::vars->y;
+        pos.fields.z = smile::vars->z;
+
+        UnityEngine_Quaternion_o quat{};
+        quat.fields.x = smile::vars->x1;
+        quat.fields.y = smile::vars->y1;
+        quat.fields.z = smile::vars->z1;
+        quat.fields.w = smile::vars->w;
+
+        _this->GetTransform()->SetPosition(&pos);
+        _this->GetTransform()->SetRotation(quat);
+
+    }
 
     if (smile::vars->controllingGhost)
         DoGhostControls(_this);
@@ -397,6 +473,22 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
     {
         smile::vars->showGhost = !smile::vars->showGhost;
         printf("ShowGhost: %d\n", smile::vars->showGhost);
+    }
+
+    if (GetAsyncKeyState(VK_F9) & 1) //trying to disable gravity for ghost so it can walk on ceiling
+    {
+        /*static bool flag = true;
+
+        flag = !flag;
+        auto comps = reinterpret_cast<UnityEngine_GameObject_o*>(_this)->GetComponents("UnityEngine.Component_var");
+
+        auto gameObj = GetGameObject((UnityEngine_Component_o*)_this, 0);
+        int instanceID = reinterpret_cast<UnityEngine_Object_o*>(gameObj)->GetInstanceID();
+        auto collider = GetColliderByInstanceID(instanceID, 0);
+        auto rigid = _GetRigidBody(collider, 0);
+
+        rigid->SetUseGravity(flag);
+        printf("chaning gravity\n");*/
     }
 
     return oUpdateGhost(_this, mInfo);

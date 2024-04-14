@@ -12,23 +12,30 @@ void HOOK::OnFixedUpdateFPC(FirstPersonController_o* _this, MethodInfo* mInfo)
 
 void HOOK::OnFPCUpdate(FirstPersonController_o* _this, MethodInfo* mInfo)
 {
+
 	if (vars->controllingGhost && vars->ghostCam)
 	{
-		auto ghostFootPos = vars->currentGhost->GetPosition();
-		auto forward = vars->currentGhost->GetForward();
-		auto rotation = vars->currentGhost->GetTransform()->GetRotation();
+		GetInput(_this, 0i64);
+		if (_this->fields.canTurn)
+		{
+			MouseLookRotation(_this->fields.m_MouseLook, vars->currentGhost->GetTransform(), vars->ghostCam->GetTransform(), 0i64);
+		}
 
-		ghostFootPos.fields.y += 1.5f;
-		UnityEngine_Vector3_o finalPos = ghostFootPos + (forward * 0.9f);
+		UnityEngine_Bounds_o gBounds = vars->currentGhost->fields._8_model->fields.myRends->m_Items[0]->GetBounds();
+
+		UnityEngine_Vector3_o center = gBounds.fields.m_Center;
+		center.fields.y += gBounds.fields.m_Extents.fields.y;
+
+		UnityEngine_Vector3_o gPos = center;
+		UnityEngine_Vector3_o gForward = vars->currentGhost->GetForward();
+
+		UnityEngine_Vector3_o finalPos = gPos + (gForward * -1);
+		UnityEngine_Quaternion_o gQuat = vars->currentGhost->GetTransform()->GetRotation();
 
 		vars->ghostCam->GetTransform()->SetPosition(&finalPos);
-		vars->ghostCam->GetTransform()->SetRotation(rotation);
+		vars->ghostCam->GetTransform()->SetRotation(gQuat);
 
-
-		MouseLookRotation(_this->fields.m_MouseLook, vars->currentGhost->GetTransform(), vars->ghostCam->GetTransform(), 0);
 		return;
 	}
-
-
 	return oUpdateFPC(_this, mInfo);
 }

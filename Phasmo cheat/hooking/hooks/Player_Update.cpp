@@ -74,6 +74,14 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
 
 
             vars->ghostCam->SetActive(true);
+
+
+            System_String_o* nstr = SystemStringCtor("WalkType", 0, strlen("WalkType"), 0);
+            System_String_o* nstr1 = SystemStringCtor("isIdle", 0, strlen("isIdle"), 0);
+
+            HOOK::_SetBool(vars->currentGhost->fields._8_model->fields._3_animator, nstr1, 0, 0);
+            HOOK::_SetInteger(vars->currentGhost->fields._8_model->fields._3_animator, nstr, vars->controlGhostWalkType, 0);
+
         }
         else
         {
@@ -82,6 +90,8 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
             ObjectDestroy((UnityEngine_Object_o*)vars->ghostCam, 0.f, 0);
         }
     }
+
+    
 
     return oUpdatePlayer(_this, mInfo);
 }

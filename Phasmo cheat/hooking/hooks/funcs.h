@@ -43,6 +43,12 @@ struct UnityEngine_Camera_array;
 struct System_Type_o;
 struct UnityEngine_Behaviour_o;
 struct MouseLook_o;
+struct FirstPersonController_o;
+struct UnityEngine_Animator_o;
+struct UnityEngine_Bounds_o;
+struct UnityEngine_Renderer_o;
+struct UnityEngine_Rigidbody_o;
+struct UnityEngine_Component_array;
 
 struct MethodInfo1
 {
@@ -55,6 +61,9 @@ struct MethodInfo1
 typedef Network_o* (__stdcall* Network__get_Instance)(const MethodInfo* method);
 typedef __int64(__fastcall* il2cpp_value_box)(void* a1, void* a2);
 
+typedef UnityEngine_Rigidbody_o* (__stdcall* UnityEngine_Collider__get_attachedRigidbody)(UnityEngine_Collider_o* _this, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Renderer__set_localBounds)(UnityEngine_Renderer_o* _this, UnityEngine_Bounds_o* value, const MethodInfo* method);
+typedef UnityEngine_Bounds_o* (__stdcall* UnityEngine_Renderer__get_bounds)(UnityEngine_Bounds_o* retstr, UnityEngine_Renderer_o* _this, const MethodInfo* method);
 typedef int32_t(__stdcall* UnityEngine_Screen__get_height)(const MethodInfo* method);
 typedef UnityEngine_Camera_o* (__stdcall* UnityEngine_Camera__get_main)(const MethodInfo* method);
 typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Camera__WorldToScreenPoint)(UnityEngine_Vector3_o* retstr, UnityEngine_Camera_o* _this, UnityEngine_Vector3_o* position, int32_t eye, const MethodInfo* method);
@@ -79,11 +88,12 @@ typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_right)(Uni
 typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_forward)(UnityEngine_Vector3_o* retstr, UnityEngine_Transform_o* _this, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Camera__CopyFrom)(UnityEngine_Camera_o* _this, UnityEngine_Camera_o* other, const MethodInfo* method);
 typedef void(__stdcall* MouseLook__LookRotation)(MouseLook_o* _this, UnityEngine_Transform_o* character, UnityEngine_Transform_o* camera, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Animator__set_speed)(UnityEngine_Animator_o* _this, float value, const MethodInfo* method);
 
 typedef void(__stdcall* UnityEngine_Object__Destroy)(UnityEngine_Object_o* obj, float t, const MethodInfo* method);
 typedef UnityEngine_Transform_o* (__stdcall* UnityEngine_GameObject__get_transform)(UnityEngine_GameObject_o* _this, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Behaviour__set_enabled)(UnityEngine_Behaviour_o* _this, bool value, const MethodInfo* method);
-typedef System_Type_o* (__stdcall* System_Type__GetType_6498422912)(System_String_o* typeName, const MethodInfo* method); //might work?
+typedef System_Type_o* (__stdcall* System_Type__GetType_6498422912)(System_String_o* typeName, const MethodInfo* method);
 typedef UnityEngine_Component_o* (__stdcall* UnityEngine_GameObject__AddComponent)(UnityEngine_GameObject_o* _this, System_Type_o* componentType, const MethodInfo* method);
 typedef int32_t(__stdcall* UnityEngine_Object__get_hideFlags)(UnityEngine_Object_o* _this, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Object__set_hideFlags)(UnityEngine_Object_o* _this, int32_t value, const MethodInfo* method);
@@ -116,6 +126,7 @@ typedef void(__stdcall* GhostEventPlayer__PlaySound)(GhostEventPlayer_o* _this, 
 typedef void(__stdcall* GhostAudio__TurnOnOrOffAppearSource)(GhostAudio_o* _this, bool _, bool a3, const MethodInfo* method);
 typedef void(__stdcall* GhostAudio__PlayOrStopAppearSource)(GhostAudio_o* _this, bool _, const MethodInfo* method);
 typedef void(__stdcall* GhostInteraction_____SpawnFootstep____6465324256)(GhostInteraction_o* _this, bool _, const MethodInfo* method);
+typedef void(__stdcall* FirstPersonController__GetInput)(FirstPersonController_o* _this, const MethodInfo* method);
 
 typedef void(__stdcall* GhostAI__UnAppear)(GhostAI_o* _this, const MethodInfo* method);
 typedef void(__stdcall* GhostEventPlayer____________6465199120)(GhostEventPlayer_o* _this, Player_o* _, UnityEngine_Vector3_o* a3, const MethodInfo* method);
@@ -131,6 +142,18 @@ typedef Il2CppObject* (__fastcall* il2cpp_type_get_object)(Il2CppType* type);
 
 typedef System_String_o* (__stdcall* System_String__Ctor_6497373952)(const char* value, int32_t startIndex, int32_t length, const MethodInfo* method);
 
+typedef UnityEngine_Collider_o* (__stdcall* UnityEngine_Physics__GetColliderByInstanceID)(int32_t instanceID, const MethodInfo* method);
+typedef int32_t(__stdcall* UnityEngine_Object__GetInstanceID)(UnityEngine_Object_o* _this, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Rigidbody__set_useGravity)(UnityEngine_Rigidbody_o* _this, bool value, const MethodInfo* method);
+typedef UnityEngine_Component_array* (__stdcall* UnityEngine_GameObject__GetComponents)(UnityEngine_GameObject_o* _this, System_Type_o* type, const MethodInfo* method);
+
+inline UnityEngine_GameObject__GetComponents _GetComponents{};
+inline UnityEngine_Rigidbody__set_useGravity _SetUseGravity{};
+inline UnityEngine_Object__GetInstanceID _GetInstanceID{};
+inline UnityEngine_Physics__GetColliderByInstanceID GetColliderByInstanceID{};
+inline UnityEngine_Collider__get_attachedRigidbody _GetRigidBody{};
+inline UnityEngine_Renderer__set_localBounds _SetBounds{};
+inline UnityEngine_Renderer__get_bounds _GetBounds{};
 inline UnityEngine_Cursor__set_visible SetCursorVisible{};
 inline UnityEngine_Cursor__set_lockState SetLockState{};
 inline UnityEngine_Cursor__get_lockState GetLockState{};
@@ -145,7 +168,10 @@ inline UnityEngine_Component__get_tag ComponentGetTag{};
 inline UnityEngine_RaycastHit__get_collider GetCollider{};
 inline UnityEngine_Object__GetName ObjectGetName{};
 inline UnityEngine_Camera__CopyFrom _CopyFrom{};
+inline UnityEngine_Animator__set_speed _AnimatorSetSpeed{};
 
+
+inline FirstPersonController__GetInput GetInput{};
 inline MouseLook__LookRotation MouseLookRotation{};
 inline UnityEngine_AI_NavMeshAgent__set_speed _SetSpeed{};
 inline UnityEngine_AI_NavMeshAgent__get_speed _GetSpeed{};
@@ -319,6 +345,31 @@ namespace FUNCS
         work &= (GetMainCamera != 0);
 
         ////-------------------AI stuff--------------------//
+        
+        _GetComponents = (UnityEngine_GameObject__GetComponents)(GetMethodPtr("UnityEngine", "GameObject", "GetComponents", 1, "UnityEngine.CoreModule"));
+        work &= (_GetComponents != 0);
+
+        _SetUseGravity = (UnityEngine_Rigidbody__set_useGravity)(GetMethodPtr("UnityEngine", "Rigidbody", "set_useGravity", 1, "UnityEngine.PhysicsModule"));
+        work &= (_SetUseGravity != 0);
+
+        _GetInstanceID = (UnityEngine_Object__GetInstanceID)(GetMethodPtr("UnityEngine", "Object", "GetInstanceID", 0, "UnityEngine.CoreModule"));
+        work &= (_GetInstanceID != 0);
+
+        GetColliderByInstanceID = (UnityEngine_Physics__GetColliderByInstanceID)(GetMethodPtr("UnityEngine", "Physics", "GetColliderByInstanceID", 1, "UnityEngine.PhysicsModule"));
+        work &= (GetColliderByInstanceID != 0);
+
+        _GetRigidBody = (UnityEngine_Collider__get_attachedRigidbody)(GetMethodPtr("UnityEngine", "Collider", "get_attachedRigidbody", 0, "UnityEngine.PhysicsModule"));
+        work &= (_GetRigidBody != 0);
+
+        _SetBounds = (UnityEngine_Renderer__set_localBounds)(GetMethodPtr("UnityEngine", "Renderer", "set_localBounds", 1, "UnityEngine.CoreModule"));
+        work &= (_SetBounds != 0);
+
+        _GetBounds = (UnityEngine_Renderer__get_bounds)(GetMethodPtr("UnityEngine", "Renderer", "get_bounds", 0, "UnityEngine.CoreModule"));
+        work &= (_GetBounds != 0);
+
+        _AnimatorSetSpeed = (UnityEngine_Animator__set_speed)(GetMethodPtr("UnityEngine", "Animator", "set_speed", 1, "UnityEngine.AnimationModule"));
+        work &= (_AnimatorSetSpeed != 0);
+
         _SetSpeed = (UnityEngine_AI_NavMeshAgent__set_speed)(GetMethodPtr("UnityEngine.AI", "NavMeshAgent", "set_speed", 1, "UnityEngine.AIModule"));
         work &= (_SetSpeed != 0);
 
@@ -360,6 +411,10 @@ namespace FUNCS
 
         SystemStringCtor = (System_String__Ctor_6497373952)signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 20 80 3D ? ? ? ? ? 41 8B D8 48 63 FA 48 8B F1 75 13 48 8D 0D ? ? ? ? E8 ? ? ? ? C6 05 ? ? ? ? ?").GetPointer();
         work &= (SystemStringCtor != 0);
+
+        GetInput = (FirstPersonController__GetInput)(GetMethodPtr("", "FirstPersonController", "GetInput", 0, "Assembly-CSharp-firstpass"));
+        work &= (GetInput != 0);
+
 
         //------------------------------------------------//
 

@@ -23,6 +23,9 @@ typedef void(__stdcall* OuijaBoard__PlayMessageSequence)(OuijaBoard_o* _this, Sy
 typedef bool(__stdcall* UnityEngine_AI_NavMeshAgent__SetDestination)(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_AI_NavMeshAgent__SetDestination2)(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
 
+typedef void(__stdcall* UnityEngine_Animator__SetBoolString)(UnityEngine_Animator_o* _this, System_String_o* name, bool value, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Animator__SetIntegerString)(UnityEngine_Animator_o* _this, System_String_o* name, int32_t value, const MethodInfo* method);
+
 typedef void(__stdcall* FirstPersonController__Update)(FirstPersonController_o* _this, const MethodInfo* method);
 typedef void(__stdcall* FirstPersonController__FixedUpdate)(FirstPersonController_o* _this, const MethodInfo* method);
 namespace HOOK
@@ -102,6 +105,9 @@ namespace HOOK
 	bool SetDestination(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
 	void SetDestination2(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
 
+	void SetBoolHk(UnityEngine_Animator_o* _this, System_String_o* name, bool value, const MethodInfo* method);
+	void SetIntHk(UnityEngine_Animator_o* _this, System_String_o* name, int value, const MethodInfo* method);
+
 	inline WNDPROC oWndProc{};
 	inline ID3DPresent oPresent{};
 
@@ -121,4 +127,6 @@ namespace HOOK
 	inline UnityEngine_AI_NavMeshAgent__SetDestination _SetDestination{};
 	inline UnityEngine_AI_NavMeshAgent__SetDestination2 _SetDestination2{};
 
+	inline UnityEngine_Animator__SetIntegerString _SetInteger{};
+	inline UnityEngine_Animator__SetBoolString _SetBool{};
 }

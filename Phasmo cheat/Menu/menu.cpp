@@ -50,6 +50,36 @@ void Menu::Loop()
 		ImGui::LineSliderFloat("Ghost Speed", &smile::vars->ghostSpeed, 0.5, 25.f, 1);
 		if (smile::vars->randomSpook)
 			ImGui::LineSliderInt("Spook Frequency", &smile::vars->spookFrequency, 0, 1000, 1);
+
+
+
+		if (ImGui::Button("Use Cusom Coords", 5))
+		{
+			smile::vars->useCustom = true;
+			smile::vars->x = smile::vars->currentGhost->GetPosition().fields.x;
+			smile::vars->y = smile::vars->currentGhost->GetPosition().fields.y;
+			smile::vars->z = smile::vars->currentGhost->GetPosition().fields.z;
+
+			smile::vars->x1 = smile::vars->currentGhost->GetTransform()->GetRotation().fields.x;
+			smile::vars->y1 = smile::vars->currentGhost->GetTransform()->GetRotation().fields.y;
+			smile::vars->z1 = smile::vars->currentGhost->GetTransform()->GetRotation().fields.z;
+			smile::vars->w = smile::vars->currentGhost->GetTransform()->GetRotation().fields.w;
+		}
+
+		if (smile::vars->useCustom)
+		{
+			ImGui::CheckboxSlider("use", &smile::vars->useCustom);
+			ImGui::LineSliderFloat("pX", &smile::vars->x, -10.f, 10.f, 1.f);
+			ImGui::LineSliderFloat("pY", &smile::vars->y, -10.f, 10.f, 1.f);
+			ImGui::LineSliderFloat("pZ", &smile::vars->z, -10.f, 10.f, 1.f);
+
+			ImGui::LineSliderFloat("rX", &smile::vars->x1, -20.f, 20.f, 1.f);
+			ImGui::LineSliderFloat("rY", &smile::vars->y1, -20.f, 20.f, 1.f);
+			ImGui::LineSliderFloat("rZ", &smile::vars->z1, -20.f, 20.f, 1.f);
+			ImGui::LineSliderFloat("rW", &smile::vars->w, -20.f, 20.f, 1.f);
+
+		}
+
 		/*ImGui::LineSliderFloat("X", &smile::vars->x, -180.f, 180.f, 1);
 		ImGui::LineSliderFloat("Y", &smile::vars->y, -180.f, 180.f, 1);
 		ImGui::LineSliderFloat("Z", &smile::vars->z, -180.f, 180.f, 1);
@@ -69,6 +99,8 @@ void Menu::RenderOverlay()
 		ImGui::Text("Ghost State: %d\n", smile::vars->ghostState);
 		ImGui::Text("Appearing: %d\n", smile::vars->showGhost);
 		ImGui::Text("Controlling Ghost: %d\n", smile::vars->controllingGhost);
+		ImGui::LineSliderInt("Ghost Walk Type: %d\n", &smile::vars->controlGhostWalkType, 0, 5, 1.0f);
+
 		ImGui::End();
 	}
 	ImGuiIO& io = ImGui::GetIO();

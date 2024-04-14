@@ -50,10 +50,21 @@ namespace smile
 		int spookFrequency = 10;
 
 		bool controllingGhost = false;
+		int controlGhostWalkType = 1;
 
 		int32_t lastLockedState = -1;
 
 		bool waitinForEject = false;
+
+		bool useCustom = false;
+		float x = 0.f;
+		float y = 0.f;
+		float z = 0.f;
+
+		float x1 = 0.f;
+		float y1 = 0.f;
+		float z1 = 0.f;
+		float w = 0.f;
 
 		std::vector<std::string> rpcCalls{};
 	};
