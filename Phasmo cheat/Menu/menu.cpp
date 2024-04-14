@@ -68,6 +68,7 @@ void Menu::RenderOverlay()
 	{
 		ImGui::Text("Ghost State: %d\n", smile::vars->ghostState);
 		ImGui::Text("Appearing: %d\n", smile::vars->showGhost);
+		ImGui::Text("Controlling Ghost: %d\n", smile::vars->controllingGhost);
 		ImGui::End();
 	}
 	ImGuiIO& io = ImGui::GetIO();

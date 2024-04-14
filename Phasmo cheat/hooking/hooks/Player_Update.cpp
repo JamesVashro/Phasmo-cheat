@@ -49,5 +49,39 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
         HOOK::oRpc(vars->localPlayer->fields._view, SpawnDeadBodyNetworked, 0, (System_Object_array*)arr, 0);
     }
 
+    if (GetAsyncKeyState(0x5A) & 1) //z key
+    {
+        vars->controllingGhost = !vars->controllingGhost;
+       
+        if (vars->controllingGhost)
+        {
+            //Enable
+            vars->cachedCam = GetMainCamera(0);
+            reinterpret_cast<UnityEngine_Behaviour_o*>(vars->cachedCam)->SetEnabled(false);
+
+            System_String_o* camName = SystemStringCtor("freecam", 0, strlen("freecam"), 0);
+            vars->ghostCam = (UnityEngine_Camera_o*)il2cppObjectNew((__int64)vars->cachedCam->klass->_1.klass);
+
+            GameObjConstruct((UnityEngine_GameObject_o*)vars->ghostCam, camName, 0);
+
+            reinterpret_cast<UnityEngine_GameObject_o*>(vars->ghostCam)->AddComponent("UnityEngine.Camera");
+
+            reinterpret_cast<UnityEngine_GameObject_o*>(vars->ghostCam)->SetTag("MainCamera");
+            reinterpret_cast<UnityEngine_Object_o*>(vars->ghostCam)->DontDestroyOnLoad();
+
+            UnityEngine_Vector3_o iPos = vars->localPlayer->GetCameraPosition();
+            vars->ghostCam->GetTransform()->SetPosition(&iPos);
+
+
+            vars->ghostCam->SetActive(true);
+        }
+        else
+        {
+            //Disable
+            reinterpret_cast<UnityEngine_Behaviour_o*>(vars->cachedCam)->SetEnabled(true);
+            ObjectDestroy((UnityEngine_Object_o*)vars->ghostCam, 0.f, 0);
+        }
+    }
+
     return oUpdatePlayer(_this, mInfo);
 }

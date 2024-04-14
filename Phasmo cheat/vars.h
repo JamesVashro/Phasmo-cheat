@@ -2,6 +2,14 @@
 #include "SDK/il2cpp.h"
 #include <vector>
 
+
+//TODO: 
+// Fix fast footsteps to work better
+// Spawn foostep audio behind player far away that speeds up as it gets closer
+// make ghost yoink player and move somewhere? 
+// control ghost?
+
+
 namespace smile
 {
 	class Vars {
@@ -18,6 +26,9 @@ namespace smile
 		GhostController_o* ghostController = nullptr;
 		GhostEventPlayer_o* ghostEventPlayer = nullptr;
 		Network_o* network = nullptr;
+
+		UnityEngine_Camera_o* ghostCam;
+		UnityEngine_Camera_o* cachedCam;
 
 		Player_o* spookPlayer = nullptr;
 		UnityEngine_Vector3_o spookPos{};
@@ -38,7 +49,8 @@ namespace smile
 		int spookSoundEffect = 0;
 		int spookFrequency = 10;
 
-		//float x, y, z, w = 0.f;
+		bool controllingGhost = false;
+		bool calledByMe = false;
 
 		int32_t lastLockedState = -1;
 

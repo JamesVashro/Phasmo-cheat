@@ -128,5 +128,8 @@
     <ClCompile Include="hooking\hooks\CursedObjectsHooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="hooking\hooks\FirstPersonControllerHooks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

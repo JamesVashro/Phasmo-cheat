@@ -57,6 +57,14 @@ bool InitializeHooks()
     if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("Photon.Pun", "PhotonView", "RPC", 3, "PhotonUnityNetworking")), HOOK::RPCFunc, (void**)&HOOK::oRpc))
         return false;
 
+    if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("", "FirstPersonController", "Update", 0, "Assembly-CSharp-firstpass")), HOOK::OnFPCUpdate, (void**)&HOOK::oUpdateFPC))
+        return false;
+
+    if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("", "FirstPersonController", "FixedUpdate", 0, "Assembly-CSharp-firstpass")), HOOK::OnFixedUpdateFPC, (void**)&HOOK::oFixedUpdateFPC))
+        return false;
+
+    if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("UnityEngine.AI", "NavMeshAgent", "SetDestination", 1, "UnityEngine.AIModule")), HOOK::SetDestination, (void**)&HOOK::_SetDestination))
+        return false;
 
     //HMODULE mod = GetModuleHandleA("GameAssembly.dll");
     /*if (!HOOK::Hook((void*)GetProcAddress(mod, "il2cpp_value_box"), HOOK::valueBox, (void**)&il2cppValueBox))

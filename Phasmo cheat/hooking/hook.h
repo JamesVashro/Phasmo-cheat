@@ -20,7 +20,10 @@ typedef void(__stdcall* GhostController__Update)(GhostController_o* _this, const
 typedef void(__stdcall* GhostEventPlayer__Update)(GhostEventPlayer_o* _this, const MethodInfo* method);
 typedef void(__stdcall* OuijaBoard__PlayMessageSequence)(OuijaBoard_o* _this, System_String_o* _, Photon_Pun_PhotonMessageInfo_o* a3, const MethodInfo* method);
 
+typedef bool(__stdcall* UnityEngine_AI_NavMeshAgent__SetDestination)(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
 
+typedef void(__stdcall* FirstPersonController__Update)(FirstPersonController_o* _this, const MethodInfo* method);
+typedef void(__stdcall* FirstPersonController__FixedUpdate)(FirstPersonController_o* _this, const MethodInfo* method);
 namespace HOOK
 {
 	inline bool Hook(void* target, void* hFunc, void** outOriginal)
@@ -93,6 +96,11 @@ namespace HOOK
 	void OnGhostEventPlayerUpdate(GhostEventPlayer_o* _this, const MethodInfo* method);
 	void OnPlayMessageSequence(OuijaBoard_o* _this, System_String_o* _, Photon_Pun_PhotonMessageInfo_o* a3, const MethodInfo* method);
 
+	void OnFPCUpdate(FirstPersonController_o* _this, MethodInfo* mInfo);
+	void OnFixedUpdateFPC(FirstPersonController_o* _this, MethodInfo* mInfo);
+	bool SetDestination(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
+
+
 	inline WNDPROC oWndProc{};
 	inline ID3DPresent oPresent{};
 
@@ -104,4 +112,11 @@ namespace HOOK
 	inline GhostController__Update oUpdateGhostController{};
 	inline GhostEventPlayer__Update oUpdateGhostEventPlayer{};
 	inline OuijaBoard__PlayMessageSequence oPlayMessageSequence{};
+
+
+	inline FirstPersonController__Update oUpdateFPC{};
+	inline FirstPersonController__FixedUpdate oFixedUpdateFPC{};
+
+	inline UnityEngine_AI_NavMeshAgent__SetDestination _SetDestination{};
+
 }

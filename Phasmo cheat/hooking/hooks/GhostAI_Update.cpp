@@ -4,6 +4,19 @@
 #include <iostream>
 #include <random>
 
+bool HOOK::SetDestination(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method)
+{
+    if (!smile::vars->calledByMe && smile::vars->controllingGhost)
+    {
+        return false;
+    }
+
+    if (smile::vars->calledByMe)
+        smile::vars->calledByMe = false;
+
+    return _SetDestination(_this, target, method);
+}
+
 void HOOK::OnGhostControllerUpdate(GhostController_o* _this, const MethodInfo* method)
 {
     if (!smile::vars->ghostController)
@@ -36,10 +49,68 @@ bool CheckDirection(UnityEngine_Vector3_o startPos, UnityEngine_Vector3_o direct
     return true;
 }
 
+
+void DoGhostControls(GhostAI_o* _this)
+{
+    static clock_t lastForwardTime = std::clock();
+    if (GetAsyncKeyState(VK_LSHIFT))
+    {
+        _this->fields._4_NavMeshAgent->SetSpeed(_this->fields._22_ghostSpeed * 5);
+    }
+    else
+    {
+        _this->fields._4_NavMeshAgent->SetSpeed(_this->fields._22_ghostSpeed);
+    }
+
+    if (GetAsyncKeyState(0x57)) //w
+    {
+        auto forward = _this->GetTransform()->GetForwardVector();
+        auto curPos = _this->GetPosition();
+        auto newPos = curPos + forward;
+
+        smile::vars->calledByMe = true;
+        HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
+    }
+
+    if (GetAsyncKeyState(0x53)) //S
+    {
+        auto back = (_this->GetTransform()->GetForwardVector() * -1);
+        auto curPos = _this->GetPosition();
+        auto newPos = curPos + back;
+
+        smile::vars->calledByMe = true;
+        HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
+
+    }
+
+    if (GetAsyncKeyState(0x44)) //D
+    {
+        auto right = _this->GetTransform()->GetRightVector();
+        auto curPos = _this->GetPosition();
+        auto newPos = curPos + right;
+
+        smile::vars->calledByMe = true;
+        HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
+    }
+
+    if (GetAsyncKeyState(0x41)) //A
+    {
+        auto left = (_this->GetTransform()->GetRightVector() * -1);
+        auto curPos = _this->GetPosition();
+        auto newPos = curPos + left;
+
+        smile::vars->calledByMe = true;
+        HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
+    }
+}
+
 void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
 {
     if (smile::vars->waitinForEject)
         return oUpdateGhost(_this, mInfo);
+
+    if (smile::vars->controllingGhost)
+        DoGhostControls(_this);
 
     static bool playedSound = false;
     static clock_t spookStartTime = std::clock();
@@ -71,7 +142,7 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
             smile::vars->spookingPlayer = false;
             playedSound = false;
             UnAppear(_this, 0);
-            _this->fields._22_ghostSpeed = originalSpeed;
+            _this->fields._4_NavMeshAgent->SetSpeed(_this->fields._22_ghostSpeed);
             return oUpdateGhost(_this, mInfo);
         }
 
@@ -106,10 +177,6 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
 
     if ((smile::vars->randomSpook && (!smile::vars->spookingPlayer && rand <= smile::vars->spookFrequency)) || GetAsyncKeyState(VK_F5) & 1)
     {
-        //TODO: ray check for walls and dont spawn ghost in walls or other rooms
-
-        smile::vars->spookPlayer = smile::vars->localPlayer;
-
         auto network = NetworkGetInstance(0);
 
         if (!network || !network->fields._2_players)
@@ -126,8 +193,7 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
             spookSpot = network->fields._2_players->fields._items->m_Items[randP];
         }
 
-        originalSpeed = _this->fields._22_ghostSpeed;
-        _this->fields._22_ghostSpeed = smile::vars->ghostSpeed; //set speed for max spook
+        _this->fields._4_NavMeshAgent->SetSpeed(5.7);
         smile::vars->spookPlayer = spookSpot->fields.player;
 
         if (smile::vars->spookPlayer)
@@ -188,7 +254,7 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
                 }
             }
 
-            if (hitwall) //wall raycast hit a wall, decide whether to spawn ghost behind or infront of player
+            if (hitwall) //wall raycast hit a wall, decide where to spawn ghost
             {
                 if (hitDist <= 3.f) //player is to close to wall to jumpscare, spawn ghost either to right or left of player
                 {
@@ -207,7 +273,7 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
                                 (rightGood && !leftGood ? right * 2 : 
                                     (!rightGood && leftGood ? left * 2 : forward * -2))));
 
-                    ghostPos.fields.y += 3;
+                    ghostPos.fields.y += 3; //adjust start point incase ghostPos was originally in the floor a little
                     UnityEngine_Vector3_o down{};
                     down.fields.x = 0;
                     down.fields.y = -1;
@@ -256,7 +322,13 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
     }
 
     if (GetAsyncKeyState(VK_F1) & 1)
+    {
+        /*auto interaction = _this->fields._6_interaction;
+        interaction->fields.footstepSpawnPoint = smile::vars->localPlayer->GetTransform();
+        SpawnFootstep(interaction, false, 0);*/
         ForceInteract(_this->fields._7_activity, true, 0);
+    }
+    
 
     if (GetAsyncKeyState(VK_F2) & 1)
     {

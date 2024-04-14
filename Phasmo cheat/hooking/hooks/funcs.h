@@ -37,6 +37,11 @@ struct UnityEngine_Resolution_o;
 struct UnityEngine_Collider_o;
 struct UnityEngine_RaycastHit_o;
 struct UnityEngine_Object_o;
+struct UnityEngine_AI_NavMeshAgent_o;
+struct GhostInteraction_o;
+struct UnityEngine_Camera_array;
+struct System_Type_o;
+struct UnityEngine_Behaviour_o;
 
 struct MethodInfo1
 {
@@ -71,6 +76,20 @@ typedef UnityEngine_Collider_o* (__stdcall* UnityEngine_RaycastHit__get_collider
 typedef System_String_o* (__stdcall* UnityEngine_Object__GetName)(UnityEngine_Object_o* obj, const MethodInfo* method);
 typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_right)(UnityEngine_Vector3_o* retstr, UnityEngine_Transform_o* _this, const MethodInfo* method);
 typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_forward)(UnityEngine_Vector3_o* retstr, UnityEngine_Transform_o* _this, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Camera__CopyFrom)(UnityEngine_Camera_o* _this, UnityEngine_Camera_o* other, const MethodInfo* method);
+
+typedef void(__stdcall* UnityEngine_Object__Destroy)(UnityEngine_Object_o* obj, float t, const MethodInfo* method);
+typedef UnityEngine_Transform_o* (__stdcall* UnityEngine_GameObject__get_transform)(UnityEngine_GameObject_o* _this, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Behaviour__set_enabled)(UnityEngine_Behaviour_o* _this, bool value, const MethodInfo* method);
+typedef System_Type_o* (__stdcall* System_Type__GetType_6498422912)(System_String_o* typeName, const MethodInfo* method); //might work?
+typedef UnityEngine_Component_o* (__stdcall* UnityEngine_GameObject__AddComponent)(UnityEngine_GameObject_o* _this, System_Type_o* componentType, const MethodInfo* method);
+typedef int32_t(__stdcall* UnityEngine_Object__get_hideFlags)(UnityEngine_Object_o* _this, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Object__set_hideFlags)(UnityEngine_Object_o* _this, int32_t value, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_GameObject__set_tag)(UnityEngine_GameObject_o* _this, System_String_o* value, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_GameObject___ctor)(UnityEngine_GameObject_o* _this, System_String_o* name, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Object__DontDestroyOnLoad)(UnityEngine_Object_o* target, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_AI_NavMeshAgent__set_speed)(UnityEngine_AI_NavMeshAgent_o* _this, float value, const MethodInfo* method);
+typedef float(__stdcall* UnityEngine_AI_NavMeshAgent__get_speed)(UnityEngine_AI_NavMeshAgent_o* _this, const MethodInfo* method);
 
 typedef void(__stdcall* System_String__CopyTo)(System_String_o* _this, int32_t sourceIndex, System_Char_array* destination, int32_t destinationIndex, int32_t count, const MethodInfo* method);
 typedef void(__stdcall* GhostAI_Appear)(GhostAI_o*, int, MethodInfo*);
@@ -94,10 +113,12 @@ typedef void(__stdcall* Noise__PlaySound)(Noise_o* _this, UnityEngine_AudioClip_
 typedef void(__stdcall* GhostEventPlayer__PlaySound)(GhostEventPlayer_o* _this, Photon_Realtime_Player_o* _, const MethodInfo* method);
 typedef void(__stdcall* GhostAudio__TurnOnOrOffAppearSource)(GhostAudio_o* _this, bool _, bool a3, const MethodInfo* method);
 typedef void(__stdcall* GhostAudio__PlayOrStopAppearSource)(GhostAudio_o* _this, bool _, const MethodInfo* method);
+typedef void(__stdcall* GhostInteraction_____SpawnFootstep____6465324256)(GhostInteraction_o* _this, bool _, const MethodInfo* method);
 
 typedef void(__stdcall* GhostAI__UnAppear)(GhostAI_o* _this, const MethodInfo* method);
 typedef void(__stdcall* GhostEventPlayer____________6465199120)(GhostEventPlayer_o* _this, Player_o* _, UnityEngine_Vector3_o* a3, const MethodInfo* method);
 typedef DWORD* (__fastcall* il2cpp_array_new_specific_0)(__int64 a1, unsigned __int64 a2);
+typedef __int64(__fastcall* il2cpp_object_new)(__int64 a1);
 typedef __int64(__fastcall* il2cpp_class_get_method_from_name)(Il2CppClass* clasz, const char* a2, __int64 a3);
 typedef Il2CppClass*(__fastcall* il2cpp_class_from_name)(void* image, const char* namespaze, const char* name);
 typedef void* (__fastcall* il2cpp_assembly_get_image)(void* assembly);
@@ -121,6 +142,20 @@ inline UnityEngine_Screen__get_height GetScreenHeight{};
 inline UnityEngine_Component__get_tag ComponentGetTag{};
 inline UnityEngine_RaycastHit__get_collider GetCollider{};
 inline UnityEngine_Object__GetName ObjectGetName{};
+inline UnityEngine_Camera__CopyFrom _CopyFrom{};
+
+inline UnityEngine_AI_NavMeshAgent__set_speed _SetSpeed{};
+inline UnityEngine_AI_NavMeshAgent__get_speed _GetSpeed{};
+
+inline UnityEngine_Object__Destroy ObjectDestroy{};
+inline UnityEngine_GameObject___ctor GameObjConstruct{};
+inline UnityEngine_GameObject__set_tag _SetTag{};
+inline UnityEngine_Object__DontDestroyOnLoad _DontDestroyOnLoad{};
+inline UnityEngine_Object__set_hideFlags _SetHideFlags{};
+inline UnityEngine_Object__get_hideFlags _GetHideFlags{};
+inline UnityEngine_GameObject__AddComponent _AddComponent{};
+inline System_Type__GetType_6498422912 GetTypeByName{};
+inline UnityEngine_Behaviour__set_enabled _SetEnabled{};
 
 inline UnityEngine_GameObject__SetActive _SetActive{};
 inline UnityEngine_Component__get_gameObject GetGameObject{};
@@ -132,6 +167,7 @@ inline UnityEngine_AudioClip__GetName aGetName{};
 inline Noise__PlaySound nPlaySound{};
 inline GhostEventPlayer__PlaySound gepPlaySound{};
 
+inline il2cpp_object_new il2cppObjectNew{};
 inline il2cpp_value_box il2cppValueBox{};
 inline il2cpp_array_new_specific_0 il2cppArrayNewSpecific{};
 inline il2cpp_class_get_method_from_name il2cppClassGetMethodFromName{};
@@ -145,6 +181,7 @@ inline il2cpp_type_get_object il2cppTypeGetObject{};
 inline System_String__Ctor_6497373952 SystemStringCtor{};
 inline System_String__CopyTo CopyTo{};
 inline UnityEngine_Component__get_transform _GetTransform{};
+inline UnityEngine_GameObject__get_transform _ObjectGetTransform{};
 inline GhostAI_Appear Appear{};
 inline GhostActivity__GetPropToThrow GetPropToThrow{};
 inline GhostActivity__Interact Interact{};
@@ -165,6 +202,7 @@ inline GhostAudio__PlaySound _PlaySound{};
 inline GhostAudio__TurnOnOrOffAppearSource TurnOnOrOffAppearSource{};
 inline GhostAudio__PlayOrStopAppearSource PlayOrStopAppearSource{};
 inline GhostAI__UnAppear UnAppear{};
+inline GhostInteraction_____SpawnFootstep____6465324256 SpawnFootstep{};
 
 inline Network__get_Instance NetworkGetInstance{};
 
@@ -205,11 +243,11 @@ namespace FUNCS
         //
         HMODULE mod = GetModuleHandleA("GameAssembly.dll");
 
-        SystemStringCtor = (System_String__Ctor_6497373952)signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 20 80 3D ? ? ? ? ? 41 8B D8 48 63 FA 48 8B F1 75 13 48 8D 0D ? ? ? ? E8 ? ? ? ? C6 05 ? ? ? ? ?").GetPointer();
-        work &= (SystemStringCtor != 0);
-
         il2cppArrayNewSpecific = (il2cpp_array_new_specific_0)GetFuncPtr(0x2F1D80);
         work &= (il2cppArrayNewSpecific != 0);
+
+        il2cppObjectNew = (il2cpp_object_new)GetProcAddress(mod, "il2cpp_object_new");
+        work &= (il2cppObjectNew != 0);
 
         il2cppValueBox = (il2cpp_value_box)GetProcAddress(mod, "il2cpp_value_box");
         work &= (il2cppValueBox != 0);
@@ -277,6 +315,51 @@ namespace FUNCS
         GetMainCamera = (UnityEngine_Camera__get_main)(GetMethodPtr("UnityEngine", "Camera", "get_main", 0, "UnityEngine.CoreModule"));
         work &= (GetMainCamera != 0);
 
+        ////-------------------AI stuff--------------------//
+        _SetSpeed = (UnityEngine_AI_NavMeshAgent__set_speed)(GetMethodPtr("UnityEngine.AI", "NavMeshAgent", "set_speed", 1, "UnityEngine.AIModule"));
+        work &= (_SetSpeed != 0);
+
+        _GetSpeed = (UnityEngine_AI_NavMeshAgent__get_speed)(GetMethodPtr("UnityEngine.AI", "NavMeshAgent", "get_speed", 0, "UnityEngine.AIModule"));
+        work &= (_GetSpeed != 0);
+
+        _CopyFrom = (UnityEngine_Camera__CopyFrom)(GetMethodPtr("UnityEngine", "Camera", "CopyFrom", 1, "UnityEngine.CoreModule"));
+        work &= (_CopyFrom != 0);
+
+        
+
+        _SetEnabled = (UnityEngine_Behaviour__set_enabled)(GetMethodPtr("UnityEngine", "Behaviour", "set_enabled", 1, "UnityEngine.CoreModule"));
+        work &= (_SetEnabled != 0);
+
+        GameObjConstruct = (UnityEngine_GameObject___ctor)signature("E8 ? ? ? ? 48 85 FF 0F 84 ? ? ? ? 45 33 C0 B2 01 48 8B CF E8 ? ? ? ?").resolveRelativeAddr(1, 5);
+        work &= (GameObjConstruct != 0);
+
+        ObjectDestroy = (UnityEngine_Object__Destroy)(GetMethodPtr("UnityEngine", "Object", "Destroy", 1, "UnityEngine.CoreModule"));
+        work &= (ObjectDestroy != 0);
+
+        _SetTag = (UnityEngine_GameObject__set_tag)(GetMethodPtr("UnityEngine", "GameObject", "set_tag", 1, "UnityEngine.CoreModule"));//signature("E8 ? ? ? ? E9 ? ? ? ? 3D ? ? ? ? 0F 86 ? ? ? ? 3D ? ? ? ? 75 30 45 33 C0").resolveRelativeAddr(1, 5);
+        work &= (_SetTag != 0);
+
+        _DontDestroyOnLoad = (UnityEngine_Object__DontDestroyOnLoad)(GetMethodPtr("UnityEngine", "Object", "DontDestroyOnLoad", 1, "UnityEngine.CoreModule"));
+        work &= (_DontDestroyOnLoad != 0);
+        
+        _SetHideFlags = (UnityEngine_Object__set_hideFlags)(GetMethodPtr("UnityEngine", "Object", "set_hideFlags", 1, "UnityEngine.CoreModule"));
+        work &= (_SetHideFlags != 0);
+       
+        _GetHideFlags = (UnityEngine_Object__get_hideFlags)(GetMethodPtr("UnityEngine", "Object", "get_hideFlags", 0, "UnityEngine.CoreModule"));
+        work &= (_GetHideFlags != 0);
+        
+        _AddComponent = (UnityEngine_GameObject__AddComponent)(GetMethodPtr("UnityEngine", "GameObject", "AddComponent", 1, "UnityEngine.CoreModule"));
+        work &= (_AddComponent != 0);
+       
+        GetTypeByName = (System_Type__GetType_6498422912)signature("40 53 48 83 EC 30 80 3D ? ? ? ? ? 48 8B D9 75 13 48 8D 0D ? ? ? ? E8 ? ? ? ? C6 05 ? ? ? ? ? 48 8B 0D ? ? ? ? C7 44 24 ? ? ? ? ? 83 B9 ? ? ? ? ? 75 05 E8 ? ? ? ?").GetPointer();
+        work &= (GetTypeByName != 0);
+
+        SystemStringCtor = (System_String__Ctor_6497373952)signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 20 80 3D ? ? ? ? ? 41 8B D8 48 63 FA 48 8B F1 75 13 48 8D 0D ? ? ? ? E8 ? ? ? ? C6 05 ? ? ? ? ?").GetPointer();
+        work &= (SystemStringCtor != 0);
+
+        //------------------------------------------------//
+
+
         _GetRoot = (UnityEngine_Transform__GetRoot)(GetMethodPtr("UnityEngine", "Transform", "GetRoot", 0, "UnityEngine.CoreModule"));
         work &= (_GetRoot != 0);
 
@@ -297,6 +380,9 @@ namespace FUNCS
 
         _GetTransform = (UnityEngine_Component__get_transform)(GetMethodPtr("UnityEngine", "Component", "get_transform", 0, "UnityEngine.CoreModule"));
         work &= (_GetTransform != 0);
+
+        _ObjectGetTransform = (UnityEngine_GameObject__get_transform)(GetMethodPtr("UnityEngine", "GameObject", "get_transform", 0, "UnityEngine.CoreModule"));
+        work &= (_ObjectGetTransform != 0);
 
         _GetForwardVector = (UnityEngine_Transform__get_forward)signature("E8 ? ? ? ? F3 0F 10 5F ? F2 0F 10 20").resolveRelativeAddr(1, 5);
         work &= (_GetForwardVector != 0);
@@ -336,6 +422,9 @@ namespace FUNCS
 
         InteractWithRandomProp = (GhostActivity__InteractWithARandomProp)GetMethodPtr("", "GhostActivity", "InteractWithARandomProp", 2);
         work &= (InteractWithRandomProp != 0);
+
+        SpawnFootstep = (GhostInteraction_____SpawnFootstep____6465324256)signature("E8 ? ? ? ? 0F 2F 7B 4C 76 70 48 8B 43 20").resolveRelativeAddr(1, 5);
+        work &= (SpawnFootstep != 0);
 
         RandomGhostEvent = (GhostAI____________6465085056)signature("E8 ?? ?? ?? ?? E9 ?? ?? ?? ?? 45 33 C9 4C 8B C5").resolveRelativeAddr(1, 5);
         work &= (RandomGhostEvent != 0);
