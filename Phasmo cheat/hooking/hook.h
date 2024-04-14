@@ -21,6 +21,7 @@ typedef void(__stdcall* GhostEventPlayer__Update)(GhostEventPlayer_o* _this, con
 typedef void(__stdcall* OuijaBoard__PlayMessageSequence)(OuijaBoard_o* _this, System_String_o* _, Photon_Pun_PhotonMessageInfo_o* a3, const MethodInfo* method);
 
 typedef bool(__stdcall* UnityEngine_AI_NavMeshAgent__SetDestination)(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_AI_NavMeshAgent__SetDestination2)(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
 
 typedef void(__stdcall* FirstPersonController__Update)(FirstPersonController_o* _this, const MethodInfo* method);
 typedef void(__stdcall* FirstPersonController__FixedUpdate)(FirstPersonController_o* _this, const MethodInfo* method);
@@ -99,7 +100,7 @@ namespace HOOK
 	void OnFPCUpdate(FirstPersonController_o* _this, MethodInfo* mInfo);
 	void OnFixedUpdateFPC(FirstPersonController_o* _this, MethodInfo* mInfo);
 	bool SetDestination(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
-
+	void SetDestination2(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
 
 	inline WNDPROC oWndProc{};
 	inline ID3DPresent oPresent{};
@@ -118,5 +119,6 @@ namespace HOOK
 	inline FirstPersonController__FixedUpdate oFixedUpdateFPC{};
 
 	inline UnityEngine_AI_NavMeshAgent__SetDestination _SetDestination{};
+	inline UnityEngine_AI_NavMeshAgent__SetDestination2 _SetDestination2{};
 
 }

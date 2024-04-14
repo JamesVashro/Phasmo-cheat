@@ -50,7 +50,6 @@ namespace smile
 		int spookFrequency = 10;
 
 		bool controllingGhost = false;
-		bool calledByMe = false;
 
 		int32_t lastLockedState = -1;
 

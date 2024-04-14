@@ -23,6 +23,9 @@ void HOOK::OnFPCUpdate(FirstPersonController_o* _this, MethodInfo* mInfo)
 
 		vars->ghostCam->GetTransform()->SetPosition(&finalPos);
 		vars->ghostCam->GetTransform()->SetRotation(rotation);
+
+
+		MouseLookRotation(_this->fields.m_MouseLook, vars->currentGhost->GetTransform(), vars->ghostCam->GetTransform(), 0);
 		return;
 	}
 

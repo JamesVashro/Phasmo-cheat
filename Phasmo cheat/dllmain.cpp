@@ -66,6 +66,9 @@ bool InitializeHooks()
     if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("UnityEngine.AI", "NavMeshAgent", "SetDestination", 1, "UnityEngine.AIModule")), HOOK::SetDestination, (void**)&HOOK::_SetDestination))
         return false;
 
+    if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("UnityEngine.AI", "NavMeshAgent", "set_destination", 1, "UnityEngine.AIModule")), HOOK::SetDestination2, (void**)&HOOK::_SetDestination2))
+        return false;
+
     //HMODULE mod = GetModuleHandleA("GameAssembly.dll");
     /*if (!HOOK::Hook((void*)GetProcAddress(mod, "il2cpp_value_box"), HOOK::valueBox, (void**)&il2cppValueBox))
         return false;*/

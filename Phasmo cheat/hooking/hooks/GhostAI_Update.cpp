@@ -4,17 +4,75 @@
 #include <iostream>
 #include <random>
 
+template <typename T>
+void DoInterceptedGhostMovement(UnityEngine_AI_NavMeshAgent_o* _this, T func, const MethodInfo* method)
+{
+    if (GetAsyncKeyState(VK_LSHIFT))
+    {
+        _this->SetSpeed(smile::vars->currentGhost->fields._22_ghostSpeed * 5);
+    }
+    else
+    {
+        _this->SetSpeed(smile::vars->currentGhost->fields._22_ghostSpeed);
+    }
+
+    if (GetAsyncKeyState(0x57)) //w
+    {
+        auto forward = smile::vars->currentGhost->GetTransform()->GetForwardVector();
+        auto curPos = smile::vars->currentGhost->GetPosition();
+        auto newPos = curPos + forward;
+
+        func(_this, &newPos, method);
+    }
+
+    if (GetAsyncKeyState(0x53)) //S
+    {
+        auto back = (smile::vars->currentGhost->GetTransform()->GetForwardVector() * -1);
+        auto curPos = smile::vars->currentGhost->GetPosition();
+        auto newPos = curPos + back;
+
+        func(_this, &newPos, method);
+    }
+
+    if (GetAsyncKeyState(0x44)) //D
+    {
+        auto right = smile::vars->currentGhost->GetTransform()->GetRightVector();
+        auto curPos = smile::vars->currentGhost->GetPosition();
+        auto newPos = curPos + right;
+
+        func(_this, &newPos, method);
+    }
+
+    if (GetAsyncKeyState(0x41)) //A
+    {
+        auto left = (smile::vars->currentGhost->GetTransform()->GetRightVector() * -1);
+        auto curPos = smile::vars->currentGhost->GetPosition();
+        auto newPos = curPos + left;
+
+        func(_this, &newPos, method);
+    }
+}
 bool HOOK::SetDestination(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method)
 {
-    if (!smile::vars->calledByMe && smile::vars->controllingGhost)
+    if (smile::vars->controllingGhost)
     {
+        DoInterceptedGhostMovement<UnityEngine_AI_NavMeshAgent__SetDestination>(_this, _SetDestination, method);
         return false;
     }
 
-    if (smile::vars->calledByMe)
-        smile::vars->calledByMe = false;
+    if (!smile::vars->controllingGhost)
+        return _SetDestination(_this, target, method);
+}
+void HOOK::SetDestination2(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method)
+{
+    if (smile::vars->controllingGhost)
+    {
+        DoInterceptedGhostMovement<UnityEngine_AI_NavMeshAgent__SetDestination2>(_this, _SetDestination2, method);
+        return;
+    }
 
-    return _SetDestination(_this, target, method);
+    if (!smile::vars->controllingGhost)
+        return _SetDestination2(_this, target, method);
 }
 
 void HOOK::OnGhostControllerUpdate(GhostController_o* _this, const MethodInfo* method)
@@ -68,7 +126,6 @@ void DoGhostControls(GhostAI_o* _this)
         auto curPos = _this->GetPosition();
         auto newPos = curPos + forward;
 
-        smile::vars->calledByMe = true;
         HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
     }
 
@@ -78,7 +135,6 @@ void DoGhostControls(GhostAI_o* _this)
         auto curPos = _this->GetPosition();
         auto newPos = curPos + back;
 
-        smile::vars->calledByMe = true;
         HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
 
     }
@@ -89,7 +145,6 @@ void DoGhostControls(GhostAI_o* _this)
         auto curPos = _this->GetPosition();
         auto newPos = curPos + right;
 
-        smile::vars->calledByMe = true;
         HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
     }
 
@@ -99,7 +154,6 @@ void DoGhostControls(GhostAI_o* _this)
         auto curPos = _this->GetPosition();
         auto newPos = curPos + left;
 
-        smile::vars->calledByMe = true;
         HOOK::_SetDestination(_this->fields._4_NavMeshAgent, &newPos, 0);
     }
 }

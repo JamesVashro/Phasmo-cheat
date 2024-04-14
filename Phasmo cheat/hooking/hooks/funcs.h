@@ -42,6 +42,7 @@ struct GhostInteraction_o;
 struct UnityEngine_Camera_array;
 struct System_Type_o;
 struct UnityEngine_Behaviour_o;
+struct MouseLook_o;
 
 struct MethodInfo1
 {
@@ -77,6 +78,7 @@ typedef System_String_o* (__stdcall* UnityEngine_Object__GetName)(UnityEngine_Ob
 typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_right)(UnityEngine_Vector3_o* retstr, UnityEngine_Transform_o* _this, const MethodInfo* method);
 typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Transform__get_forward)(UnityEngine_Vector3_o* retstr, UnityEngine_Transform_o* _this, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Camera__CopyFrom)(UnityEngine_Camera_o* _this, UnityEngine_Camera_o* other, const MethodInfo* method);
+typedef void(__stdcall* MouseLook__LookRotation)(MouseLook_o* _this, UnityEngine_Transform_o* character, UnityEngine_Transform_o* camera, const MethodInfo* method);
 
 typedef void(__stdcall* UnityEngine_Object__Destroy)(UnityEngine_Object_o* obj, float t, const MethodInfo* method);
 typedef UnityEngine_Transform_o* (__stdcall* UnityEngine_GameObject__get_transform)(UnityEngine_GameObject_o* _this, const MethodInfo* method);
@@ -144,6 +146,7 @@ inline UnityEngine_RaycastHit__get_collider GetCollider{};
 inline UnityEngine_Object__GetName ObjectGetName{};
 inline UnityEngine_Camera__CopyFrom _CopyFrom{};
 
+inline MouseLook__LookRotation MouseLookRotation{};
 inline UnityEngine_AI_NavMeshAgent__set_speed _SetSpeed{};
 inline UnityEngine_AI_NavMeshAgent__get_speed _GetSpeed{};
 
@@ -325,7 +328,8 @@ namespace FUNCS
         _CopyFrom = (UnityEngine_Camera__CopyFrom)(GetMethodPtr("UnityEngine", "Camera", "CopyFrom", 1, "UnityEngine.CoreModule"));
         work &= (_CopyFrom != 0);
 
-        
+        MouseLookRotation = (MouseLook__LookRotation)(GetMethodPtr("", "MouseLook", "LookRotation", 2, "Assembly-CSharp-firstpass"));
+        work &= (MouseLookRotation != 0);
 
         _SetEnabled = (UnityEngine_Behaviour__set_enabled)(GetMethodPtr("UnityEngine", "Behaviour", "set_enabled", 1, "UnityEngine.CoreModule"));
         work &= (_SetEnabled != 0);
