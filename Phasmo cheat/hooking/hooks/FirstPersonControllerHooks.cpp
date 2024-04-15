@@ -21,7 +21,13 @@ void HOOK::OnFPCUpdate(FirstPersonController_o* _this, MethodInfo* mInfo)
 			MouseLookRotation(_this->fields.m_MouseLook, vars->currentGhost->GetTransform(), vars->ghostCam->GetTransform(), 0i64);
 		}
 
-		UnityEngine_Bounds_o gBounds = vars->currentGhost->fields._8_model->fields.myRends->m_Items[0]->GetBounds();
+		UnityEngine_Bounds_o gBounds{};
+
+		if (vars->currentGhost->fields._8_model->fields.myRends->max_length == 1)
+			gBounds = vars->currentGhost->fields._8_model->fields.myRends->m_Items[0]->GetBounds();
+		else
+			gBounds = vars->currentGhost->fields._8_model->fields.myRends->m_Items[1]->GetBounds();
+
 
 		UnityEngine_Vector3_o center = gBounds.fields.m_Center;
 		center.fields.y += gBounds.fields.m_Extents.fields.y;

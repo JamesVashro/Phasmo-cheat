@@ -53,11 +53,29 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
     {
         vars->controllingGhost = !vars->controllingGhost;
        
-        if (vars->controllingGhost)
+        if (vars->controllingGhost && vars->currentGhost)
         {
             //Enable
             vars->cachedCam = GetMainCamera(0);
             reinterpret_cast<UnityEngine_Behaviour_o*>(vars->cachedCam)->SetEnabled(false);
+
+            vars->ghostLight = UnityEngine_GameObject_o::CreatePrimitive(0);
+
+            reinterpret_cast<UnityEngine_Object_o*>(vars->ghostLight)->DontDestroyOnLoad();
+            UnityEngine_Light_o* light = reinterpret_cast<UnityEngine_Light_o*>(vars->ghostLight->AddComponent("UnityEngine.Light"));
+
+            UnityEngine_Collider_o* collider = (UnityEngine_Collider_o*)vars->ghostLight->GetComponent("UnityEngine.Collider");
+            if (collider)
+                collider->SetEnabled(false);
+
+            UnityEngine_Vector3_o pos = vars->currentGhost->GetPosition();
+            auto lightTrans = reinterpret_cast<UnityEngine_Component_o*>(light)->GetTransform();
+            lightTrans->SetPosition(&pos);
+            lightTrans->SetParent(*vars->currentGhost->GetTransform());
+
+            light->SetColor(35, 0, 0, 0.1f);
+            light->SetIntensity(0.001f);
+            light->SetRange(6.f);
 
             System_String_o* camName = SystemStringCtor("freecam", 0, strlen("freecam"), 0);
             vars->ghostCam = (UnityEngine_Camera_o*)il2cppObjectNew((__int64)vars->cachedCam->klass->_1.klass);
@@ -67,8 +85,8 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
             reinterpret_cast<UnityEngine_GameObject_o*>(vars->ghostCam)->AddComponent("UnityEngine.Camera");
 
             reinterpret_cast<UnityEngine_GameObject_o*>(vars->ghostCam)->SetTag("MainCamera");
-            reinterpret_cast<UnityEngine_Object_o*>(vars->ghostCam)->DontDestroyOnLoad();
 
+            reinterpret_cast<UnityEngine_Object_o*>(vars->ghostCam)->DontDestroyOnLoad();
             UnityEngine_Vector3_o iPos = vars->localPlayer->GetCameraPosition();
             vars->ghostCam->GetTransform()->SetPosition(&iPos);
 
@@ -88,6 +106,8 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
             //Disable
             reinterpret_cast<UnityEngine_Behaviour_o*>(vars->cachedCam)->SetEnabled(true);
             ObjectDestroy((UnityEngine_Object_o*)vars->ghostCam, 0.f, 0);
+            ObjectDestroy((UnityEngine_Object_o*)vars->ghostLight, 0.f, 0);
+
         }
     }
 

@@ -170,11 +170,9 @@ void DoGhostControls(GhostAI_o* _this)
 
     if (GetAsyncKeyState(VK_LCONTROL) & 1)
     {
-        if (smile::vars->controlGhostWalkType == 1)
-            smile::vars->controlGhostWalkType++;
-        else
-            if (smile::vars->controlGhostWalkType == 2)
-                smile::vars->controlGhostWalkType--;
+        smile::vars->controlGhostWalkType++;
+        if (smile::vars->controlGhostWalkType >= 5)
+            smile::vars->controlGhostWalkType = 0;
 
         System_String_o* nstr = SystemStringCtor("WalkType", 0, strlen("WalkType"), 0);
         HOOK::_SetInteger(smile::vars->currentGhost->fields._8_model->fields._3_animator, nstr, smile::vars->controlGhostWalkType, 0);
@@ -403,7 +401,7 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
                                 (rightGood && !leftGood ? right * 2 : 
                                     (!rightGood && leftGood ? left * 2 : forward * -2))));
 
-                    ghostPos.fields.y += 3; //adjust start point incase ghostPos was originally in the floor a little
+                    ghostPos.fields.y += 1.f; //adjust start point incase ghostPos was originally in the floor a little
                     UnityEngine_Vector3_o down{};
                     down.fields.x = 0;
                     down.fields.y = -1;
@@ -421,7 +419,7 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
             if (!hit) //if didnt hit anything within 6m, spawn ghost 2m infront of player
             {
                 UnityEngine_Vector3_o ghostPos = playerPos + (forward * 2);
-                ghostPos.fields.y += 3;
+                ghostPos.fields.y += 1.f;
                 UnityEngine_Vector3_o down{};
                 down.fields.x = 0;
                 down.fields.y = -1;

@@ -29,6 +29,7 @@ namespace smile
 
 		UnityEngine_Camera_o* ghostCam;
 		UnityEngine_Camera_o* cachedCam;
+		UnityEngine_GameObject_o* ghostLight;
 
 		Player_o* spookPlayer = nullptr;
 		UnityEngine_Vector3_o spookPos{};
@@ -50,7 +51,7 @@ namespace smile
 		int spookFrequency = 10;
 
 		bool controllingGhost = false;
-		int controlGhostWalkType = 1;
+		int controlGhostWalkType = 0;
 
 		int32_t lastLockedState = -1;
 

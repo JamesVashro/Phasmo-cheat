@@ -49,6 +49,7 @@ struct UnityEngine_Bounds_o;
 struct UnityEngine_Renderer_o;
 struct UnityEngine_Rigidbody_o;
 struct UnityEngine_Component_array;
+struct UnityEngine_Light_o;
 
 struct MethodInfo1
 {
@@ -61,9 +62,14 @@ struct MethodInfo1
 typedef Network_o* (__stdcall* Network__get_Instance)(const MethodInfo* method);
 typedef __int64(__fastcall* il2cpp_value_box)(void* a1, void* a2);
 
+typedef UnityEngine_GameObject_o* (__stdcall* UnityEngine_GameObject__CreatePrimitive)(int32_t type, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Light__set_color)(UnityEngine_Light_o* _this, UnityEngine_Color_o* value, const MethodInfo* method);
+
 typedef UnityEngine_Rigidbody_o* (__stdcall* UnityEngine_Collider__get_attachedRigidbody)(UnityEngine_Collider_o* _this, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Renderer__set_localBounds)(UnityEngine_Renderer_o* _this, UnityEngine_Bounds_o* value, const MethodInfo* method);
 typedef UnityEngine_Bounds_o* (__stdcall* UnityEngine_Renderer__get_bounds)(UnityEngine_Bounds_o* retstr, UnityEngine_Renderer_o* _this, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Light__set_intensity)(UnityEngine_Light_o* _this, float value, const MethodInfo* method);
+
 typedef int32_t(__stdcall* UnityEngine_Screen__get_height)(const MethodInfo* method);
 typedef UnityEngine_Camera_o* (__stdcall* UnityEngine_Camera__get_main)(const MethodInfo* method);
 typedef UnityEngine_Vector3_o* (__stdcall* UnityEngine_Camera__WorldToScreenPoint)(UnityEngine_Vector3_o* retstr, UnityEngine_Camera_o* _this, UnityEngine_Vector3_o* position, int32_t eye, const MethodInfo* method);
@@ -90,6 +96,8 @@ typedef void(__stdcall* UnityEngine_Camera__CopyFrom)(UnityEngine_Camera_o* _thi
 typedef void(__stdcall* MouseLook__LookRotation)(MouseLook_o* _this, UnityEngine_Transform_o* character, UnityEngine_Transform_o* camera, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Animator__set_speed)(UnityEngine_Animator_o* _this, float value, const MethodInfo* method);
 
+typedef void(__stdcall* UnityEngine_Collider__set_enabled)(UnityEngine_Collider_o* _this, bool value, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Transform__set_parent)(UnityEngine_Transform_o* _this, UnityEngine_Transform_o* value, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Object__Destroy)(UnityEngine_Object_o* obj, float t, const MethodInfo* method);
 typedef UnityEngine_Transform_o* (__stdcall* UnityEngine_GameObject__get_transform)(UnityEngine_GameObject_o* _this, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Behaviour__set_enabled)(UnityEngine_Behaviour_o* _this, bool value, const MethodInfo* method);
@@ -146,7 +154,17 @@ typedef UnityEngine_Collider_o* (__stdcall* UnityEngine_Physics__GetColliderByIn
 typedef int32_t(__stdcall* UnityEngine_Object__GetInstanceID)(UnityEngine_Object_o* _this, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Rigidbody__set_useGravity)(UnityEngine_Rigidbody_o* _this, bool value, const MethodInfo* method);
 typedef UnityEngine_Component_array* (__stdcall* UnityEngine_GameObject__GetComponents)(UnityEngine_GameObject_o* _this, System_Type_o* type, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Light__set_range)(UnityEngine_Light_o* _this, float value, const MethodInfo* method);
 
+typedef UnityEngine_Component_o* (__stdcall* UnityEngine_GameObject__GetComponent)(UnityEngine_GameObject_o* _this, System_Type_o* type, const MethodInfo* method);
+
+inline UnityEngine_GameObject__CreatePrimitive _CreatePrimitive{};
+inline UnityEngine_Collider__set_enabled _ColliderSetEnabled{};
+
+inline UnityEngine_Light__set_color LightSetColor{};
+inline UnityEngine_Light__set_intensity LightSetIntensity{};
+
+inline UnityEngine_GameObject__GetComponent _GetComponent{};
 inline UnityEngine_GameObject__GetComponents _GetComponents{};
 inline UnityEngine_Rigidbody__set_useGravity _SetUseGravity{};
 inline UnityEngine_Object__GetInstanceID _GetInstanceID{};
@@ -170,7 +188,7 @@ inline UnityEngine_Object__GetName ObjectGetName{};
 inline UnityEngine_Camera__CopyFrom _CopyFrom{};
 inline UnityEngine_Animator__set_speed _AnimatorSetSpeed{};
 
-
+inline UnityEngine_Light__set_range _SetRange{};
 inline FirstPersonController__GetInput GetInput{};
 inline MouseLook__LookRotation MouseLookRotation{};
 inline UnityEngine_AI_NavMeshAgent__set_speed _SetSpeed{};
@@ -195,6 +213,8 @@ inline UnityEngine_Transform__GetRoot _GetRoot{};
 inline UnityEngine_AudioClip__GetName aGetName{};
 inline Noise__PlaySound nPlaySound{};
 inline GhostEventPlayer__PlaySound gepPlaySound{};
+
+inline UnityEngine_Transform__set_parent _SetParent{};
 
 inline il2cpp_object_new il2cppObjectNew{};
 inline il2cpp_value_box il2cppValueBox{};
@@ -344,8 +364,29 @@ namespace FUNCS
         GetMainCamera = (UnityEngine_Camera__get_main)(GetMethodPtr("UnityEngine", "Camera", "get_main", 0, "UnityEngine.CoreModule"));
         work &= (GetMainCamera != 0);
 
+        _CreatePrimitive = (UnityEngine_GameObject__CreatePrimitive)(GetMethodPtr("UnityEngine", "GameObject", "CreatePrimitive", 1, "UnityEngine.CoreModule"));
+        work &= (_CreatePrimitive != 0);
+
+        _SetParent = (UnityEngine_Transform__set_parent)(GetMethodPtr("UnityEngine", "Transform", "set_parent", 1, "UnityEngine.CoreModule"));
+        work &= (_SetParent != 0);
+
+        LightSetColor = (UnityEngine_Light__set_color)(GetMethodPtr("UnityEngine", "Light", "set_color", 1, "UnityEngine.CoreModule"));
+        work &= (LightSetColor != 0);
+
+        LightSetIntensity = (UnityEngine_Light__set_intensity)(GetMethodPtr("UnityEngine", "Light", "set_intensity", 1, "UnityEngine.CoreModule"));
+        work &= (LightSetIntensity != 0);
+
+        _SetRange = (UnityEngine_Light__set_range)(GetMethodPtr("UnityEngine", "Light", "set_range", 1, "UnityEngine.CoreModule"));
+        work &= (_SetRange != 0);
+
         ////-------------------AI stuff--------------------//
         
+        _ColliderSetEnabled = (UnityEngine_Collider__set_enabled)(GetMethodPtr("UnityEngine", "Collider", "set_enabled", 1, "UnityEngine.PhysicsModule"));
+        work &= (_ColliderSetEnabled != 0);
+
+        _GetComponent = (UnityEngine_GameObject__GetComponent)(GetMethodPtr("UnityEngine", "GameObject", "GetComponent", 1, "UnityEngine.CoreModule"));
+        work &= (_GetComponent != 0);
+
         _GetComponents = (UnityEngine_GameObject__GetComponents)(GetMethodPtr("UnityEngine", "GameObject", "GetComponents", 1, "UnityEngine.CoreModule"));
         work &= (_GetComponents != 0);
 

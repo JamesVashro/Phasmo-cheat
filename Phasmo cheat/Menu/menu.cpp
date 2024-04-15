@@ -99,7 +99,7 @@ void Menu::RenderOverlay()
 		ImGui::Text("Ghost State: %d\n", smile::vars->ghostState);
 		ImGui::Text("Appearing: %d\n", smile::vars->showGhost);
 		ImGui::Text("Controlling Ghost: %d\n", smile::vars->controllingGhost);
-		ImGui::LineSliderInt("Ghost Walk Type: %d\n", &smile::vars->controlGhostWalkType, 0, 5, 1.0f);
+		ImGui::Text("Ghost Walk Type: %d\n", smile::vars->controlGhostWalkType);
 
 		ImGui::End();
 	}
