@@ -50,6 +50,7 @@ struct UnityEngine_Renderer_o;
 struct UnityEngine_Rigidbody_o;
 struct UnityEngine_Component_array;
 struct UnityEngine_Light_o;
+struct GameController_c;
 
 struct MethodInfo1
 {
@@ -136,6 +137,8 @@ typedef void(__stdcall* GhostAudio__PlayOrStopAppearSource)(GhostAudio_o* _this,
 typedef void(__stdcall* GhostInteraction_____SpawnFootstep____6465324256)(GhostInteraction_o* _this, bool _, const MethodInfo* method);
 typedef void(__stdcall* FirstPersonController__GetInput)(FirstPersonController_o* _this, const MethodInfo* method);
 
+
+
 typedef void(__stdcall* GhostAI__UnAppear)(GhostAI_o* _this, const MethodInfo* method);
 typedef void(__stdcall* GhostEventPlayer____________6465199120)(GhostEventPlayer_o* _this, Player_o* _, UnityEngine_Vector3_o* a3, const MethodInfo* method);
 typedef DWORD* (__fastcall* il2cpp_array_new_specific_0)(__int64 a1, unsigned __int64 a2);
@@ -156,10 +159,18 @@ typedef void(__stdcall* UnityEngine_Rigidbody__set_useGravity)(UnityEngine_Rigid
 typedef UnityEngine_Component_array* (__stdcall* UnityEngine_GameObject__GetComponents)(UnityEngine_GameObject_o* _this, System_Type_o* type, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Light__set_range)(UnityEngine_Light_o* _this, float value, const MethodInfo* method);
 
+typedef void(__stdcall* UnityEngine_AI_NavMeshAgent__set_acceleration)(UnityEngine_AI_NavMeshAgent_o* _this, float value, const MethodInfo* method);
 typedef UnityEngine_Component_o* (__stdcall* UnityEngine_GameObject__GetComponent)(UnityEngine_GameObject_o* _this, System_Type_o* type, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Rigidbody__set_isKinematic)(UnityEngine_Rigidbody_o* _this, bool value, const MethodInfo* method);
+typedef void(__stdcall* UnityEngine_Rigidbody__AddForce)(UnityEngine_Rigidbody_o* _this, UnityEngine_Vector3_o* force, int32_t mode, const MethodInfo* method);
+
+typedef void(__stdcall* GhostAI__FlashAppear)(GhostAI_o* _this, const MethodInfo* method);
 
 inline UnityEngine_GameObject__CreatePrimitive _CreatePrimitive{};
 inline UnityEngine_Collider__set_enabled _ColliderSetEnabled{};
+inline UnityEngine_AI_NavMeshAgent__set_acceleration _SetAcceleration{};
+inline UnityEngine_Rigidbody__set_isKinematic _SetIsKinematic{};
+inline UnityEngine_Rigidbody__AddForce _AddForce{};
 
 inline UnityEngine_Light__set_color LightSetColor{};
 inline UnityEngine_Light__set_intensity LightSetIntensity{};
@@ -227,11 +238,12 @@ inline il2cpp_domain_get il2cppDomainGet{};
 inline il2cpp_class_get_type il2cppClassGetType{};
 inline il2cpp_type_get_object il2cppTypeGetObject{};
 
+inline GhostAI__FlashAppear _FlashAppear{};
 inline System_String__Ctor_6497373952 SystemStringCtor{};
 inline System_String__CopyTo CopyTo{};
 inline UnityEngine_Component__get_transform _GetTransform{};
 inline UnityEngine_GameObject__get_transform _ObjectGetTransform{};
-inline GhostAI_Appear Appear{};
+inline GhostAI_Appear _Appear{};
 inline GhostActivity__GetPropToThrow GetPropToThrow{};
 inline GhostActivity__Interact Interact{};
 inline GhostActivity__ForceInteractWithProp ForceInteract{};
@@ -250,7 +262,7 @@ inline GhostAI__LookAtPlayer LookAtPlayer{};
 inline GhostAudio__PlaySound _PlaySound{};
 inline GhostAudio__TurnOnOrOffAppearSource TurnOnOrOffAppearSource{};
 inline GhostAudio__PlayOrStopAppearSource PlayOrStopAppearSource{};
-inline GhostAI__UnAppear UnAppear{};
+inline GhostAI__UnAppear _UnAppear{};
 inline GhostInteraction_____SpawnFootstep____6465324256 SpawnFootstep{};
 
 inline Network__get_Instance NetworkGetInstance{};
@@ -379,6 +391,15 @@ namespace FUNCS
         _SetRange = (UnityEngine_Light__set_range)(GetMethodPtr("UnityEngine", "Light", "set_range", 1, "UnityEngine.CoreModule"));
         work &= (_SetRange != 0);
 
+        _SetAcceleration = (UnityEngine_AI_NavMeshAgent__set_acceleration)(GetMethodPtr("UnityEngine.AI", "NavMeshAgent", "set_acceleration", 1, "UnityEngine.AIModule"));
+        work &= (_SetAcceleration != 0);
+
+        _SetIsKinematic = (UnityEngine_Rigidbody__set_isKinematic)(GetMethodPtr("UnityEngine", "Rigidbody", "set_isKinematic", 1, "UnityEngine.PhysicsModule"));
+        work &= (_SetIsKinematic != 0);
+
+        _AddForce = (UnityEngine_Rigidbody__AddForce)(GetMethodPtr("UnityEngine", "Rigidbody", "AddForce", 2, "UnityEngine.PhysicsModule"));
+        work &= (_AddForce != 0);
+
         ////-------------------AI stuff--------------------//
         
         _ColliderSetEnabled = (UnityEngine_Collider__set_enabled)(GetMethodPtr("UnityEngine", "Collider", "set_enabled", 1, "UnityEngine.PhysicsModule"));
@@ -407,6 +428,9 @@ namespace FUNCS
 
         _GetBounds = (UnityEngine_Renderer__get_bounds)(GetMethodPtr("UnityEngine", "Renderer", "get_bounds", 0, "UnityEngine.CoreModule"));
         work &= (_GetBounds != 0);
+
+        _FlashAppear = (GhostAI__FlashAppear)(GetMethodPtr("", "GhostAI", "FlashAppear", 0));
+        work &= (_FlashAppear != 0);
 
         _AnimatorSetSpeed = (UnityEngine_Animator__set_speed)(GetMethodPtr("UnityEngine", "Animator", "set_speed", 1, "UnityEngine.AnimationModule"));
         work &= (_AnimatorSetSpeed != 0);
@@ -499,8 +523,8 @@ namespace FUNCS
         Teleport = (Player__Teleport)GetMethodPtr("", "Player", "Teleport", 1);
         work &= (Teleport != 0);
 
-        Appear = (GhostAI_Appear)GetMethodPtr("", "GhostAI", "Appear", 1);
-        work &= (Appear != 0);
+        _Appear = (GhostAI_Appear)GetMethodPtr("", "GhostAI", "Appear", 1);
+        work &= (_Appear != 0);
 
         gepPlaySound = (GhostEventPlayer__PlaySound)GetMethodPtr("", "GhostEventPlayer", "PlaySound", 1);
         work &= (gepPlaySound != 0);
@@ -553,8 +577,8 @@ namespace FUNCS
         PlayOrStopAppearSource = (GhostAudio__PlayOrStopAppearSource)GetMethodPtr("", "GhostAudio", "PlayOrStopAppearSource", 1);
         work &= (PlayOrStopAppearSource != 0);
 
-        UnAppear = (GhostAI__UnAppear)GetMethodPtr("", "GhostAI", "UnAppear", 0);
-        work &= (UnAppear != 0);
+        _UnAppear = (GhostAI__UnAppear)GetMethodPtr("", "GhostAI", "UnAppear", 0);
+        work &= (_UnAppear != 0);
 
         return work;
 	}

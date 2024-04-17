@@ -3,6 +3,9 @@
 #include <ctime>
 #include <iostream>
 #include <random>
+inline bool wasAppeared = false;
+inline bool playedAppearSound = false;
+
 
 template <typename T>
 void DoInterceptedGhostMovement(UnityEngine_AI_NavMeshAgent_o* _this, T func, const MethodInfo* method)
@@ -134,7 +137,6 @@ bool CheckDirection(UnityEngine_Vector3_o startPos, UnityEngine_Vector3_o direct
 
     return true;
 }
-
 void MoveTo(GhostAI_o* _this, UnityEngine_Vector3_o dir)
 {
     auto curPos = _this->GetPosition();
@@ -155,11 +157,13 @@ void DoGhostControls(GhostAI_o* _this)
     bool wRight = false;
     bool wLeft = false;
 
+
     static clock_t lastForwardTime = std::clock();
     if (GetAsyncKeyState(VK_LSHIFT))
     {
         _this->fields._4_NavMeshAgent->SetSpeed(_this->fields._22_ghostSpeed * 4);
-        _this->fields._8_model->fields._3_animator->SetSpeed(7.f);
+        _this->fields._4_NavMeshAgent->SetAccel(100.f);
+        _this->fields._8_model->fields._3_animator->SetSpeed(6.f);
         wSprinting = true;
     }
     else
@@ -212,6 +216,25 @@ void DoGhostControls(GhostAI_o* _this)
         System_String_o* nstr = SystemStringCtor("isIdle", 0, strlen("isIdle"), 0);
         HOOK::_SetBool(smile::vars->currentGhost->fields._8_model->fields._3_animator, nstr, true, 0);
     }
+
+    if (GetAsyncKeyState(0x51))
+    {
+        if (!playedAppearSound)
+        {
+            TurnOnOrOffAppearSource(_this->fields._5_audio, true, true, 0);
+            PlayOrStopAppearSource(_this->fields._5_audio, true, 0);
+            playedAppearSound = true;
+        }
+        smile::vars->showGhost = true;
+        wasAppeared = true;
+    }
+    else
+    {
+        if (smile::vars->showGhost)
+            smile::vars->showGhost = false;
+
+        playedAppearSound = false;
+    }
 }
 
 void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
@@ -219,23 +242,44 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
     if (smile::vars->waitinForEject)
         return oUpdateGhost(_this, mInfo);
 
-    if (smile::vars->useCustom)
+    if (smile::vars->unAppearGhost)
     {
-        UnityEngine_Vector3_o pos{};
-        pos.fields.x = smile::vars->x;
-        pos.fields.y = smile::vars->y;
-        pos.fields.z = smile::vars->z;
+        smile::vars->showGhost = false;
+        playedAppearSound = false;
+        smile::vars->unAppearGhost = false;
 
-        UnityEngine_Quaternion_o quat{};
-        quat.fields.x = smile::vars->x1;
-        quat.fields.y = smile::vars->y1;
-        quat.fields.z = smile::vars->z1;
-        quat.fields.w = smile::vars->w;
-
-        _this->GetTransform()->SetPosition(&pos);
-        _this->GetTransform()->SetRotation(quat);
-
+        _this->UnAppear();
     }
+
+    if (smile::vars->showGhost)
+    {
+        if (!playedAppearSound)
+        {
+            TurnOnOrOffAppearSource(_this->fields._5_audio, true, true, 0);
+            PlayOrStopAppearSource(_this->fields._5_audio, true, 0);
+            playedAppearSound = true;
+
+            try
+            {
+                auto modelArray = _this->fields._11__________;
+
+                for (int i = 0; i < modelArray->max_length; i++)
+                {
+                    auto model = modelArray->m_Items[i];
+                    auto name = ObjectGetName((UnityEngine_Object_o*)GetGameObject((UnityEngine_Component_o*)model, 0), 0);
+
+                    wprintf(L"%ls\n", name->fields.buffer);
+                }
+            }
+            catch (...)
+            {
+                printf("fucked\n");
+            }
+            
+        }
+        _this->Appear();
+    }
+
 
     if (smile::vars->controllingGhost)
         DoGhostControls(_this);
@@ -255,7 +299,7 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
 
     if (smile::vars->currentGhost != _this)
     {
-        printf("Ghost: %p\n", _this);
+        printf("New Ghost: %p\n", _this);
     }
 
     smile::vars->currentGhost = _this;
@@ -269,16 +313,16 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
         {
             smile::vars->spookingPlayer = false;
             playedSound = false;
-            UnAppear(_this, 0);
+            _this->UnAppear();
             _this->fields._4_NavMeshAgent->SetSpeed(_this->fields._22_ghostSpeed);
             return oUpdateGhost(_this, mInfo);
         }
 
-        Appear(_this, 4, nullptr); //2 shadow, 4 full model, 3 translusent
+        _this->Appear(); //2 shadow, 4 full model, 3 translusent
 
         auto transform = _this->GetTransform();
 
-        transform->SetPosition(&smile::vars->spookPos);
+        transform->SetPosition(smile::vars->spookPos);
 
         LookAtPlayer(_this, smile::vars->spookPlayer, 0);
 
@@ -296,11 +340,6 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
             //nPlaySound(smile::vars->ghostEventPlayer->fields.noise, smile::vars->ghostEventPlayer->fields.audioClip, 1, 0, 0, 0);
             playedSound = true;
         }
-    }
-
-    if (smile::vars->showGhost)
-    {
-        Appear(_this, 4, nullptr); //2 shadow, 4 full model, 3 translusent
     }
 
     if ((smile::vars->randomSpook && (!smile::vars->spookingPlayer && rand <= smile::vars->spookFrequency)) || GetAsyncKeyState(VK_F5) & 1)
@@ -459,22 +498,15 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
     
 
     if (GetAsyncKeyState(VK_F2) & 1)
-    {
-        //RandomGhostEvent(_this, 0, -1, 0);
         ChangeState(_this, 14, 0, 0, true, 0);
-    }
 
     if (GetAsyncKeyState(VK_F3) & 1)
         ChangeState(_this, 2, 0, 0, true, 0); //hunt
 
-    if (GetAsyncKeyState(VK_F4) & 1)
+    if (GetAsyncKeyState(VK_F9)) //trying to disable gravity for ghost so it can walk on ceiling
     {
-        smile::vars->showGhost = !smile::vars->showGhost;
-        printf("ShowGhost: %d\n", smile::vars->showGhost);
-    }
-
-    if (GetAsyncKeyState(VK_F9) & 1) //trying to disable gravity for ghost so it can walk on ceiling
-    {
+        _this->fields._36_b10 = true;
+        _this->FlashAppear();
         /*static bool flag = true;
 
         flag = !flag;

@@ -6,6 +6,19 @@
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT WINAPI HOOK::WndProc_Hook(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) 
 {
+	if (wparam == 0x09) //Q key
+	{
+		if (msg == WM_KEYDOWN)
+		{
+			smile::vars->showGhost = true;
+		}
+		else
+		if (msg == WM_KEYUP)
+		{
+			if (!smile::vars->unAppearGhost)
+				smile::vars->unAppearGhost = true;
+		}
+	}
 
 	if (msg == WM_KEYUP)
 	{

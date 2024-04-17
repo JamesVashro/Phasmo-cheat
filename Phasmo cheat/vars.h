@@ -20,6 +20,7 @@ namespace smile
 		System_Boolean_c* bool_TypeInfo{};
 		System_Int32_c* int_TypeInfo{};
 		Il2CppClass* object_TypeInfo{};
+		GameController_o* gameController = nullptr;
 
 		GhostAI_o* currentGhost = nullptr;
 		Player_o* localPlayer = nullptr;
@@ -42,7 +43,9 @@ namespace smile
 		bool ghostInfoOverlay = true;
 		bool showRPCs = true;
 		bool menuOpened = false;
+
 		bool showGhost = false;
+		bool unAppearGhost = false;
 
 		float ghostSpeed = 1.7f;
 		bool randomSpook = true;

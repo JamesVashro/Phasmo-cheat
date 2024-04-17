@@ -40,11 +40,13 @@ void Menu::Loop()
 				HOOK::oRpc(door->fields._16_view, HuntingCloseDoorNetworked, 0, (System_Object_array*)arr, 0);
 			}
 		}
+
 		if (ImGui::Button("Change Ghost Room", 5))
 		{
 			ChangeFavRoom(smile::vars->ghostController, smile::vars->localPlayer->GetCurrentRoom(), 0);
 			DelayTeleportToRoom(smile::vars->currentGhost, 0.f, 0);
 		}
+
 		//ImGui::LineSliderInt("Sound", &smile::vars->spookSoundEffect, 0, 10, 1);
 		ImGui::CheckboxSlider("Random Spook", &smile::vars->randomSpook);
 		ImGui::LineSliderFloat("Ghost Speed", &smile::vars->ghostSpeed, 0.5, 25.f, 1);

@@ -36,7 +36,7 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
             UnityEngine_Vector3_o mypos = vars->localPlayer->GetPosition();
             UnityEngine_Vector3_o newpos = mypos + (dir * 2);
 
-            vars->localPlayer->GetTransform()->SetPosition(&newpos);
+            vars->localPlayer->GetTransform()->SetPosition(newpos);
         }
     }
 
@@ -70,7 +70,7 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
 
             UnityEngine_Vector3_o pos = vars->currentGhost->GetPosition();
             auto lightTrans = reinterpret_cast<UnityEngine_Component_o*>(light)->GetTransform();
-            lightTrans->SetPosition(&pos);
+            lightTrans->SetPosition(pos);
             lightTrans->SetParent(*vars->currentGhost->GetTransform());
 
             light->SetColor(35, 0, 0, 0.1f);
@@ -88,7 +88,7 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
 
             reinterpret_cast<UnityEngine_Object_o*>(vars->ghostCam)->DontDestroyOnLoad();
             UnityEngine_Vector3_o iPos = vars->localPlayer->GetCameraPosition();
-            vars->ghostCam->GetTransform()->SetPosition(&iPos);
+            vars->ghostCam->GetTransform()->SetPosition(iPos);
 
 
             vars->ghostCam->SetActive(true);
@@ -100,6 +100,11 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
             HOOK::_SetBool(vars->currentGhost->fields._8_model->fields._3_animator, nstr1, 0, 0);
             HOOK::_SetInteger(vars->currentGhost->fields._8_model->fields._3_animator, nstr, vars->controlGhostWalkType, 0);
 
+
+            /*UnityEngine_Collider_o* gCollider = (UnityEngine_Collider_o*)reinterpret_cast<UnityEngine_GameObject_o*>(vars->currentGhost)->GetComponent("UnityEngine.Collider");
+            auto rigid = gCollider->GetRigidBody();
+            rigid->SetUseGravity(false);
+            rigid->SetIsKinematic(false);*/
         }
         else
         {

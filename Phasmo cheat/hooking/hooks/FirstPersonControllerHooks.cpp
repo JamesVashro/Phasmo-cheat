@@ -12,7 +12,6 @@ void HOOK::OnFixedUpdateFPC(FirstPersonController_o* _this, MethodInfo* mInfo)
 
 void HOOK::OnFPCUpdate(FirstPersonController_o* _this, MethodInfo* mInfo)
 {
-
 	if (vars->controllingGhost && vars->ghostCam)
 	{
 		GetInput(_this, 0i64);
@@ -38,7 +37,7 @@ void HOOK::OnFPCUpdate(FirstPersonController_o* _this, MethodInfo* mInfo)
 		UnityEngine_Vector3_o finalPos = gPos + (gForward * -1);
 		UnityEngine_Quaternion_o gQuat = vars->currentGhost->GetTransform()->GetRotation();
 
-		vars->ghostCam->GetTransform()->SetPosition(&finalPos);
+		vars->ghostCam->GetTransform()->SetPosition(finalPos);
 		vars->ghostCam->GetTransform()->SetRotation(gQuat);
 
 		return;

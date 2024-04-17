@@ -175,6 +175,7 @@
     <ClCompile Include="hooking\hook.cpp" />
     <ClCompile Include="hooking\hooks\CursedObjectsHooks.cpp" />
     <ClCompile Include="hooking\hooks\FirstPersonControllerHooks.cpp" />
+    <ClCompile Include="hooking\hooks\GameController.cpp" />
     <ClCompile Include="hooking\hooks\GhostAI_Update.cpp" />
     <ClCompile Include="hooking\hooks\GhostEventPlayer_Update.cpp" />
     <ClCompile Include="hooking\hooks\Player_Update.cpp" />

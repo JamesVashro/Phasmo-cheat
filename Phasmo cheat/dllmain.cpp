@@ -36,6 +36,17 @@ bool InitializeHooks()
     smile::vars->bool_TypeInfo = (System_Boolean_c*)signature("48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 83 7B ? ? 75 08 48 8B CB E8 ? ? ? ?").resolveRelativeAddr(3, 7);
 
 
+    uintptr_t gCreateGhost = (uintptr_t)signature("48 83 C4 20 5B C3 33 D2 48 8B CB 48 8B 74 24 ? 48 8B 7C 24 ? 48 83 C4 20 5B E9 ? ? ? ?").GetPointer();
+    gCreateGhost += 0x1A;
+
+    uint32_t _nRVA = *reinterpret_cast<uint32_t*>(gCreateGhost + 1);
+    uint64_t _nRIP = gCreateGhost + 5;
+
+    gCreateGhost = (_nRVA + _nRIP);
+
+    if (!HOOK::Hook((void*)gCreateGhost, HOOK::GhostController_CreateGhost, (void**)&HOOK::oCreateGhost))
+        return false;
+
     if (!HOOK::Hook(HOOK::getPresent(), HOOK::PresentHook, (void**)&HOOK::oPresent))
         return false;
 
