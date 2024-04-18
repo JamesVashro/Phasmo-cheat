@@ -49,6 +49,16 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
         HOOK::oRpc(vars->localPlayer->fields._view, SpawnDeadBodyNetworked, 0, (System_Object_array*)arr, 0);
     }
 
+    if (GetAsyncKeyState(0x4B) & 1)
+    {
+        _this->StartKilling();
+    }
+
+    if (GetAsyncKeyState(0x52) & 1)
+    {
+        _this->Revive();
+    }
+
     if (GetAsyncKeyState(0x5A) & 1) //z key
     {
         vars->controllingGhost = !vars->controllingGhost;

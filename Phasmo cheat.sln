@@ -7,16 +7,28 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phasmo cheat", "Phasmo chea
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Kernel|x64 = Debug Kernel|x64
+		Debug Kernel|x86 = Debug Kernel|x86
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release Kernel|x64 = Release Kernel|x64
+		Release Kernel|x86 = Release Kernel|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Debug Kernel|x64.ActiveCfg = Debug|x64
+		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Debug Kernel|x64.Build.0 = Debug|x64
+		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Debug Kernel|x86.ActiveCfg = Debug|Win32
+		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Debug Kernel|x86.Build.0 = Debug|Win32
 		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Debug|x64.ActiveCfg = Debug|x64
 		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Debug|x64.Build.0 = Debug|x64
 		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Debug|x86.ActiveCfg = Debug|Win32
 		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Debug|x86.Build.0 = Debug|Win32
+		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Release Kernel|x64.ActiveCfg = Release|x64
+		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Release Kernel|x64.Build.0 = Release|x64
+		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Release Kernel|x86.ActiveCfg = Release|Win32
+		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Release Kernel|x86.Build.0 = Release|Win32
 		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Release|x64.ActiveCfg = Release|x64
 		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Release|x64.Build.0 = Release|x64
 		{86C7FFA2-E9BD-48C0-9559-570863C74711}.Release|x86.ActiveCfg = Release|Win32

@@ -22,7 +22,7 @@ void Menu::Loop()
 		if (ImGui::Button("Lock exits", 5))
 		{
 			auto levelController = smile::vars->currentGhost->fields._7_activity->fields._5__________;
-			auto exitDoors = levelController->fields._17_DoorArray2;
+			auto exitDoors = levelController->fields._17_doorArray2;
 
 			const char* mName = "HuntingCloseDoorNetworked";
 			System_String_o* HuntingCloseDoorNetworked = SystemStringCtor(mName, 0, strlen(mName), 0);
@@ -87,6 +87,47 @@ void Menu::Loop()
 		ImGui::LineSliderFloat("Z", &smile::vars->z, -180.f, 180.f, 1);
 		ImGui::LineSliderFloat("W", &smile::vars->w, -180.f, 180.f, 1);*/
 
+		Network_o* network = NetworkGetInstance(0);
+		if (network)
+		{
+			auto playerList = network->fields._2_players->fields._items;
+			for (int i = 0; i < playerList->max_length; i++)
+			{
+				auto playerSpot = playerList->m_Items[i];
+				if (!playerSpot)
+					continue;
+
+				Player_o* player = playerSpot->fields.player;
+				if (!player)
+					continue;
+
+				System_String_o* playerName = playerSpot->fields.accountName;
+				std::wstring wPName(playerName->fields.buffer);
+				std::string sPName(wPName.begin(), wPName.end());
+
+				ImGui::Separator();
+				ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 15);
+				ImGui::Text(sPName.c_str());
+				ImGui::Text("Dead?:  %d", player->fields._1_dead);
+				if (ImGui::Button("Revive", 5))
+				{
+					if (player->fields._1_dead)
+						player->Revive();
+				}
+
+				if (ImGui::Button("Kill Fast", 5))
+				{
+					player->KillFast();
+				}
+
+				if (ImGui::Button("Kill Slow", 5))
+				{
+					player->StartKilling();
+				}
+				ImGui::Separator();
+
+			}
+		}
 
 		ImGui::End();
 	}

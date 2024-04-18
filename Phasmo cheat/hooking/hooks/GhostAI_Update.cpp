@@ -108,8 +108,7 @@ void HOOK::SetIntHk(UnityEngine_Animator_o* _this, System_String_o* name, int va
 
 void HOOK::OnGhostControllerUpdate(GhostController_o* _this, const MethodInfo* method)
 {
-    if (!smile::vars->ghostController)
-        smile::vars->ghostController = _this;
+    smile::vars->ghostController = _this;
 
     return oUpdateGhostController(_this, method);
 }
@@ -216,25 +215,6 @@ void DoGhostControls(GhostAI_o* _this)
         System_String_o* nstr = SystemStringCtor("isIdle", 0, strlen("isIdle"), 0);
         HOOK::_SetBool(smile::vars->currentGhost->fields._8_model->fields._3_animator, nstr, true, 0);
     }
-
-    if (GetAsyncKeyState(0x51))
-    {
-        if (!playedAppearSound)
-        {
-            TurnOnOrOffAppearSource(_this->fields._5_audio, true, true, 0);
-            PlayOrStopAppearSource(_this->fields._5_audio, true, 0);
-            playedAppearSound = true;
-        }
-        smile::vars->showGhost = true;
-        wasAppeared = true;
-    }
-    else
-    {
-        if (smile::vars->showGhost)
-            smile::vars->showGhost = false;
-
-        playedAppearSound = false;
-    }
 }
 
 void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
@@ -255,27 +235,11 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
     {
         if (!playedAppearSound)
         {
+            _this->SetModel(_this->fields._11__________->m_Items[3]);
             TurnOnOrOffAppearSource(_this->fields._5_audio, true, true, 0);
             PlayOrStopAppearSource(_this->fields._5_audio, true, 0);
             playedAppearSound = true;
 
-            try
-            {
-                auto modelArray = _this->fields._11__________;
-
-                for (int i = 0; i < modelArray->max_length; i++)
-                {
-                    auto model = modelArray->m_Items[i];
-                    auto name = ObjectGetName((UnityEngine_Object_o*)GetGameObject((UnityEngine_Component_o*)model, 0), 0);
-
-                    wprintf(L"%ls\n", name->fields.buffer);
-                }
-            }
-            catch (...)
-            {
-                printf("fucked\n");
-            }
-            
         }
         _this->Appear();
     }
@@ -300,6 +264,20 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
     if (smile::vars->currentGhost != _this)
     {
         printf("New Ghost: %p\n", _this);
+        size_t offset = offsetof(GhostAI_o, fields);
+        printf("Offset to fields: 0x%x\n", offset);
+        offset += offsetof(GhostAI_Fields, _3__________);
+        printf("Offset to info: 0x%x\n", offset);
+        offset = offsetof(GhostInfo_o, fields);
+        printf("Offset to info fields: 0x%x\n", offset);
+        offset += offsetof(GhostInfo_Fields, _________);
+        printf("Offset to __________70_o: 0x%x\n", offset);
+
+
+        printf("Offset to __________70_o fields: 0x%x\n", offsetof(__________70_o, fields));
+
+
+
     }
 
     smile::vars->currentGhost = _this;

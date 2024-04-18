@@ -51,6 +51,7 @@ struct UnityEngine_Rigidbody_o;
 struct UnityEngine_Component_array;
 struct UnityEngine_Light_o;
 struct GameController_c;
+struct GhostModel_o;
 
 struct MethodInfo1
 {
@@ -137,6 +138,7 @@ typedef void(__stdcall* GhostAudio__PlayOrStopAppearSource)(GhostAudio_o* _this,
 typedef void(__stdcall* GhostInteraction_____SpawnFootstep____6465324256)(GhostInteraction_o* _this, bool _, const MethodInfo* method);
 typedef void(__stdcall* FirstPersonController__GetInput)(FirstPersonController_o* _this, const MethodInfo* method);
 
+typedef void(__stdcall* Player__RevivePlayer)(Player_o* _this, const MethodInfo* method);
 
 
 typedef void(__stdcall* GhostAI__UnAppear)(GhostAI_o* _this, const MethodInfo* method);
@@ -165,6 +167,11 @@ typedef void(__stdcall* UnityEngine_Rigidbody__set_isKinematic)(UnityEngine_Rigi
 typedef void(__stdcall* UnityEngine_Rigidbody__AddForce)(UnityEngine_Rigidbody_o* _this, UnityEngine_Vector3_o* force, int32_t mode, const MethodInfo* method);
 
 typedef void(__stdcall* GhostAI__FlashAppear)(GhostAI_o* _this, const MethodInfo* method);
+typedef void(__stdcall* GhostAI__SetGhostModel_6465062688)(GhostAI_o* _this, GhostModel_o* _, bool a3, const MethodInfo* method);
+typedef void(__stdcall* GhostAI__SetGhostModel)(GhostAI_o* _this, int _, bool a3, const MethodInfo* method);
+
+typedef void(__stdcall* Player__KillPlayer)(Player_o* _this, bool _, const MethodInfo* method);
+typedef void(__stdcall* Player__StartKillingPlayer)(Player_o* _this, const MethodInfo* method);
 
 inline UnityEngine_GameObject__CreatePrimitive _CreatePrimitive{};
 inline UnityEngine_Collider__set_enabled _ColliderSetEnabled{};
@@ -198,6 +205,9 @@ inline UnityEngine_RaycastHit__get_collider GetCollider{};
 inline UnityEngine_Object__GetName ObjectGetName{};
 inline UnityEngine_Camera__CopyFrom _CopyFrom{};
 inline UnityEngine_Animator__set_speed _AnimatorSetSpeed{};
+
+inline GhostAI__SetGhostModel_6465062688 _SetGhostModel{};
+inline GhostAI__SetGhostModel _SetGhostModelInt{};
 
 inline UnityEngine_Light__set_range _SetRange{};
 inline FirstPersonController__GetInput GetInput{};
@@ -264,6 +274,10 @@ inline GhostAudio__TurnOnOrOffAppearSource TurnOnOrOffAppearSource{};
 inline GhostAudio__PlayOrStopAppearSource PlayOrStopAppearSource{};
 inline GhostAI__UnAppear _UnAppear{};
 inline GhostInteraction_____SpawnFootstep____6465324256 SpawnFootstep{};
+
+inline Player__StartKillingPlayer _StartKilling{};
+inline Player__RevivePlayer _Revive{};
+inline Player__KillPlayer _Kill{};
 
 inline Network__get_Instance NetworkGetInstance{};
 
@@ -402,6 +416,21 @@ namespace FUNCS
 
         ////-------------------AI stuff--------------------//
         
+        _StartKilling = (Player__StartKillingPlayer)(GetMethodPtr("", "Player", "StartKillingPlayer", 0));
+        work &= (_StartKilling != 0);
+
+        _Kill = (Player__KillPlayer)(GetMethodPtr("", "Player", "KillPlayer", 1));
+        work &= (_Kill != 0);
+
+        _Revive = (Player__RevivePlayer)(GetMethodPtr("", "Player", "RevivePlayer", 0));
+        work &= (_Revive != 0);
+
+        _SetGhostModel = (GhostAI__SetGhostModel_6465062688)signature("40 53 55 41 54 48 83 EC 20 80 3D ? ? ? ? ? 45 0F B6 E0 48 8B EA 48 8B D9").GetPointer();
+        work &= (_SetGhostModel != 0);
+
+        _SetGhostModelInt = (GhostAI__SetGhostModel)signature("48 83 EC 28 45 84 C0 75 46 48 8B 41 38 48 85 C0 74 56 44 38 40 44 74 26").GetPointer();
+        work &= (_SetGhostModelInt != 0);
+
         _ColliderSetEnabled = (UnityEngine_Collider__set_enabled)(GetMethodPtr("UnityEngine", "Collider", "set_enabled", 1, "UnityEngine.PhysicsModule"));
         work &= (_ColliderSetEnabled != 0);
 
