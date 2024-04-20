@@ -24,7 +24,7 @@ void Menu::Loop()
 			auto levelController = smile::vars->currentGhost->fields._7_activity->fields._5__________;
 			auto exitDoors = levelController->fields._17_doorArray2;
 
-			const char* mName = "HuntingCloseDoorNetworked";
+			/*const char* mName = "HuntingCloseDoorNetworked";
 			System_String_o* HuntingCloseDoorNetworked = SystemStringCtor(mName, 0, strlen(mName), 0);
 			DWORD* arr = il2cppArrayNewSpecific((__int64)smile::vars->object_TypeInfo, 0);
 			for (int i = 0; i < exitDoors->max_length; i++)
@@ -38,7 +38,7 @@ void Menu::Loop()
 				}
 
 				HOOK::oRpc(door->fields._16_view, HuntingCloseDoorNetworked, 0, (System_Object_array*)arr, 0);
-			}
+			}*/
 		}
 
 		if (ImGui::Button("Change Ghost Room", 5))
@@ -105,6 +105,7 @@ void Menu::Loop()
 				std::wstring wPName(playerName->fields.buffer);
 				std::string sPName(wPName.begin(), wPName.end());
 
+
 				ImGui::Separator();
 				ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 15);
 				ImGui::Text(sPName.c_str());
@@ -124,6 +125,7 @@ void Menu::Loop()
 				{
 					player->StartKilling();
 				}
+
 				ImGui::Separator();
 
 			}

@@ -52,6 +52,11 @@ struct UnityEngine_Component_array;
 struct UnityEngine_Light_o;
 struct GameController_c;
 struct GhostModel_o;
+struct Photon_Pun_PhotonView_o;
+struct System_Object_array;
+struct System_Array_o;
+struct System_Collections_ArrayList_o;
+
 
 struct MethodInfo1
 {
@@ -61,8 +66,13 @@ struct MethodInfo1
 //possible PE type function
 //void __stdcall UnityEngine_MonoBehaviour__Invoke(UnityEngine_MonoBehaviour_o *this, System_String_o *methodName, float time, const MethodInfo *method)
 
+typedef void(__stdcall* Photon_Pun_PhotonView__RPC)(Photon_Pun_PhotonView_o* _this, System_String_o* methodName, int32_t target, System_Object_array* parameters, const MethodInfo* method);
+
+typedef __int64(__fastcall* weirdInitParamsFunc)(__int64 arrayIndexPtr, __int64 value);
 typedef Network_o* (__stdcall* Network__get_Instance)(const MethodInfo* method);
-typedef __int64(__fastcall* il2cpp_value_box)(void* a1, void* a2);
+typedef Il2CppObject*(__fastcall* il2cpp_value_box)(Il2CppClass* classType, void* value);
+
+typedef void(__stdcall* Photon_Pun_PhotonView__RPC_6500903728)(Photon_Pun_PhotonView_o* _this, System_String_o* methodName, Photon_Realtime_Player_o* targetPlayer, System_Object_array* parameters, const MethodInfo* method);
 
 typedef UnityEngine_GameObject_o* (__stdcall* UnityEngine_GameObject__CreatePrimitive)(int32_t type, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_Light__set_color)(UnityEngine_Light_o* _this, UnityEngine_Color_o* value, const MethodInfo* method);
@@ -141,9 +151,12 @@ typedef void(__stdcall* FirstPersonController__GetInput)(FirstPersonController_o
 typedef void(__stdcall* Player__RevivePlayer)(Player_o* _this, const MethodInfo* method);
 
 
+typedef void(__stdcall* System_Collections_ArrayList___ctor)(System_Collections_ArrayList_o* _this, const MethodInfo* method);
+typedef int32_t(__stdcall* System_Collections_ArrayList__Add)(System_Collections_ArrayList_o* _this, Il2CppObject* value, const MethodInfo* method);
+
 typedef void(__stdcall* GhostAI__UnAppear)(GhostAI_o* _this, const MethodInfo* method);
 typedef void(__stdcall* GhostEventPlayer____________6465199120)(GhostEventPlayer_o* _this, Player_o* _, UnityEngine_Vector3_o* a3, const MethodInfo* method);
-typedef DWORD* (__fastcall* il2cpp_array_new_specific_0)(__int64 a1, unsigned __int64 a2);
+typedef System_Object_array* (__fastcall* il2cpp_array_new_specific_0)(Il2CppClass* classType, unsigned __int64 arraySize);
 typedef __int64(__fastcall* il2cpp_object_new)(__int64 a1);
 typedef __int64(__fastcall* il2cpp_class_get_method_from_name)(Il2CppClass* clasz, const char* a2, __int64 a3);
 typedef Il2CppClass*(__fastcall* il2cpp_class_from_name)(void* image, const char* namespaze, const char* name);
@@ -152,7 +165,7 @@ typedef void*(__fastcall* il2cpp_domain_assembly_open)(void* domain, const char*
 typedef void* (__fastcall* il2cpp_domain_get)();
 typedef Il2CppType* (__fastcall* il2cpp_class_get_type)(Il2CppClass* klass);
 typedef Il2CppObject* (__fastcall* il2cpp_type_get_object)(Il2CppType* type);
-
+typedef void(__fastcall* il2cpp_runtime_class_init)(Il2CppClass* klass);
 typedef System_String_o* (__stdcall* System_String__Ctor_6497373952)(const char* value, int32_t startIndex, int32_t length, const MethodInfo* method);
 
 typedef UnityEngine_Collider_o* (__stdcall* UnityEngine_Physics__GetColliderByInstanceID)(int32_t instanceID, const MethodInfo* method);
@@ -170,8 +183,15 @@ typedef void(__stdcall* GhostAI__FlashAppear)(GhostAI_o* _this, const MethodInfo
 typedef void(__stdcall* GhostAI__SetGhostModel_6465062688)(GhostAI_o* _this, GhostModel_o* _, bool a3, const MethodInfo* method);
 typedef void(__stdcall* GhostAI__SetGhostModel)(GhostAI_o* _this, int _, bool a3, const MethodInfo* method);
 
+typedef __int64* (__fastcall* idkwtf)(__int64 a1, __int64 a2);
+
+typedef __int64(__fastcall* il2cpp_type_get_name)(__int64 a1);
+
 typedef void(__stdcall* Player__KillPlayer)(Player_o* _this, bool _, const MethodInfo* method);
 typedef void(__stdcall* Player__StartKillingPlayer)(Player_o* _this, const MethodInfo* method);
+
+
+typedef System_Object_array* (__stdcall* System_Collections_ArrayList__ToArray)(System_Collections_ArrayList_o* _this, const MethodInfo* method);
 
 inline UnityEngine_GameObject__CreatePrimitive _CreatePrimitive{};
 inline UnityEngine_Collider__set_enabled _ColliderSetEnabled{};
@@ -181,7 +201,9 @@ inline UnityEngine_Rigidbody__AddForce _AddForce{};
 
 inline UnityEngine_Light__set_color LightSetColor{};
 inline UnityEngine_Light__set_intensity LightSetIntensity{};
+inline weirdInitParamsFunc InitParam{};
 
+inline Photon_Pun_PhotonView__RPC_6500903728 TargettedRPC{};
 inline UnityEngine_GameObject__GetComponent _GetComponent{};
 inline UnityEngine_GameObject__GetComponents _GetComponents{};
 inline UnityEngine_Rigidbody__set_useGravity _SetUseGravity{};
@@ -215,6 +237,9 @@ inline MouseLook__LookRotation MouseLookRotation{};
 inline UnityEngine_AI_NavMeshAgent__set_speed _SetSpeed{};
 inline UnityEngine_AI_NavMeshAgent__get_speed _GetSpeed{};
 
+inline System_Collections_ArrayList___ctor ArrayListCtor{};
+
+
 inline UnityEngine_Object__Destroy ObjectDestroy{};
 inline UnityEngine_GameObject___ctor GameObjConstruct{};
 inline UnityEngine_GameObject__set_tag _SetTag{};
@@ -224,6 +249,8 @@ inline UnityEngine_Object__get_hideFlags _GetHideFlags{};
 inline UnityEngine_GameObject__AddComponent _AddComponent{};
 inline System_Type__GetType_6498422912 GetTypeByName{};
 inline UnityEngine_Behaviour__set_enabled _SetEnabled{};
+
+inline il2cpp_type_get_name il2cppTypeGetName{};
 
 inline UnityEngine_GameObject__SetActive _SetActive{};
 inline UnityEngine_Component__get_gameObject GetGameObject{};
@@ -239,6 +266,8 @@ inline UnityEngine_Transform__set_parent _SetParent{};
 
 inline il2cpp_object_new il2cppObjectNew{};
 inline il2cpp_value_box il2cppValueBox{};
+inline il2cpp_runtime_class_init il2cppRuntimeClassInit{};
+
 inline il2cpp_array_new_specific_0 il2cppArrayNewSpecific{};
 inline il2cpp_class_get_method_from_name il2cppClassGetMethodFromName{};
 inline il2cpp_class_from_name il2cppClassFromName{};
@@ -281,6 +310,14 @@ inline Player__KillPlayer _Kill{};
 
 inline Network__get_Instance NetworkGetInstance{};
 
+inline idkwtf idek{};
+inline System_Collections_ArrayList__Add _Add{};
+
+typedef int32_t(__stdcall* System_Array__System_Collections_IList_Add)(System_Array_o* _this, Il2CppObject* value, const MethodInfo* method);
+inline System_Array__System_Collections_IList_Add Array_Add{};
+
+inline Photon_Pun_PhotonView__RPC oRpc{};
+
 namespace FUNCS
 {
     inline void* GetFuncPtr(uint64_t offset)
@@ -293,7 +330,14 @@ namespace FUNCS
     inline void* GetImage(const char* imageName)
     {
         void* assembly = il2cppDomainAssemblyOpen(il2cppDomainGet(), imageName);
-        return il2cppAssemblyGetImage(assembly);
+        if (!assembly)
+        {
+            printf("Assembly: %s  couldnt be found\n", imageName);
+            return nullptr;
+        }
+        void* ret = il2cppAssemblyGetImage(assembly);
+        //printf("%s -> %p\n", imageName, ret);
+        return ret;
     }
 
     inline Il2CppClass* GetClass(const char* image, const char* namespaze, const char* className)
@@ -303,7 +347,13 @@ namespace FUNCS
 
     inline uint8_t* GetMethodPtr(const char* namespaze, const char* className, const char* funcName, int argCount, const char* image = "Assembly-CSharp")
     {
-        const MethodInfo1* mInfo = (MethodInfo1*)il2cppClassGetMethodFromName(GetClass(image, namespaze, className), funcName, argCount);
+        Il2CppClass* klass = GetClass(image, namespaze, className);
+        if (!klass)
+        {
+            printf("Class: %s couldnt be found\n", className);
+            return nullptr;
+        }
+        const MethodInfo1* mInfo = (MethodInfo1*)il2cppClassGetMethodFromName(klass, funcName, argCount);
         if (mInfo == NULL)
         {
             printf("MethodInfo returned null: %s\t%s\n", className, funcName);
@@ -315,10 +365,11 @@ namespace FUNCS
 	inline bool Init()
 	{
         bool work = true;
-        //
+       
+
         HMODULE mod = GetModuleHandleA("GameAssembly.dll");
 
-        il2cppArrayNewSpecific = (il2cpp_array_new_specific_0)GetFuncPtr(0x2F1D80);
+        il2cppArrayNewSpecific = (il2cpp_array_new_specific_0)GetProcAddress(mod, "il2cpp_array_new_specific");
         work &= (il2cppArrayNewSpecific != 0);
 
         il2cppObjectNew = (il2cpp_object_new)GetProcAddress(mod, "il2cpp_object_new");
@@ -342,11 +393,23 @@ namespace FUNCS
         il2cppDomainGet = (il2cpp_domain_get)GetProcAddress(mod, "il2cpp_domain_get");
         work &= (il2cppDomainGet != 0);
 
+        il2cppRuntimeClassInit = (il2cpp_runtime_class_init)GetProcAddress(mod, "il2cpp_runtime_class_init");
+        work &= (il2cppRuntimeClassInit != 0);
+
         il2cppClassGetType = (il2cpp_class_get_type)GetProcAddress(mod, "il2cpp_class_get_type");
         work &= (il2cppClassGetType != 0);
 
         il2cppTypeGetObject = (il2cpp_type_get_object)GetProcAddress(mod, "il2cpp_type_get_object");
         work &= (il2cppTypeGetObject != 0);
+
+        il2cppTypeGetName = (il2cpp_type_get_name)GetProcAddress(mod, "il2cpp_type_get_name");
+        work &= (il2cppTypeGetName != 0);
+
+        InitParam = (weirdInitParamsFunc)(signature("E8 ? ? ? ? 8B 47 10 89 43 10 8B 47 14 89 43 14 83 7F 18 00 0F 95 C0").resolveRelativeAddr(1, 5));
+        work &= (InitParam != 0);
+
+        idek = (idkwtf)(signature("E8 ? ? ? ? 48 85 C0 74 0F EB 02 33 C0 48 8B 5C 24 ?").resolveRelativeAddr(1, 5));
+        work &= (idek != 0);
 
         SetCursorVisible = (UnityEngine_Cursor__set_visible)(GetMethodPtr("UnityEngine", "Cursor", "set_visible", 1, "UnityEngine.CoreModule"));
         work &= (SetCursorVisible != 0);
@@ -389,6 +452,18 @@ namespace FUNCS
 
         GetMainCamera = (UnityEngine_Camera__get_main)(GetMethodPtr("UnityEngine", "Camera", "get_main", 0, "UnityEngine.CoreModule"));
         work &= (GetMainCamera != 0);
+
+        ArrayListCtor = (System_Collections_ArrayList___ctor)(signature("E8 ? ? ? ? 48 85 FF 0F 84 ? ? ? ? 48 8B 17 48 8B CF 48 8B 82 ? ? ? ? 48 8B 92 ? ? ? ? FF D0 48 8B F8 66 0F 1F 44 00 ? 48 8B 0D ? ? ? ? 39 B1 ? ? ? ?").resolveRelativeAddr(1, 5));
+        work &= (ArrayListCtor != 0);
+
+        _Add = (System_Collections_ArrayList__Add)(GetMethodPtr("System.Collections", "ArrayList", "Add", 1, "mscorlib"));
+        work &= (_Add != 0);
+
+        TargettedRPC = (Photon_Pun_PhotonView__RPC_6500903728)(signature("E8 ? ? ? ? 48 8B 05 ? ? ? ? 48 8B 88 ? ? ? ? 48 8B 01 48 85 C0 0F 84 ? ? ? ? 40 38 B0 ? ? ? ? 74 33 48 8B 0D ? ? ? ?").resolveRelativeAddr(1, 5));
+        work &= (TargettedRPC != 0);
+
+        Array_Add = (System_Array__System_Collections_IList_Add)(GetMethodPtr("System", "Array", "System.Collections.IList.Add", 1, "mscorlib"));
+        work &= (Array_Add != 0);
 
         _CreatePrimitive = (UnityEngine_GameObject__CreatePrimitive)(GetMethodPtr("UnityEngine", "GameObject", "CreatePrimitive", 1, "UnityEngine.CoreModule"));
         work &= (_CreatePrimitive != 0);

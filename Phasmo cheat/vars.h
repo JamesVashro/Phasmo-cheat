@@ -55,6 +55,8 @@ namespace smile
 
 		bool controllingGhost = false;
 		int controlGhostWalkType = 0;
+		UnityEngine_Vector3_o ghostPOS{};
+		UnityEngine_Quaternion_o ghostQUAT{};
 
 		int32_t lastLockedState = -1;
 

@@ -34,13 +34,32 @@ void HOOK::OnFPCUpdate(FirstPersonController_o* _this, MethodInfo* mInfo)
 		UnityEngine_Vector3_o gPos = center;
 		UnityEngine_Vector3_o gForward = vars->currentGhost->GetForward();
 
-		UnityEngine_Vector3_o finalPos = gPos + (gForward * -1);
-		UnityEngine_Quaternion_o gQuat = vars->currentGhost->GetTransform()->GetRotation();
-
-		vars->ghostCam->GetTransform()->SetPosition(finalPos);
-		vars->ghostCam->GetTransform()->SetRotation(gQuat);
+		vars->ghostPOS = gPos + (gForward * -1);
+		vars->ghostQUAT = vars->currentGhost->GetTransform()->GetRotation();
 
 		return;
+	}
+
+
+	Network_o* network = NetworkGetInstance(0);
+	if (network)
+	{
+		auto players = network->fields._2_players;
+		if (!players)
+			return oUpdateFPC(_this, mInfo);
+
+		auto playerList = players->fields._items;
+		if (!playerList)
+			return oUpdateFPC(_this, mInfo);
+
+		auto playerSpot = playerList->m_Items[0];
+		if (!playerSpot)
+			return oUpdateFPC(_this, mInfo);
+
+		if (!playerSpot->fields.player)
+			return oUpdateFPC(_this, mInfo);
+
+		vars->localPlayer = playerSpot->fields.player;
 	}
 	return oUpdateFPC(_this, mInfo);
 }

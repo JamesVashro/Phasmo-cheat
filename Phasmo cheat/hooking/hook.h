@@ -15,10 +15,10 @@ typedef HRESULT(__stdcall* ID3DPresent)(IDXGISwapChain* this_, UINT sync, UINT f
 
 typedef void(__stdcall* Player_Update)(Player_o*, MethodInfo*);
 typedef void(__stdcall* GhostAI_Update)(GhostAI_o*, MethodInfo*);
-typedef void(__stdcall* Photon_Pun_PhotonView__RPC)(Photon_Pun_PhotonView_o* _this, System_String_o* methodName, int32_t target, System_Object_array* parameters, const MethodInfo* method);
 typedef void(__stdcall* GhostController__Update)(GhostController_o* _this, const MethodInfo* method);
 typedef void(__stdcall* GhostEventPlayer__Update)(GhostEventPlayer_o* _this, const MethodInfo* method);
 typedef void(__stdcall* OuijaBoard__PlayMessageSequence)(OuijaBoard_o* _this, System_String_o* _, Photon_Pun_PhotonMessageInfo_o* a3, const MethodInfo* method);
+
 
 typedef bool(__stdcall* UnityEngine_AI_NavMeshAgent__SetDestination)(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
 typedef void(__stdcall* UnityEngine_AI_NavMeshAgent__SetDestination2)(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
@@ -112,6 +112,7 @@ namespace HOOK
 	void SetBoolHk(UnityEngine_Animator_o* _this, System_String_o* name, bool value, const MethodInfo* method);
 	void SetIntHk(UnityEngine_Animator_o* _this, System_String_o* name, int value, const MethodInfo* method);
 
+
 	inline WNDPROC oWndProc{};
 	inline ID3DPresent oPresent{};
 
@@ -119,7 +120,6 @@ namespace HOOK
 
 	inline Player_Update oUpdatePlayer{};
 	inline GhostAI_Update oUpdateGhost{};
-	inline Photon_Pun_PhotonView__RPC oRpc{};
 	inline GhostController__Update oUpdateGhostController{};
 	inline GhostEventPlayer__Update oUpdateGhostEventPlayer{};
 	inline OuijaBoard__PlayMessageSequence oPlayMessageSequence{};

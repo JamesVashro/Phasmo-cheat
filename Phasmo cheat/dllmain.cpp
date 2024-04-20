@@ -32,9 +32,11 @@ bool InitializeHooks()
     //GetMethodFromName = (uintptr_t)signature("48 89 5C 24 ? 48 89 6C 24 ? 56 57 41 56 48 83 EC 20 41 8B F1 41 8B D8 4C 8B F2 48 8B F9 E8 ? ? ? ?").import("GameAssembly.dll").GetPointer();
     //GetClassFromName = (uintptr_t)signature("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 4D 8B E0 4C 8B EA 48 8B F9 48 83 79 ? ? 0F 85 ? ? ? ? ").import("GameAssembly.dll").GetPointer();
 
-    smile::vars->object_TypeInfo = (Il2CppClass*)signature("48 8D 0D ? ? ? ? 48 89 BC 24 ? ? ? ? E8 ? ? ? ? 48 8B C8 BA ? ? ? ? E8 ? ? ? ?").resolveRelativeAddr(3, 7);
-    smile::vars->int_TypeInfo = (System_Int32_c*)signature("48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? C6 05 ? ? ? ? ? 8B 47 10 48 8D 54 24 ?").resolveRelativeAddr(3, 7);
-    smile::vars->bool_TypeInfo = (System_Boolean_c*)signature("48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 83 7B ? ? 75 08 48 8B CB E8 ? ? ? ?").resolveRelativeAddr(3, 7);
+    //smile::vars->object_TypeInfo = (Il2CppClass*)signature("48 8D 0D ? ? ? ? 48 89 BC 24 ? ? ? ? E8 ? ? ? ? 48 8B C8 BA ? ? ? ? E8 ? ? ? ?").resolveRelativeAddr(3, 7);
+    //smile::vars->int_TypeInfo = (System_Int32_c*)signature("48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? C6 05 ? ? ? ? ? 8B 47 10 48 8D 54 24 ?").resolveRelativeAddr(3, 7);
+    //smile::vars->bool_TypeInfo = (System_Boolean_c*)signature("48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 83 7B ? ? 75 08 48 8B CB E8 ? ? ? ?").resolveRelativeAddr(3, 7);
+
+    //MainManager_o* manager = reinterpret_cast<MainManager_c*>(FUNCS::GetClass("Assembly-CSharp", "", "MainManager"))->static_fields->_________;
 
 
     //__int64 gCreateGhost = (__int64)signature("E9 ? ? ? ? E8 ? ? ? ? CC CC CC CC CC CC CC CC 40 53 48 83 EC 20 80 3D ? ? ? ? ? 48 8B D9 75 1F 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? C6 05 ? ? ? ? ? 48 8B 83 ? ? ? ?").resolveRelativeAddr(1, 5);
@@ -43,6 +45,8 @@ bool InitializeHooks()
 
     /*if (!HOOK::Hook((void*)gCreateGhost, HOOK::GhostController_CreateGhost, (void**)&HOOK::oCreateGhost))
         return false;*/
+
+
 
     if (!HOOK::Hook(HOOK::getPresent(), HOOK::PresentHook, (void**)&HOOK::oPresent))
         return false;
@@ -62,7 +66,7 @@ bool InitializeHooks()
     if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("", "GhostEventPlayer", "Update", 0)), HOOK::OnGhostEventPlayerUpdate, (void**)&HOOK::oUpdateGhostEventPlayer))
         return false;
 
-    if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("Photon.Pun", "PhotonView", "RPC", 3, "PhotonUnityNetworking")), HOOK::RPCFunc, (void**)&HOOK::oRpc))
+    if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("Photon.Pun", "PhotonView", "RPC", 3, "PhotonUnityNetworking")), HOOK::RPCFunc, (void**)&oRpc))
         return false;
 
     if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("", "FirstPersonController", "Update", 0, "Assembly-CSharp-firstpass")), HOOK::OnFPCUpdate, (void**)&HOOK::oUpdateFPC))

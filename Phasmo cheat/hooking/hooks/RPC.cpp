@@ -33,5 +33,12 @@ void HOOK::RPCFunc(Photon_Pun_PhotonView_o* _this, System_String_o* methodName, 
 
 	smile::vars->rpcCalls.push_back(outStr);
 	
+	if (outStr == "Hunting")
+	{
+
+		printf("%p\n", parameters->obj.klass);
+		
+		smile::vars->object_TypeInfo = parameters->obj.klass;
+	}
 	return oRpc(_this, methodName, target, parameters, method);
 }

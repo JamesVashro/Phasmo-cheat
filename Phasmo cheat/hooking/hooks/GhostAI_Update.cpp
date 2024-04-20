@@ -215,6 +215,9 @@ void DoGhostControls(GhostAI_o* _this)
         System_String_o* nstr = SystemStringCtor("isIdle", 0, strlen("isIdle"), 0);
         HOOK::_SetBool(smile::vars->currentGhost->fields._8_model->fields._3_animator, nstr, true, 0);
     }
+
+    smile::vars->ghostCam->GetTransform()->SetPosition(smile::vars->ghostPOS);
+    smile::vars->ghostCam->GetTransform()->SetRotation(smile::vars->ghostQUAT);
 }
 
 void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
@@ -260,25 +263,6 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
     
     //printf("%f   %f   %f\n", _this->fields._15_float1, _this->fields._22_ghostSpeed, _this->fields._23_float3);
     //printf("%f   %f   %f\n===================\n", _this->fields._24_float4, _this->fields._34_float5, _this->fields._52_float6);
-
-    if (smile::vars->currentGhost != _this)
-    {
-        printf("New Ghost: %p\n", _this);
-        size_t offset = offsetof(GhostAI_o, fields);
-        printf("Offset to fields: 0x%x\n", offset);
-        offset += offsetof(GhostAI_Fields, _3__________);
-        printf("Offset to info: 0x%x\n", offset);
-        offset = offsetof(GhostInfo_o, fields);
-        printf("Offset to info fields: 0x%x\n", offset);
-        offset += offsetof(GhostInfo_Fields, _________);
-        printf("Offset to __________70_o: 0x%x\n", offset);
-
-
-        printf("Offset to __________70_o fields: 0x%x\n", offsetof(__________70_o, fields));
-
-
-
-    }
 
     smile::vars->currentGhost = _this;
     smile::vars->ghostState = _this->fields._1_state;
@@ -476,10 +460,44 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
     
 
     if (GetAsyncKeyState(VK_F2) & 1)
-        ChangeState(_this, 14, 0, 0, true, 0);
+    {
+        //ChangeState(_this, 14, 0, 0, true, 0);
+        ChangeState(_this, 2, 0, 0, true, 0); //hunt
+    }
 
     if (GetAsyncKeyState(VK_F3) & 1)
+    {
+        const char* mName = "Hunting";
+        System_String_o* Hunting = SystemStringCtor(mName, 0, strlen(mName), 0);
+
+        Il2CppClass* boolTypeInfo = FUNCS::GetClass("mscorlib", "System", "Boolean");
+        Il2CppClass* intTypeInfo = FUNCS::GetClass("mscorlib", "System", "Int32");
+
+
+        Il2CppClass* genericList = FUNCS::GetClass("mscorlib", "System.Collections", "ArrayList");
+        System_Collections_ArrayList_o* genArray = (System_Collections_ArrayList_o*)il2cppObjectNew((__int64)genericList);
+        ArrayListCtor(genArray, 0);
+        
+        if (genArray)
+        {
+            bool b1 = false;
+            int i = 3;
+
+            Il2CppObject* boxedBool = il2cppValueBox(boolTypeInfo, &b1);
+            Il2CppObject* boxedInt = il2cppValueBox(intTypeInfo, &i);
+
+            genArray->Add(boxedBool);
+            genArray->Add(boxedInt);
+
+            System_Object_array* arr = genArray->fields._items;
+            arr->max_length = 2;
+
+            printf("sending RPC\n");
+            oRpc(_this->fields._2_view, Hunting, 0, arr, 0);
+        }
         ChangeState(_this, 2, 0, 0, true, 0); //hunt
+
+    }
 
     if (GetAsyncKeyState(VK_F9)) //trying to disable gravity for ghost so it can walk on ceiling
     {
