@@ -88,6 +88,5 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
     }
 
     
-
     return oUpdatePlayer(_this, mInfo);
 }

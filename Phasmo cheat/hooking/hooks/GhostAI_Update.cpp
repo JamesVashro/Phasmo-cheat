@@ -517,5 +517,29 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
         printf("chaning gravity\n");*/
     }
 
+
+    if (GetAsyncKeyState(0x50) & 1) //P key
+    {
+        Il2CppClass* intTypeInfo = FUNCS::GetClass("mscorlib", "System", "Int32");
+        Il2CppClass* vectorTypeInfo = FUNCS::GetClass("UnityEngine.CoreModule", "UnityEngine", "Vector3");
+        Il2CppClass* listTypeInfo = FUNCS::GetClass("mscorlib", "System.Collections", "ArrayList");
+
+
+        System_Collections_ArrayList_o* oArray = (System_Collections_ArrayList_o*)il2cppObjectNew((__int64)listTypeInfo);
+        oArray->Construct();
+
+        UnityEngine_Vector3_o position = smile::vars->localPlayer->GetPosition();
+
+        oArray->AddItem<UnityEngine_Vector3_o>(position, vectorTypeInfo);
+        oArray->AddItem<int>(0, intTypeInfo);
+
+        oArray->AddItem<int>(-1, intTypeInfo); //EMF level -1 = EMF 1, 3 = EMF 5
+
+        oArray->AddItem<int>(0, intTypeInfo);
+        oArray->AddItem<int>(0, intTypeInfo);
+
+        _this->fields._6_interaction->fields.view->SendRPC("SpawnEMFNetworked", oArray->GetObjArray());
+    }
+
     return oUpdateGhost(_this, mInfo);
 }
