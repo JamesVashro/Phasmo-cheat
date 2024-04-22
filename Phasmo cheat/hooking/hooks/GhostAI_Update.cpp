@@ -261,8 +261,8 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
     int rand = (smile::vars->randomSpook ? gen(rng) : 0);
 
     
-    //printf("%f   %f   %f\n", _this->fields._15_float1, _this->fields._22_ghostSpeed, _this->fields._23_float3);
-    //printf("%f   %f   %f\n===================\n", _this->fields._24_float4, _this->fields._34_float5, _this->fields._52_float6);
+    //printf("%d   %d   %d\n", _this->fields._12_b1, _this->fields._17_b2, _this->fields._25_b3);
+   // printf("%d   %d   %d\n===================\n", _this->fields._26_b4, _this->fields._29_b5, _this->fields._30_b6);
 
     smile::vars->currentGhost = _this;
     smile::vars->ghostState = _this->fields._1_state;
@@ -452,9 +452,6 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
 
     if (GetAsyncKeyState(VK_F1) & 1)
     {
-        /*auto interaction = _this->fields._6_interaction;
-        interaction->fields.footstepSpawnPoint = smile::vars->localPlayer->GetTransform();
-        SpawnFootstep(interaction, false, 0);*/
         ForceInteract(_this->fields._7_activity, true, 0);
     }
     
@@ -499,10 +496,32 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
 
     }
 
-    if (GetAsyncKeyState(VK_F9)) //trying to disable gravity for ghost so it can walk on ceiling
+    if (GetAsyncKeyState(VK_F9) & 1) //trying to disable gravity for ghost so it can walk on ceiling
     {
-        _this->fields._36_b10 = true;
-        _this->FlashAppear();
+        /*Il2CppClass* intTypeInfo = FUNCS::GetClass("mscorlib", "System", "Int32");
+        Il2CppClass* boolTypeInfo = FUNCS::GetClass("mscorlib", "System", "Boolean");
+        Il2CppClass* vectorTypeInfo = FUNCS::GetClass("UnityEngine.CoreModule", "UnityEngine", "Vector3");
+        Il2CppClass* quatTypeInfo = FUNCS::GetClass("UnityEngine.CoreModule", "UnityEngine", "Quaternion");
+        Il2CppClass* listTypeInfo = FUNCS::GetClass("mscorlib", "System.Collections", "ArrayList");
+
+
+        System_Collections_ArrayList_o* oArray = (System_Collections_ArrayList_o*)il2cppObjectNew((__int64)listTypeInfo);
+        oArray->Construct();
+
+        UnityEngine_Vector3_o pos = smile::vars->localPlayer->GetPosition();
+        UnityEngine_Quaternion_o rot = smile::vars->localPlayer->GetTransform()->GetRotation();
+
+        oArray->AddItem<UnityEngine_Vector3_o>(pos, vectorTypeInfo);
+        oArray->AddItem<UnityEngine_Quaternion_o>(rot, quatTypeInfo);
+        oArray->AddItem<int>(1, intTypeInfo);
+        oArray->AddItem<int>(4, intTypeInfo);
+        oArray->AddItem<bool>(1, boolTypeInfo);
+
+        _this->Appear();
+        _this->fields._6_interaction->fields.view->SendRPC("SpawnFootstepNetworked", oArray->GetObjArray());
+        _this->UnAppear();*/
+
+
         /*static bool flag = true;
 
         flag = !flag;
@@ -533,7 +552,7 @@ void HOOK::OnGhostUpdate(GhostAI_o* _this, MethodInfo* mInfo)
         oArray->AddItem<UnityEngine_Vector3_o>(position, vectorTypeInfo);
         oArray->AddItem<int>(0, intTypeInfo);
 
-        oArray->AddItem<int>(-1, intTypeInfo); //EMF level -1 = EMF 1, 3 = EMF 5
+        oArray->AddItem<int>(-2, intTypeInfo); //EMF level -1 = EMF 1, 3 = EMF 5...... 4 & 5 create emf 5 sound, but emf doesnt move
 
         oArray->AddItem<int>(0, intTypeInfo);
         oArray->AddItem<int>(0, intTypeInfo);

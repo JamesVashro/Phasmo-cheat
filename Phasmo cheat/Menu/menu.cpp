@@ -82,6 +82,45 @@ void Menu::Loop()
 
 		}
 
+		/*if (ImGui::Button("Sync Ghost", 5))
+		{
+			Il2CppClass* boolTypeInfo = FUNCS::GetClass("mscorlib", "System", "Boolean");
+			Il2CppClass* intTypeInfo = FUNCS::GetClass("mscorlib", "System", "Int32");
+			Il2CppClass* genericList = FUNCS::GetClass("mscorlib", "System.Collections", "ArrayList");
+
+			System_Collections_ArrayList_o* genArray = (System_Collections_ArrayList_o*)il2cppObjectNew((__int64)genericList);
+			genArray->Construct();
+
+			genArray->AddItem<bool>(false, boolTypeInfo);
+			genArray->AddItem<int>(3, intTypeInfo);
+			genArray->AddItem<bool>(false, boolTypeInfo);
+
+			smile::vars->ghostController->fields.view->SendRPC("CreateGhost", genArray->GetObjArray(), 3);
+		}*/
+
+		if (ImGui::Button("EMF at crosshair", 5))
+		{
+			Il2CppClass* intTypeInfo = FUNCS::GetClass("mscorlib", "System", "Int32");
+			Il2CppClass* vectorTypeInfo = FUNCS::GetClass("UnityEngine.CoreModule", "UnityEngine", "Vector3");
+			Il2CppClass* listTypeInfo = FUNCS::GetClass("mscorlib", "System.Collections", "ArrayList");
+
+
+			System_Collections_ArrayList_o* oArray = (System_Collections_ArrayList_o*)il2cppObjectNew((__int64)listTypeInfo);
+			oArray->Construct();
+
+			UnityEngine_Vector3_o position = smile::vars->localPlayer->GetPosition();
+
+			oArray->AddItem<UnityEngine_Vector3_o>(position, vectorTypeInfo);
+			oArray->AddItem<int>(0, intTypeInfo);
+
+			oArray->AddItem<int>(4, intTypeInfo); //EMF level -1 = EMF 1, 3 = EMF 5...... 4 & 5 create emf 5 sound, but emf doesnt move
+
+			oArray->AddItem<int>(0, intTypeInfo);
+			oArray->AddItem<int>(0, intTypeInfo);
+
+			smile::vars->currentGhost->fields._6_interaction->fields.view->SendRPC("SpawnEMFNetworked", oArray->GetObjArray());
+		}
+
 		/*ImGui::LineSliderFloat("X", &smile::vars->x, -180.f, 180.f, 1);
 		ImGui::LineSliderFloat("Y", &smile::vars->y, -180.f, 180.f, 1);
 		ImGui::LineSliderFloat("Z", &smile::vars->z, -180.f, 180.f, 1);
@@ -105,6 +144,8 @@ void Menu::Loop()
 				std::wstring wPName(playerName->fields.buffer);
 				std::string sPName(wPName.begin(), wPName.end());
 
+				if (sPName == "fizzaz")
+					smile::vars->spookPlayer = player;
 
 				ImGui::Separator();
 				ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 15);

@@ -17,7 +17,7 @@ typedef void(__stdcall* Player_Update)(Player_o*, MethodInfo*);
 typedef void(__stdcall* GhostAI_Update)(GhostAI_o*, MethodInfo*);
 typedef void(__stdcall* GhostController__Update)(GhostController_o* _this, const MethodInfo* method);
 typedef void(__stdcall* GhostEventPlayer__Update)(GhostEventPlayer_o* _this, const MethodInfo* method);
-typedef void(__stdcall* OuijaBoard__PlayMessageSequence)(OuijaBoard_o* _this, System_String_o* _, Photon_Pun_PhotonMessageInfo_o* a3, const MethodInfo* method);
+typedef void(__stdcall* OuijaBoard______PlayMessageSequence___6472225264)(OuijaBoard_o* _this, System_String_o* message, const MethodInfo* method);
 
 
 typedef bool(__stdcall* UnityEngine_AI_NavMeshAgent__SetDestination)(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
@@ -30,6 +30,10 @@ typedef void(__stdcall* FirstPersonController__Update)(FirstPersonController_o* 
 typedef void(__stdcall* FirstPersonController__FixedUpdate)(FirstPersonController_o* _this, const MethodInfo* method);
 
 typedef void(__stdcall* GhostController_____CreateGhost____6467387248)(GhostController_o* _this, const MethodInfo* method);
+
+typedef void(__stdcall* CursedItemsController____________25096832)(CursedItemsController_o* _this, const MethodInfo* method);
+
+
 namespace HOOK
 {
 	inline bool Hook(void* target, void* hFunc, void** outOriginal)
@@ -100,7 +104,7 @@ namespace HOOK
 	void RPCFunc(Photon_Pun_PhotonView_o* _this, System_String_o* methodName, int32_t target, System_Object_array* parameters, const MethodInfo* method);
 	void OnGhostControllerUpdate(GhostController_o* _this, const MethodInfo* method);
 	void OnGhostEventPlayerUpdate(GhostEventPlayer_o* _this, const MethodInfo* method);
-	void OnPlayMessageSequence(OuijaBoard_o* _this, System_String_o* _, Photon_Pun_PhotonMessageInfo_o* a3, const MethodInfo* method);
+	void OnPlayMessageSequence(OuijaBoard_o* _this, System_String_o* message, const MethodInfo* method);
 
 	void OnFPCUpdate(FirstPersonController_o* _this, MethodInfo* mInfo);
 	void OnFixedUpdateFPC(FirstPersonController_o* _this, MethodInfo* mInfo);
@@ -112,6 +116,7 @@ namespace HOOK
 	void SetBoolHk(UnityEngine_Animator_o* _this, System_String_o* name, bool value, const MethodInfo* method);
 	void SetIntHk(UnityEngine_Animator_o* _this, System_String_o* name, int value, const MethodInfo* method);
 
+	void cusedHookFunc(CursedItemsController_o* _this, const MethodInfo* method);
 
 	inline WNDPROC oWndProc{};
 	inline ID3DPresent oPresent{};
@@ -122,7 +127,7 @@ namespace HOOK
 	inline GhostAI_Update oUpdateGhost{};
 	inline GhostController__Update oUpdateGhostController{};
 	inline GhostEventPlayer__Update oUpdateGhostEventPlayer{};
-	inline OuijaBoard__PlayMessageSequence oPlayMessageSequence{};
+	inline OuijaBoard______PlayMessageSequence___6472225264 oPlayMessageSequence{};
 
 
 	inline FirstPersonController__Update oUpdateFPC{};
@@ -134,5 +139,5 @@ namespace HOOK
 	inline UnityEngine_Animator__SetIntegerString _SetInteger{};
 	inline UnityEngine_Animator__SetBoolString _SetBool{};
 	inline GhostController_____CreateGhost____6467387248 oCreateGhost{};
-
+	inline CursedItemsController____________25096832 cursedHook{};
 }

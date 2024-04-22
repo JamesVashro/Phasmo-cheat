@@ -8,6 +8,6 @@
 #define PCH_H
 
 // add headers that you want to pre-compile here
-#include "SDK/il2cpp.h"
+#include "SDK/SDK.h"
 
 #endif //PCH_H

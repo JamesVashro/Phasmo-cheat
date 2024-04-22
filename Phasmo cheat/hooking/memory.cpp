@@ -90,7 +90,7 @@ memory::allocator* memory::get_allocator()
 	return &memory::mem_allocator_;
 }
 
-std::uint8_t* find_sig(LPCSTR module_name, const std::string& byte_array)
+std::uint8_t* find_sig(LPCSTR module_name, const std::string& byte_array, int find)
 {
 	HMODULE module = GetModuleHandleA(module_name);
 
@@ -132,6 +132,7 @@ std::uint8_t* find_sig(LPCSTR module_name, const std::string& byte_array)
 
 	const auto pattern_size = pattern_bytes.size();
 	const auto pattern_data = pattern_bytes.data();
+	int foundCount = 0;
 
 	for (auto i = 0ul; i < size_of_image - pattern_size; ++i)
 	{
@@ -146,6 +147,11 @@ std::uint8_t* find_sig(LPCSTR module_name, const std::string& byte_array)
 		}
 		if (!found)
 			continue;
+
+		foundCount++;
+		if (find > 0 && find != foundCount)
+			continue;
+
 		return &scan_bytes[i];
 	}
 
@@ -163,6 +169,14 @@ signature signature::import(const std::string & module_name)
 	this->imported = true;
 	this->module_name = module_name;
 	this->pointer = (uint64_t)find_sig(this->module_name.data(), this->sig);
+	return *this;
+}
+
+signature signature::import(const std::string & module_name, int find)
+{
+	this->imported = true;
+	this->module_name = module_name;
+	this->pointer = (uint64_t)find_sig(this->module_name.data(), this->sig, find);
 	return *this;
 }
 
@@ -217,6 +231,13 @@ uint64_t signature::GetPointer()
 {
 	if (!this->imported)
 		*this = this->import();
+	return this->pointer;
+}
+
+uint64_t signature::GetPointer(int find)
+{
+	if (!this->imported)
+		*this = this->import(std::string("GameAssembly.dll"), 1);
 	return this->pointer;
 }
 #else

@@ -56,6 +56,8 @@ struct Photon_Pun_PhotonView_o;
 struct System_Object_array;
 struct System_Array_o;
 struct System_Collections_ArrayList_o;
+struct TarotCard_o;
+struct TarotCards_o;
 
 
 struct MethodInfo1
@@ -65,6 +67,8 @@ struct MethodInfo1
 
 //possible PE type function
 //void __stdcall UnityEngine_MonoBehaviour__Invoke(UnityEngine_MonoBehaviour_o *this, System_String_o *methodName, float time, const MethodInfo *method)
+
+typedef void(__stdcall* TarotCard____________6472688672)(TarotCard_o* _this, const MethodInfo* method);
 
 typedef void(__stdcall* Photon_Pun_PhotonView__RPC)(Photon_Pun_PhotonView_o* _this, System_String_o* methodName, int32_t target, System_Object_array* parameters, const MethodInfo* method);
 
@@ -203,6 +207,8 @@ inline UnityEngine_Light__set_color LightSetColor{};
 inline UnityEngine_Light__set_intensity LightSetIntensity{};
 inline weirdInitParamsFunc InitParam{};
 
+inline TarotCard____________6472688672 card{};
+
 inline Photon_Pun_PhotonView__RPC_6500903728 TargettedRPC{};
 inline UnityEngine_GameObject__GetComponent _GetComponent{};
 inline UnityEngine_GameObject__GetComponents _GetComponents{};
@@ -317,6 +323,7 @@ typedef int32_t(__stdcall* System_Array__System_Collections_IList_Add)(System_Ar
 inline System_Array__System_Collections_IList_Add Array_Add{};
 
 inline Photon_Pun_PhotonView__RPC oRpc{};
+
 
 namespace FUNCS
 {
@@ -434,6 +441,13 @@ namespace FUNCS
 
         WorldToScreen = (UnityEngine_Camera__WorldToScreenPoint)(GetMethodPtr("UnityEngine", "Camera", "WorldToScreenPoint", 2, "UnityEngine.CoreModule"));
         work &= (WorldToScreen != 0);
+
+
+        
+
+
+        card = (TarotCard____________6472688672)signature("E8 ? ? ? ? EB 0A 33 D2 48 8B CD E8 ? ? ? ? 48 8B 0D ? ? ? ? 83 B9 ? ? ? ? ?").resolveRelativeAddr(1, 5);
+        work &= (card != 0);
 
         ComponentGetTag = (UnityEngine_Component__get_tag)(GetMethodPtr("UnityEngine", "Component", "get_tag", 0, "UnityEngine.CoreModule"));
         work &= (ComponentGetTag != 0);

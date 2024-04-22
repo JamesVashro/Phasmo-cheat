@@ -38,7 +38,10 @@ bool InitializeHooks()
 
     //MainManager_o* manager = reinterpret_cast<MainManager_c*>(FUNCS::GetClass("Assembly-CSharp", "", "MainManager"))->static_fields->_________;
 
+    vars->cursedICClass = reinterpret_cast<CursedItemsController_c*>(FUNCS::GetClass("Assembly-CSharp", "", "CursedItemsController"));
+    vars->cursedIC = vars->cursedICClass->static_fields->_________;
 
+    
     //__int64 gCreateGhost = (__int64)signature("E9 ? ? ? ? E8 ? ? ? ? CC CC CC CC CC CC CC CC 40 53 48 83 EC 20 80 3D ? ? ? ? ? 48 8B D9 75 1F 48 8D 0D ? ? ? ? E8 ? ? ? ? 48 8D 0D ? ? ? ? E8 ? ? ? ? C6 05 ? ? ? ? ? 48 8B 83 ? ? ? ?").resolveRelativeAddr(1, 5);
 
     //hook((void*)gCreateGhost, (void*)HOOK::GhostController_CreateGhost, (void**)&HOOK::oCreateGhost);
@@ -46,15 +49,20 @@ bool InitializeHooks()
     /*if (!HOOK::Hook((void*)gCreateGhost, HOOK::GhostController_CreateGhost, (void**)&HOOK::oCreateGhost))
         return false;*/
 
+    //-15E
+    //8B 4C 81 20 89 4C 24 30 48 8D 4C 24 ? E8 ? ? ? ? 48 8B 15 ? ? ? ? 45 33 C0 48 8B C8 E8 ? ? ? ? 48 8B 0D ? ? ? ? 48 8B E8 
 
 
     if (!HOOK::Hook(HOOK::getPresent(), HOOK::PresentHook, (void**)&HOOK::oPresent))
         return false;
 
+    if (!HOOK::Hook((void*)(((uintptr_t)signature("8B 4C 81 20 89 4C 24 30 48 8D 4C 24 ? E8 ? ? ? ? 48 8B 15 ? ? ? ? 45 33 C0 48 8B C8 E8 ? ? ? ? 48 8B 0D ? ? ? ? 48 8B E8 39 B1 ? ? ? ? 75 05 E8 ? ? ? ? 33 D2 48 8B CD E8 ? ? ? ? EB 5A 48 8B AF ? ? ? ").GetPointer(2)) - 0x15E), HOOK::cusedHookFunc, (void**)&HOOK::cursedHook))
+        return false;
+
     if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("", "GhostController", "Update", 0)), HOOK::OnGhostControllerUpdate, (void**)&HOOK::oUpdateGhostController))
         return false;
 
-    if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("", "OuijaBoard", "PlayMessageSequence", 2)), HOOK::OnPlayMessageSequence, (void**)&HOOK::oPlayMessageSequence))
+    if (!HOOK::Hook((void*)(signature("E8 ? ? ? ? 48 8B 0D ? ? ? ? 48 8B BE ? ? ? ? E8 ? ? ? ? 4C 8B 06 45 33 C9 48 8B D6").resolveRelativeAddr(1, 5)), HOOK::OnPlayMessageSequence, (void**)&HOOK::oPlayMessageSequence))
         return false;
 
     if (!HOOK::Hook((void*)(FUNCS::GetMethodPtr("", "Player", "Update", 0)), HOOK::OnPlayerUpdate, (void**)&HOOK::oUpdatePlayer))
@@ -128,12 +136,21 @@ void MainThread(HMODULE mod)
         if (GetAsyncKeyState(VK_DELETE) & 1)
         {
             smile::vars->waitinForEject = true;
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
         }
-        std::cout.put('.');
+        //std::cout.put('.');
         
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(150));
+        try
+        {   //spam setting this to the cursed item you want, forces the item to spawn, need to find the func that sets this and hook it
+            vars->cursedIC = vars->cursedICClass->static_fields->_________;
+            vars->cursedIC->fields._15_listEnum->fields._items->m_Items[0].cursedItemIndex = 1;
+        }
+        catch (...)
+        {
+            printf("fuuuck\n");
+        }
+        //std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
 
     

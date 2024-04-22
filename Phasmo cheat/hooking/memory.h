@@ -4,7 +4,7 @@
 #include <vector>
 #include <psapi.h>
 
-std::uint8_t* find_sig(LPCSTR module_name, const std::string& byte_array);
+std::uint8_t* find_sig(LPCSTR module_name, const std::string& byte_array, int find = 0);
 
 class memory final
 {
@@ -76,6 +76,7 @@ public:
 	signature(const std::string& sig);
 
 	signature import(const std::string & module_name = ("GameAssembly.dll"));
+	signature import(const std::string & module_name, int find);
 
 	signature add(uint32_t offset);
 	signature sub(uint32_t offset);
@@ -86,6 +87,7 @@ public:
 
 #ifdef _WIN64
 	uint64_t GetPointer();
+	uint64_t GetPointer(int find);
 #else
 	uint32_t GetPointer();
 #endif

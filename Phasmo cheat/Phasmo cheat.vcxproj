@@ -167,7 +167,7 @@
     <ClInclude Include="Menu\imgui\imstb_truetype.h" />
     <ClInclude Include="Menu\menu.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="SDK\il2cpp.h" />
+    <ClInclude Include="SDK\SDK.h" />
     <ClInclude Include="vars.h" />
   </ItemGroup>
   <ItemGroup>

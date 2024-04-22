@@ -33,12 +33,21 @@ void HOOK::RPCFunc(Photon_Pun_PhotonView_o* _this, System_String_o* methodName, 
 
 	smile::vars->rpcCalls.push_back(outStr);
 	
-	if (outStr == "Hunting")
+	/*if (outStr == "CreateGhost")
 	{
+		printf("intercepting\n");
+		Il2CppClass* boolTypeInfo = FUNCS::GetClass("mscorlib", "System", "Boolean");
+		Il2CppClass* intTypeInfo = FUNCS::GetClass("mscorlib", "System", "Int32");
+		Il2CppClass* genericList = FUNCS::GetClass("mscorlib", "System.Collections", "ArrayList");
 
-		printf("%p\n", parameters->obj.klass);
-		
-		smile::vars->object_TypeInfo = parameters->obj.klass;
-	}
+		System_Collections_ArrayList_o* genArray = (System_Collections_ArrayList_o*)il2cppObjectNew((__int64)genericList);
+		genArray->Construct();
+
+		genArray->AddItem<bool>(false, boolTypeInfo);
+		genArray->AddItem<int>(3, intTypeInfo);
+		genArray->AddItem<bool>(false, boolTypeInfo);
+
+		return oRpc(_this, methodName, target, genArray->GetObjArray(), method);
+	}*/
 	return oRpc(_this, methodName, target, parameters, method);
 }

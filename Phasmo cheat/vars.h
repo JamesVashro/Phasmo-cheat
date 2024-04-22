@@ -1,5 +1,5 @@
 #pragma once
-#include "SDK/il2cpp.h"
+#include "SDK/SDK.h"
 #include <vector>
 
 
@@ -17,10 +17,11 @@ namespace smile
 		Vars();
 		~Vars();
 
-		System_Boolean_c* bool_TypeInfo{};
-		System_Int32_c* int_TypeInfo{};
 		Il2CppClass* object_TypeInfo{};
 		GameController_o* gameController = nullptr;
+
+		CursedItemsController_o* cursedIC = nullptr;
+		CursedItemsController_c* cursedICClass = nullptr;
 
 		GhostAI_o* currentGhost = nullptr;
 		Player_o* localPlayer = nullptr;

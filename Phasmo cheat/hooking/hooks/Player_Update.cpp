@@ -87,6 +87,38 @@ void HOOK::OnPlayerUpdate(Player_o* _this, MethodInfo* mInfo)
         }
     }
 
-    
+    if (GetAsyncKeyState(VK_F9) & 1)
+    {
+
+    }
+    if (GetAsyncKeyState(VK_F8) & 1)
+    {
+        if (vars->spookPlayer)
+        {
+            printf("killing\n");
+            vars->spookPlayer->StartKilling();
+
+        }
+       /* try
+        {
+            Il2CppClass* boolTypeInfo = FUNCS::GetClass("mscorlib", "System", "Boolean");
+            Il2CppClass* intTypeInfo = FUNCS::GetClass("mscorlib", "System", "Int32");
+            Il2CppClass* genericList = FUNCS::GetClass("mscorlib", "System.Collections", "ArrayList");
+
+            System_Collections_ArrayList_o* genArray = (System_Collections_ArrayList_o*)il2cppObjectNew((__int64)genericList);
+            genArray->Construct();
+
+            genArray->AddItem<bool>(false, boolTypeInfo);
+            genArray->AddItem<int>(3, intTypeInfo);
+            genArray->AddItem<bool>(false, boolTypeInfo);
+
+            vars->ghostController->fields.view->SendRPC("CreateGhost", genArray->GetObjArray(), 3);
+        }
+        catch (...)
+        {
+            printf("fucked\n");
+        }*/
+        
+    }
     return oUpdatePlayer(_this, mInfo);
 }
