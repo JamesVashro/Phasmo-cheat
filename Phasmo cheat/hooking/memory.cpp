@@ -148,9 +148,12 @@ std::uint8_t* find_sig(LPCSTR module_name, const std::string& byte_array, int fi
 		if (!found)
 			continue;
 
-		foundCount++;
+		
 		if (find > 0 && find != foundCount)
+		{
+			foundCount++;
 			continue;
+		}
 
 		return &scan_bytes[i];
 	}
@@ -234,7 +237,7 @@ uint64_t signature::GetPointer()
 	return this->pointer;
 }
 
-uint64_t signature::GetPointer(int find)
+uint64_t signature::GetPointer(int find) //this version if good for if sig has multipule hits, i can pick which one i want to use
 {
 	if (!this->imported)
 		*this = this->import(std::string("GameAssembly.dll"), 1);

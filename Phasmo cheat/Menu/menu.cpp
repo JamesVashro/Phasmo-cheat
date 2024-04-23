@@ -41,6 +41,8 @@ void Menu::Loop()
 			}*/
 		}
 
+		ImGui::Combo("Cursed Item:", &smile::vars->forcedCursedItem, "None\0Tarot Cards\0Ouija Board\0Haunted Mirror\0Music Box\0Summoning Circle\0Voodoo Doll\0Monkey Paw");
+
 		if (ImGui::Button("Change Ghost Room", 5))
 		{
 			ChangeFavRoom(smile::vars->ghostController, smile::vars->localPlayer->GetCurrentRoom(), 0);
@@ -82,22 +84,6 @@ void Menu::Loop()
 
 		}
 
-		/*if (ImGui::Button("Sync Ghost", 5))
-		{
-			Il2CppClass* boolTypeInfo = FUNCS::GetClass("mscorlib", "System", "Boolean");
-			Il2CppClass* intTypeInfo = FUNCS::GetClass("mscorlib", "System", "Int32");
-			Il2CppClass* genericList = FUNCS::GetClass("mscorlib", "System.Collections", "ArrayList");
-
-			System_Collections_ArrayList_o* genArray = (System_Collections_ArrayList_o*)il2cppObjectNew((__int64)genericList);
-			genArray->Construct();
-
-			genArray->AddItem<bool>(false, boolTypeInfo);
-			genArray->AddItem<int>(3, intTypeInfo);
-			genArray->AddItem<bool>(false, boolTypeInfo);
-
-			smile::vars->ghostController->fields.view->SendRPC("CreateGhost", genArray->GetObjArray(), 3);
-		}*/
-
 		if (ImGui::Button("EMF at crosshair", 5))
 		{
 			Il2CppClass* intTypeInfo = FUNCS::GetClass("mscorlib", "System", "Int32");
@@ -121,10 +107,6 @@ void Menu::Loop()
 			smile::vars->currentGhost->fields._6_interaction->fields.view->SendRPC("SpawnEMFNetworked", oArray->GetObjArray());
 		}
 
-		/*ImGui::LineSliderFloat("X", &smile::vars->x, -180.f, 180.f, 1);
-		ImGui::LineSliderFloat("Y", &smile::vars->y, -180.f, 180.f, 1);
-		ImGui::LineSliderFloat("Z", &smile::vars->z, -180.f, 180.f, 1);
-		ImGui::LineSliderFloat("W", &smile::vars->w, -180.f, 180.f, 1);*/
 
 		Network_o* network = NetworkGetInstance(0);
 		if (network)

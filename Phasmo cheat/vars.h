@@ -63,6 +63,9 @@ namespace smile
 
 		bool waitinForEject = false;
 
+		bool forceCursedItem = true;
+		int forcedCursedItem = 1;
+
 		bool useCustom = false;
 		float x = 0.f;
 		float y = 0.f;

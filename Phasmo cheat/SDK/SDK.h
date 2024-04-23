@@ -5,6 +5,18 @@ typedef void(*Il2CppMethodPointer)();
 
 struct MethodInfo;
 
+enum CursedItem
+{
+	NONE = 0,
+	TAROT,
+	OUIJA,
+	MIRROR,
+	MUSIC,
+	CIRCLE,
+	VOODOO,
+	PAW
+};
+
 struct VirtualInvokeData
 {
 	Il2CppMethodPointer methodPtr;
@@ -234,6 +246,71 @@ struct UnityEngine_Vector3_o {
 		ret.fields.z = this->fields.z * mult;
 		return ret;
 	}
+};
+
+struct System_Text_RegularExpressions_RegexCharClass_SingleRange_Fields {
+	uint16_t First;
+	uint16_t Last;
+};
+
+struct System_Text_RegularExpressions_RegexCharClass_SingleRange_o {
+	System_Text_RegularExpressions_RegexCharClass_SingleRange_Fields fields;
+};
+
+struct __declspec(align(8)) System_Collections_Generic_List_RegexCharClass_SingleRange__Fields {
+	struct System_Text_RegularExpressions_RegexCharClass_SingleRange_array* _items;
+	int32_t _size;
+	int32_t _version;
+	Il2CppObject* _syncRoot;
+};
+struct System_Collections_Generic_List_RegexCharClass_SingleRange__VTable {
+	VirtualInvokeData _0_Equals;
+	VirtualInvokeData _1_Finalize;
+	VirtualInvokeData _2_GetHashCode;
+	VirtualInvokeData _3_ToString;
+	VirtualInvokeData _4_unknown;
+	VirtualInvokeData _5_set_Item;
+	VirtualInvokeData _6_IndexOf;
+	VirtualInvokeData _7_Insert;
+	VirtualInvokeData _8_unknown;
+	VirtualInvokeData _9_unknown;
+	VirtualInvokeData _10_System_Collections_Generic_ICollection_T__get_IsReadOnly;
+	VirtualInvokeData _11_Add;
+	VirtualInvokeData _12_unknown;
+	VirtualInvokeData _13_Contains;
+	VirtualInvokeData _14_CopyTo;
+	VirtualInvokeData _15_Remove;
+	VirtualInvokeData _16_System_Collections_Generic_IEnumerable_T__GetEnumerator;
+	VirtualInvokeData _17_System_Collections_IEnumerable_GetEnumerator;
+	VirtualInvokeData _18_System_Collections_IList_get_Item;
+	VirtualInvokeData _19_System_Collections_IList_set_Item;
+	VirtualInvokeData _20_System_Collections_IList_Add;
+	VirtualInvokeData _21_System_Collections_IList_Contains;
+	VirtualInvokeData _22_Clear;
+	VirtualInvokeData _23_System_Collections_IList_get_IsReadOnly;
+	VirtualInvokeData _24_System_Collections_IList_get_IsFixedSize;
+	VirtualInvokeData _25_System_Collections_IList_IndexOf;
+	VirtualInvokeData _26_System_Collections_IList_Insert;
+	VirtualInvokeData _27_System_Collections_IList_Remove;
+	VirtualInvokeData _28_RemoveAt;
+	VirtualInvokeData _29_System_Collections_ICollection_CopyTo;
+	VirtualInvokeData _30_unknown;
+	VirtualInvokeData _31_System_Collections_ICollection_get_SyncRoot;
+	VirtualInvokeData _32_System_Collections_ICollection_get_IsSynchronized;
+	VirtualInvokeData _33_get_Item;
+	VirtualInvokeData _34_get_Count;
+};
+struct System_Collections_Generic_List_RegexCharClass_SingleRange__c {
+	Il2CppClass_1 _1;
+	struct System_Collections_Generic_List_RegexCharClass_SingleRange__StaticFields* static_fields;
+	Il2CppRGCTXData* rgctx_data;
+	Il2CppClass_2 _2;
+	System_Collections_Generic_List_RegexCharClass_SingleRange__VTable vtable;
+};
+struct System_Collections_Generic_List_RegexCharClass_SingleRange__o {
+	System_Collections_Generic_List_RegexCharClass_SingleRange__c* klass;
+	void* monitor;
+	System_Collections_Generic_List_RegexCharClass_SingleRange__Fields fields;
 };
 
 struct UnityEngine_Bounds_Fields {
