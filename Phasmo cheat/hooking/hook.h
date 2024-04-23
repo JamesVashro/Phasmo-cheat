@@ -111,12 +111,12 @@ namespace HOOK
 	void SetDestination2(UnityEngine_AI_NavMeshAgent_o* _this, UnityEngine_Vector3_o* target, const MethodInfo* method);
 
 	void GhostController_CreateGhost(GhostController_o* _this, const MethodInfo* method);
-	void testHk(CursedItemsController_o* _this, const MethodInfo* method);
 
 	void SetBoolHk(UnityEngine_Animator_o* _this, System_String_o* name, bool value, const MethodInfo* method);
 	void SetIntHk(UnityEngine_Animator_o* _this, System_String_o* name, int value, const MethodInfo* method);
 
-	System_Text_RegularExpressions_RegexCharClass_SingleRange_o SpawnCursedItemHk(System_Collections_Generic_List_RegexCharClass_SingleRange__o* _this, int32_t index, void* method);
+	System_Text_RegularExpressions_RegexCharClass_SingleRange_o GetSpawnCursedItemHk(System_Collections_Generic_List_RegexCharClass_SingleRange__o* _this, int32_t index, void* method);
+	void SpawnCursedItemHk(CursedItemsController_o* _this, const MethodInfo* method);
 
 	inline WNDPROC oWndProc{};
 	inline ID3DPresent oPresent{};
@@ -138,6 +138,6 @@ namespace HOOK
 
 	inline UnityEngine_Animator__SetIntegerString _SetInteger{};
 	inline UnityEngine_Animator__SetBoolString _SetBool{};
-	inline System_Collections_Generic_List_RegexCharClass_SingleRange___get_Item SpawnCursedItemHook{};
-	inline CursedItemsController______testing____25110576 test{};
+	inline System_Collections_Generic_List_RegexCharClass_SingleRange___get_Item GetSpawnCursedItemHook{};
+	inline CursedItemsController______testing____25110576 oSpawnCursedItem{};
 }

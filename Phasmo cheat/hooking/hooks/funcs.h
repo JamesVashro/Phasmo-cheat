@@ -58,6 +58,7 @@ struct System_Array_o;
 struct System_Collections_ArrayList_o;
 struct TarotCard_o;
 struct TarotCards_o;
+struct CursedItemsController_o;
 
 
 struct MethodInfo1
@@ -324,6 +325,14 @@ inline System_Array__System_Collections_IList_Add Array_Add{};
 
 inline Photon_Pun_PhotonView__RPC oRpc{};
 
+typedef void(__stdcall* spawnCursedItem)(CursedItemsController_o* _this, const MethodInfo* method);
+inline spawnCursedItem tFunc{};
+inline spawnCursedItem oFunc{};
+inline spawnCursedItem mFunc{};
+inline spawnCursedItem mbFunc{};
+inline spawnCursedItem cFunc{};
+inline spawnCursedItem vFunc{};
+inline spawnCursedItem pFunc{};
 
 namespace FUNCS
 {
@@ -698,6 +707,26 @@ namespace FUNCS
         _UnAppear = (GhostAI__UnAppear)GetMethodPtr("", "GhostAI", "UnAppear", 0);
         work &= (_UnAppear != 0);
 
+        tFunc = (spawnCursedItem)signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 40 48 8B 79 68 48 8B D9 48 85 FF 0F 84 ? ? ? ? 8B 57 18 45 33 C0 33 C9 E8 ? ? ? ? 3B 47 18 0F 83 ? ? ? ? 48 8B 4B 30 48 98 48 8B 7C C7 ? 48 85 C9 0F 84 ? ? ? ?").GetPointer(4);
+        work &= (tFunc != 0);
+
+        oFunc = (spawnCursedItem)signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 40 48 8B 79 58 48 8B D9 48 85 FF 0F 84 ? ? ? ? 8B 57 18 45 33 C0 33 C9 E8 ? ? ? ? 3B 47 18").GetPointer(5);
+        work &= (oFunc != 0);
+
+        mFunc = (spawnCursedItem)signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 40 48 8B 79 78 48 8B D9 48 85 FF 0F 84 ? ? ? ? 8B 57 18 45 33 C0 33 C9 E8 ? ? ? ? 3B 47 18 0F 83 ? ? ? ?").GetPointer(7);
+        work &= (mFunc != 0);
+
+        mbFunc = (spawnCursedItem)signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 40 48 8B 79 60 48 8B D9 48 85 FF 0F 84 ? ? ? ? 8B 57 18 45 33 C0 33 C9 E8 ? ? ? ? 3B 47 18 0F 83 ? ? ? ?").GetPointer(2);
+        work &= (mbFunc != 0);
+
+        cFunc = (spawnCursedItem)signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 40 48 8B 79 70 48 8B D9 48 85 FF 0F 84 ? ? ? ? 8B 57 18 45 33 C0 33 C9 E8 ? ? ? ?").GetPointer(2);
+        work &= (cFunc != 0);
+
+        vFunc = (spawnCursedItem)signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 40 48 8B B9 ? ? ? ? 48 8B D9 48 85 FF 0F 84 ? ? ? ? 8B 57 18 45 33 C0 33 C9 E8 ? ? ? ? 3B 47 18 0F 83 ? ? ? ? 48 8B 4B 48 48 98 48 8B 7C C7 ? 48 85 C9 0F 84 ? ").GetPointer(4);
+        work &= (vFunc != 0);
+
+        pFunc = (spawnCursedItem)signature("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 40 48 8B B9 ? ? ? ? 48 8B D9 48 85 FF 0F 84 ? ? ? ? 8B 57 18 45 33 C0 33 C9 E8 ? ? ? ? 3B 47 18 0F 83 ? ? ? ?").GetPointer(2);
+        work &= (pFunc != 0);
         return work;
 	}
 }

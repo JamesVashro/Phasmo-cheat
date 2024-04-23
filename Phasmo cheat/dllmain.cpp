@@ -91,10 +91,10 @@ bool InitializeHooks()
         return false;
 
     //This hook is only good for finding the func address of the actual SpawnCursedItem func
-    /*if (!HOOK::Hook((void*)signature("E8 ? ? ? ? 8B F8 EB 02 33 FF 48 8B 43 78 48 8B 73 20").resolveRelativeAddr(1, 5), HOOK::SpawnCursedItemHk, (void**)&HOOK::SpawnCursedItemHook))
+    /*if (!HOOK::Hook((void*)signature("E8 ? ? ? ? 8B F8 EB 02 33 FF 48 8B 43 78 48 8B 73 20").resolveRelativeAddr(1, 5), HOOK::GetSpawnCursedItemHk, (void**)&HOOK::GetSpawnCursedItemHook))
         return false;*/
 
-    if (!HOOK::Hook((void*)(((uintptr_t)signature("48 8B AF ? ? ? ? E8 ? ? ? ? 48 85 C0 0F 84 ? ? ? ? 48 8B 40 30 48 85 C0 0F 84 ? ? ? ? 48 8B 80 ? ? ? ? 48 85 C0 0F 84 ? ? ? ? 3B 58 18 0F 83 ? ? ? ? 48 85 ED").GetPointer(1)) - 0x1A5), HOOK::testHk, (void**)&HOOK::test))
+    if (!HOOK::Hook((void*)(((uintptr_t)signature("48 8B AF ? ? ? ? E8 ? ? ? ? 48 85 C0 0F 84 ? ? ? ? 48 8B 40 30 48 85 C0 0F 84 ? ? ? ? 48 8B 80 ? ? ? ? 48 85 C0 0F 84 ? ? ? ? 3B 58 18 0F 83 ? ? ? ? 48 85 ED").GetPointer(1)) - 0x1A5), HOOK::SpawnCursedItemHk, (void**)&HOOK::oSpawnCursedItem))
         return false;
 
     return true;
